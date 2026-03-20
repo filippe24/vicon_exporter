@@ -1,0 +1,42 @@
+// --- Export full scene ---
+select -all;
+saveFile -s "{EXPORT_DIR}/markers_world.c3d";
+
+
+selectChildren -recursive "Rema";
+saveFile -s "G:/My Drive/mocap 16-03-2026/2-coffe/take3/exported/actors/Rema.fbx";
+
+
+
+SelectPropCharacterNodes;
+select -invert;
+
+// Change to text you'd like to prepend ========//
+string 	$ToPrefix	=	"_Off";	
+input 	$ToPrefix 	"_Off";				
+
+string 	$sel[] 	= `getModules -sel -type Character`;
+int 	$numsel	= `getCount $sel`;
+int 	$i;
+
+string	$name;
+
+
+for ($i = 0; $i < $numsel; $i+= 1)
+{
+	print $sel[$i];
+	selectChildren -recursive $sel[$i];
+	saveFile -s "G:/My Drive/mocap 16-03-2026/2-coffe/take3/exported/actors/Rema.fbx";
+	// if not already appended 
+	//if( `strFind $sel[$i] $ToPrefix 0` < 0 )
+	//{
+		// append and set name
+	//	$name = ($sel[$i] + $ToPrefix);
+	//	setProperty Name $name -onMod $sel[$i];
+	//}
+}
+
+
+
+// --- Export actors ---
+{ACTOR_EXPORTS}
