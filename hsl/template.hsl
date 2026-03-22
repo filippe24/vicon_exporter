@@ -1,42 +1,46 @@
-// --- Export full scene ---
+//-- export full scene ----------
 select -all;
 saveFile -s "{EXPORT_DIR}/markers_world.c3d";
 
-
-selectChildren -recursive "Rema";
-saveFile -s "G:/My Drive/mocap 16-03-2026/2-coffe/take3/exported/actors/Rema.fbx";
-
-
-
+//------- export clapperboard ---
+select ; // deselect.
+selectByName "{CLAPPERBOARD_NAME}*";
+saveFile -s "{EXPORT_DIR}/clapperboard.c3d";
+select ; // deselect.
+//--------- export actors -------
 SelectPropCharacterNodes;
 select -invert;
 
-// Change to text you'd like to prepend ========//
-string 	$ToPrefix	=	"_Off";	
-input 	$ToPrefix 	"_Off";				
+string $sel[] = `getModules -sel -type Character`;
+int $numsel = `getCount $sel`;
+int $i;
 
-string 	$sel[] 	= `getModules -sel -type Character`;
-int 	$numsel	= `getCount $sel`;
-int 	$i;
+string $first;
+string $filename;
 
-string	$name;
-
+string $actors_export_directory;
+$actors_export_directory = ("{EXPORT_DIR}/{ACTORS_FOLDER}/");
 
 for ($i = 0; $i < $numsel; $i+= 1)
 {
-	print $sel[$i];
-	selectChildren -recursive $sel[$i];
-	saveFile -s "G:/My Drive/mocap 16-03-2026/2-coffe/take3/exported/actors/Rema.fbx";
-	// if not already appended 
-	//if( `strFind $sel[$i] $ToPrefix 0` < 0 )
-	//{
-		// append and set name
-	//	$name = ($sel[$i] + $ToPrefix);
-	//	setProperty Name $name -onMod $sel[$i];
-	//}
+    print $sel[$i];
+
+    // Select full hierarchy
+    selectChildren -recursive $sel[$i];
+
+    // Get first letter
+    $first = `strLeft $sel[$i] 1`;
+
+    // Build path
+	string $filename_c3d;
+	string $filename_fbx;
+	string $filename_bvh;
+    $filename_c3d = ($actors_export_directory + $first + "_.c3d");
+    $filename_fbx = ($actors_export_directory + $first + "_.fbx");
+    $filename_bvh = ($actors_export_directory + $first + "_.bvh");
+
+    // Export
+    saveFile -s $filename_c3d;
+    saveFile -s $filename_fbx;
+    saveFile -s $filename_bvh;
 }
-
-
-
-// --- Export actors ---
-{ACTOR_EXPORTS}

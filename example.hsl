@@ -1,0 +1,107 @@
+// --- Export full scene ---
+select -all;
+saveFile -s "{EXPORT_DIR}/markers_world.c3d";
+
+
+// selectChildren -recursive "Rema";
+// saveFile -s "G:/My Drive/mocap 16-03-2026/2-coffe/take3/exported/actors/Rema.fbx";
+// 
+// 
+// 
+// SelectPropCharacterNodes;
+// select -invert;
+// 
+// // Change to text you'd like to prepend ========//
+// string 	$ToPrefix	=	"_Off";	
+// input 	$ToPrefix 	"_Off";				
+// 
+// string 	$sel[] 	= `getModules -sel -type Character`;
+// int 	$numsel	= `getCount $sel`;
+// int 	$i;
+// 
+// string	$name;
+// 
+// 
+// for ($i = 0; $i < $numsel; $i+= 1)
+// {
+// 	print $sel[$i];
+// 	selectChildren -recursive $sel[$i];
+// 	saveFile -s "G:/My Drive/mocap 16-03-2026/2-coffe/take3/exported/actors/Rema.fbx";
+// 	// if not already appended 
+// 	//if( `strFind $sel[$i] $ToPrefix 0` < 0 )
+// 	//{
+// 		// append and set name
+// 	//	$name = ($sel[$i] + $ToPrefix);
+// 	//	setProperty Name $name -onMod $sel[$i];
+// 	//}
+// }
+
+
+
+// --- Export actors ---
+SelectPropCharacterNodes;
+select -invert;
+
+string $sel[] = `getModules -sel -type Character`;
+int $numsel = `getCount $sel`;
+int $i;
+
+string $first;
+string $filename;
+
+for ($i = 0; $i < $numsel; $i+= 1)
+{
+    print $sel[$i];
+
+    // Select full hierarchy
+    selectChildren -recursive $sel[$i];
+
+    // Get first letter
+    $first = `strLeft $sel[$i] 1`;
+
+    // Convert to lowercase (manual)
+    //  if (`strCompare $first "A"` == 0) $first = "a";
+    //  if (`strCompare $first "B"` == 0) $first = "b";
+    //  if (`strCompare $first "C"` == 0) $first = "c";
+    //  if (`strCompare $first "D"` == 0) $first = "d";
+    //  if (`strCompare $first "E"` == 0) $first = "e";
+    //  if (`strCompare $first "F"` == 0) $first = "f";
+    //  if (`strCompare $first "G"` == 0) $first = "g";
+    //  if (`strCompare $first "H"` == 0) $first = "h";
+    //  if (`strCompare $first "I"` == 0) $first = "i";
+    //  if (`strCompare $first "J"` == 0) $first = "j";
+    //  if (`strCompare $first "K"` == 0) $first = "k";
+    //  if (`strCompare $first "L"` == 0) $first = "l";
+    //  if (`strCompare $first "M"` == 0) $first = "m";
+    //  if (`strCompare $first "N"` == 0) $first = "n";
+    //  if (`strCompare $first "O"` == 0) $first = "o";
+    //  if (`strCompare $first "P"` == 0) $first = "p";
+    //  if (`strCompare $first "Q"` == 0) $first = "q";
+    //  if (`strCompare $first "R"` == 0) $first = "r";
+    //  if (`strCompare $first "S"` == 0) $first = "s";
+    //  if (`strCompare $first "T"` == 0) $first = "t";
+    //  if (`strCompare $first "U"` == 0) $first = "u";
+    //  if (`strCompare $first "V"` == 0) $first = "v";
+    //  if (`strCompare $first "W"` == 0) $first = "w";
+    //  if (`strCompare $first "X"` == 0) $first = "x";
+    //  if (`strCompare $first "Y"` == 0) $first = "y";
+    //  if (`strCompare $first "Z"` == 0) $first = "z";
+
+    // Build path
+    //$filename = ("G:/My Drive/mocap 16-03-2026/2-coffe/take3/exported/actors/" + $first + "_");
+	string $filename_c3d;
+	string $filename_fbx;
+	string $filename_bvh;
+    $filename_c3d = ("G:/My Drive/mocap 16-03-2026/2-coffe/take3/exported/actors/" + $first + "_.c3d");
+    $filename_fbx = ("G:/My Drive/mocap 16-03-2026/2-coffe/take3/exported/actors/" + $first + "_.fbx");
+    $filename_bvh = ("G:/My Drive/mocap 16-03-2026/2-coffe/take3/exported/actors/" + $first + "_.bvh");
+
+    // Export
+    // saveFile -s ($filename + ".c3d");
+    // saveFile -s ($filename + ".fbx");
+    //saveFile -s ($filename + ".bvh");
+    // Export
+    saveFile -s $filename_c3d;
+    saveFile -s $filename_fbx;
+    saveFile -s $filename_bvh;
+}

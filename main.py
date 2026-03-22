@@ -16,11 +16,10 @@ def process_take(take_dir: Path, shogun_path: Path):
 
     export_dir = take_dir / "exported"
     export_dir.mkdir(exist_ok=True)
-    (export_dir / "actors").mkdir(exist_ok=True)
+    actors_folder: str = "actors"
+    (export_dir / actors_folder).mkdir(exist_ok=True)
 
-    actors = ["Rema", "Patrik1"]  # to detect automatically.
-
-    hsl_content = generate_hsl(actors, export_dir)
+    hsl_content = generate_hsl(export_dir, actors_folder)
 
     hsl_file = take_dir / "temp.hsl"
     hsl_file.write_text(hsl_content)
@@ -33,7 +32,7 @@ def process_take(take_dir: Path, shogun_path: Path):
 if __name__ == "__main__":
     shogun_path = Path(r"C:\Program Files\Vicon\ShogunPost1.18\ShogunPostCL.exe")
     # test for a take.
-    take_path = Path(r"G:\My Drive\mocap 16-03-2026\2-coffe\take3")
+    take_path = Path(r"G:\My Drive\mocap 16-03-2026\2-coffe\take4")
     process_take(take_dir=take_path, shogun_path=shogun_path)
 
     # # later on for all the take.

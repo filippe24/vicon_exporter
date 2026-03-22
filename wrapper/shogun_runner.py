@@ -6,7 +6,8 @@ from pathlib import Path
 
 def run_shogun(mcp_file: Path, hsl_file: Path, out_file: Path, shogun_path: Path):
     
-    print(hsl_file)
+    print("hsl file " + str(hsl_file))
+    print("shogun path "  + str(shogun_path))
 
     cmd = [
         shogun_path,
