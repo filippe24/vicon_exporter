@@ -5,6 +5,11 @@ saveFile -s "{EXPORT_DIR}/markers_world.c3d";
 //------- export clapperboard ---
 select ; // deselect.
 selectByName "{CLAPPERBOARD_NAME}*";
+string $array[] =  `getModules -selected`;
+if( `getCount $array` > 0 )
+{
+	selectChildren  -recursive -a $array ;
+}
 saveFile -s "{EXPORT_DIR}/clapperboard.c3d";
 select ; // deselect.
 //--------- export actors -------

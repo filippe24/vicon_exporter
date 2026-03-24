@@ -31,8 +31,9 @@ def process_take(take_dir: Path, shogun_path: Path):
 
 if __name__ == "__main__":
     shogun_path = Path(r"C:\Program Files\Vicon\ShogunPost1.18\ShogunPostCL.exe")
+    
     # test for a take.
-    take_path = Path(r"G:\My Drive\mocap 16-03-2026\2-coffe\take4")
+    take_path = Path(r"G:\My Drive\mocap 16-02-2026\1-living-room\take-1")
     process_take(take_dir=take_path, shogun_path=shogun_path)
 
     # # later on for all the take.
