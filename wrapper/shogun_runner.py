@@ -6,9 +6,10 @@ from pathlib import Path
 
 def run_shogun(mcp_file: Path, hsl_file: Path, out_file: Path, shogun_path: Path):
     
-    print("hsl file " + str(hsl_file))
-    print("shogun path "  + str(shogun_path))
-
+    print(f"   ▶ running Shogun:")
+    print(f"     - mcp: {mcp_file}")
+    print(f"     - hsl: {hsl_file}")
+    print(f"     - out: {out_file}")
     cmd = [
         shogun_path,
         "-old",
@@ -17,10 +18,31 @@ def run_shogun(mcp_file: Path, hsl_file: Path, out_file: Path, shogun_path: Path
         str(out_file),
     ]
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    process = subprocess.Popen(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        bufsize=1,
+        universal_newlines=True
+    )
+    # Read stdout live
+    print("   ── shogun output:")
+    for line in process.stdout:
+        print("      " + line.rstrip())
 
-    print(result.stdout)
-    print(result.stderr)
+    # Read stderr live
+    for line in process.stderr:
+        print("      [ERR] " + line.rstrip())
 
-    if result.returncode != 0:
-        raise RuntimeError("Shogun failed")
+    process.wait()
+
+    if process.returncode != 0:
+        raise RuntimeError("❌ shogun failed")
+
+    # result = subprocess.run(cmd, capture_output=True, text=True)
+    # print(result.stdout)
+    # print(result.stderr)
+
+    # if result.returncode != 0:
+    #     raise RuntimeError("Shogun failed")
