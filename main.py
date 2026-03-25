@@ -11,6 +11,13 @@ from tkinter import Tk, filedialog
 from typing import List
 from exporter.export_pipeline import generate_hsl
 from wrapper.shogun_runner import run_shogun
+from configuration.settings import (
+    SHOGUN_PATH,
+    EXPORT_FOLDER_NAME,
+    ACTORS_FOLDER_NAME,
+    HSL_FILENAME,
+    PROCESSED_MCP_NAME,
+)
 
 
 def print_pyramid():
@@ -66,9 +73,11 @@ def process_take(take_dir: Path, shogun_path: Path):
     print(f"   found: {mcp.name}.")
 
     print("📂 creating export folders.")
-    export_dir = take_dir / "exported"
+    # export_dir = take_dir / "exported"
+    export_dir = take_dir / EXPORT_FOLDER_NAME
     export_dir.mkdir(exist_ok=True)
-    actors_folder: str = "actors"
+    # actors_folder: str = "actors"
+    actors_folder: str = ACTORS_FOLDER_NAME
     (export_dir / actors_folder).mkdir(exist_ok=True)
     print(f"   export folders created.")
 
@@ -79,14 +88,17 @@ def process_take(take_dir: Path, shogun_path: Path):
     hsl_file.write_text(hsl_content)
     print(f"   hsl created {hsl_file.name}.")
 
-    out_file = take_dir / "processed.mcp"
+    # out_file = take_dir / "processed.mcp"
+    out_file = take_dir / PROCESSED_MCP_NAME
 
     print("running shogun processing.")
     run_shogun(mcp_file=mcp, hsl_file=hsl_file, out_file=out_file, shogun_path=shogun_path)
     print(f"     complete Output saved to: {out_file}\n")
 
 if __name__ == "__main__":
-    shogun_path = Path(r"C:\Program Files\Vicon\ShogunPost1.18\ShogunPostCL.exe")
+    # shogun_path = Path(r"C:\Program Files\Vicon\ShogunPost1.18\ShogunPostCL.exe")
+    shogun_path: Path = SHOGUN_PATH
+    
     print_pyramid()
     # test for a take.
     print("📂 select the folder...")
