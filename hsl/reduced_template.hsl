@@ -37,19 +37,11 @@ for ($i = 0; $i < $numsel; $i+= 1)
     $first = `strLeft $sel[$i] 3`;
 
     // Build path
-	string $filename_c3d;
-	string $filename_fbx;
-	string $filename_bvh;
 	string $filename_mcp;
-    $filename_c3d = ($actors_export_directory + $first + "_.c3d");
-    $filename_fbx = ($actors_export_directory + $first + "_.fbx");
-    $filename_bvh = ($actors_export_directory + $first + "_.bvh");
+
     $filename_mcp = ($actors_export_directory + $first + "_.mcp");
 
 
     // Export
-    saveFile -s $filename_c3d;
-    saveFile -s $filename_fbx;
-    saveFile -s $filename_bvh;
     saveFile -s $filename_mcp;
 }

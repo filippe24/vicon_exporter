@@ -7,9 +7,11 @@
 # # main.py
 
 from pathlib import Path
+import shutil
 from tkinter import Tk, filedialog
 from typing import List
 from exporter.export_pipeline import generate_hsl
+from exporter.retarget_pipeline import generate_retarget_hsl
 from wrapper.shogun_runner import run_shogun
 from configuration.settings import (
     SHOGUN_PATH,
@@ -18,6 +20,21 @@ from configuration.settings import (
     HSL_FILENAME,
     PROCESSED_MCP_NAME,
 )
+import argparse
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="vicon exporter")
+    parser.add_argument(
+        "-f", "--force",
+        action="store_true",
+        help="force reprocessing even if output already exists"
+    )
+    parser.add_argument(
+        "-r", "--retarget",
+        action="store_true",
+        help="run retargeting pass after export"
+    )
+    return parser.parse_args()
 
 
 def print_pyramid():
@@ -66,7 +83,22 @@ def find_take_folders(root: Path) -> List[Path]:
     return take_folders
 
 
-def process_take(take_dir: Path, shogun_path: Path):
+def process_take(take_dir: Path, shogun_path: Path, force: bool):
+    processed_file = take_dir / PROCESSED_MCP_NAME
+    if processed_file.exists() and not force:
+        print(f"⏭   skipping {take_dir.name} (already processed).")
+        return
+    export_dir = take_dir / EXPORT_FOLDER_NAME
+    if export_dir.exists() and not force:
+        print(f"  skipping {take_dir.name} (export folder already exists).")
+        return
+    
+    if force:
+        if processed_file.exists():
+            processed_file.unlink()
+        if export_dir.exists():
+            shutil.rmtree(export_dir)
+
     print(f"\n📁 selected folder: {take_dir}.")
     print("looking for for .mcp file.")
     mcp: Path = next(take_dir.glob("*.mcp"))
@@ -95,7 +127,47 @@ def process_take(take_dir: Path, shogun_path: Path):
     run_shogun(mcp_file=mcp, hsl_file=hsl_file, out_file=out_file, shogun_path=shogun_path)
     print(f"     complete Output saved to: {out_file}\n")
 
+
+def process_retargeting(take_dir: Path, shogun_path: Path):
+    print(f"\n🎯 retargeting: {take_dir}")
+
+    export_dir = take_dir / EXPORT_FOLDER_NAME / ACTORS_FOLDER_NAME
+
+    # find all actor .mcp files
+    actor_mcps = list(export_dir.glob("*.mcp"))
+    if not actor_mcps:
+        print("   ⚠ no actor .mcp files found, skipping.")
+        return
+
+    # create retarget folder
+    retarget_dir = take_dir / EXPORT_FOLDER_NAME / "retargeted"
+    retarget_dir.mkdir(exist_ok=True)
+
+    for actor_mcp in actor_mcps:
+        print(f"   ▶ retargeting actor: {actor_mcp.name}")
+
+        # generate retarget HSL
+        hsl_content = generate_retarget_hsl(
+            actor_source_path=actor_mcp,
+            output_path=retarget_dir,
+        )
+
+        hsl_file = take_dir / f"retarget_{actor_mcp.stem}.hsl"
+        hsl_file.write_text(hsl_content)
+
+        out_file = retarget_dir / f"{actor_mcp.stem}_retargeted.mcp"
+
+        run_shogun(
+            mcp_file=actor_mcp,
+            hsl_file=hsl_file,
+            out_file=out_file,
+            shogun_path=shogun_path
+        )
+
+
+
 if __name__ == "__main__":
+    args = parse_args()
     # shogun_path = Path(r"C:\Program Files\Vicon\ShogunPost1.18\ShogunPostCL.exe")
     shogun_path: Path = SHOGUN_PATH
     
@@ -115,7 +187,13 @@ if __name__ == "__main__":
 
     for t in take_folders:
         print(f"\n processing take: {t}")
-        process_take(take_dir=t, shogun_path=shogun_path)
+        process_take(take_dir=t, shogun_path=shogun_path, force=args.force)
+
+    if args.retarget:
+        print("\n🎯 running retargeting pass...")
+        for t in take_folders:
+            process_retargeting(take_dir=t, shogun_path=shogun_path)
+
 
     print("success!")
 

@@ -1,16 +1,19 @@
 from pathlib import Path
 
-# Path to ShogunPostCL executable
+# path to ShogunPostCL executable.
 SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.18\ShogunPostCL.exe")
 
-# Name of the folder where exported files go
+# name of the folder where exported files go
 EXPORT_FOLDER_NAME = "exported"
 
-# Name of the actors folder inside the export folder
+# name of the actors folder inside the export folder.
 ACTORS_FOLDER_NAME = "actors"
 
-# Name of the generated HSL file
-HSL_FILENAME = "exporter.hsl"
+# name of the generated HSL file.
+HSL_FILENAME = r"hsl\exporter.hsl"
 
-# Name of the processed MCP output
+# name of the processed MCP output.
 PROCESSED_MCP_NAME = "processed.mcp"
+
+# local path to the model.
+LOCAL_PATH_TO_MODEL = Path(r"models\retarget_original_mannequin.fbx")

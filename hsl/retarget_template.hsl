@@ -1,0 +1,401 @@
+//-- export full scene ----------
+select -all;
+saveFile -s "{EXPORT_DIR}/markers_world.c3d";
+
+
+//------- export clapperboard ---
+select ; // deselect.
+selectByName "{CLAPPERBOARD_NAME}*";
+string $array[] =  `getModules -selected`;
+if( `getCount $array` > 0 )
+{
+	selectChildren  -recursive -a $array ;
+}
+saveFile -s "{EXPORT_DIR}/clapperboard.c3d";
+select ; // deselect.
+
+
+
+//--------- export actors -------
+// remove everyhing except characters.
+selectProps;
+DeleteSelected;
+select -invert;
+
+// import retargeting mannequin.
+// import retargeting mesh.loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/dati/data_gilab/retarget_original_mannequin.FBX";
+
+
+// select actors.
+string $sel[] = `getModules -sel -type Character`;
+int $numsel = `getCount $sel`;
+int $i;
+
+string $first;
+string $filename;
+
+string $actors_export_directory;
+$actors_export_directory = ("{EXPORT_DIR}/{ACTORS_FOLDER}/");
+
+// security checks:
+// Make sure there's only one subject in the scene
+selectByType Character;
+if( `getNumModules -sel` != $numsel )
+{
+  print "This script is designed to run with a single subject in the scene. Please load the ROM you wish to setup a retarget for." -error;
+  return;
+}
+else
+{
+	print "two character founds";
+}
+// string $character = `getModule`;
+
+// Make sure there subject has a solve setup
+selectByType SolvingSetup;
+if( `getNumModules -sel` != $numsel )
+{
+  print "Unable to locate SolvingSetup. Please ensure a solving setup exists." -error;
+  return;
+}
+{
+	print "two solving setup founds";
+}
+
+//// If imported FBX was MetaHuman, ensure we only have 1 skeleton
+//// since a straight export contains multiple
+
+// Get the retargeting setup
+selectByName "Retargeting" -type RetargetingSetup;
+if( `getNumModules -sel` != 1  )
+{
+  print "Unable to locate Retargeting Setup. Please load the FBX for the retarget skeleton via the Subject Setup panel." -error;
+  return;
+}
+else
+{
+	print "found one retarget setup";
+}
+string $rtgSetup = `getModule`;
+ //// Parent the root to the retargeting setup so we don't have a locator inbetween
+selectByName "Body" -type Locator -childOf $rtgSetup;
+if( `getNumModules -sel` == 1)
+{
+  unparent;
+
+  select $rtgSetup;
+  SelectChildren_Only_All;
+  delete;
+
+  selectByName "Body" -type Locator;
+  select -a $rtgSetup;
+  parent;
+}
+
+
+
+for ($i = 0; $i < $numsel; $i+= 1)
+{
+    print $sel[$i];
+
+    // Select full hierarchy
+    selectChildren -recursive $sel[$i];
+
+    // Get first letter
+    $first = `strLeft $sel[$i] 3`;
+
+
+    // Remove Character created if MetaHuman FBX was imported as retarget skeleton
+    selectByName "BP_metahuman_*";
+    delete;
+
+
+    // Build path
+    string $filename_c3d;
+    string $filename_fbx;
+    string $filename_bvh;
+    string $filename_mcp;
+    $filename_c3d = ($actors_export_directory + $first + "_.c3d");
+    $filename_fbx = ($actors_export_directory + $first + "_.fbx");
+    $filename_bvh = ($actors_export_directory + $first + "_.bvh");
+    $filename_mcp = ($actors_export_directory + $first + "_.mcp");
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// adjustment
+// This script automatically sets up a retarget from a 
+// standard Shogun 1.7+ solve skeleton (VSS) to a UE5
+// Mannequin or MetaHuman imported as a retarget skeleton 
+// via FBX.
+// The UE5 Mannequin uses the same base skeleton as MetaHuman,
+// and thus can be used as a simple alternative in Shogun
+// since it contains one skeleton and bound mesh instead of 
+// the multiple skeletons and meshes used in MetaHuman.
+// Animation retargeted to a UE5 Mannequin can then be steamed or 
+// imported onto a MetaHuman skeleton.
+//
+// To use:
+// 1. Have a solved VSS in the scene. Typically a ROM.
+// 2. Via Subject Setup panel > Retargeting tab > Toolbar at top,
+//    click the open button and import a UE5 Mannequin or MetaHuman 
+//    FBX as the retarget skeleton.
+// 3. Run this script which will automatically create a default retarget setup.
+// 4. Run retarget over the play range to retarget the actor motion from
+//    the VSS to the target skeleton.
+
+// Remove Character created if MetaHuman FBX was imported as retarget skeleton
+selectByName "BP_metahuman_*";
+delete;
+
+// Make sure there's only one subject in the scene
+selectByType Character;
+if( `getNumModules -sel` != 1 )
+{
+	print "This script is designed to run with a single subject in the scene. Please load the ROM you wish to setup a retarget for." -error;
+	return;
+}
+string $character = `getModule`;
+
+// Make sure there subject has a solve setup
+selectByType SolvingSetup;
+if( `getNumModules -sel` != 1 )
+{
+	print "Unable to locate SolvingSetup. Please ensure a solving setup exists." -error;
+	return;
+}
+
+//// If imported FBX was MetaHuman, ensure we only have 1 skeleton
+//// since a straight export contains multiple
+
+// Get the retargeting setup
+selectByName "Retargeting" -type RetargetingSetup;
+if( `getNumModules -sel` != 1 )
+{
+	print "Unable to locate Retargeting Setup. Please load the FBX for the retarget skeleton via the Subject Setup panel." -error;
+	return;
+}
+string $rtgSetup = `getModule`;
+
+selectByName "Body" -type Locator -childOf $rtgSetup;
+if( `getNumModules -sel` == 1)
+{
+	unparent;
+
+	select $rtgSetup;
+	SelectChildren_Only_All;
+	delete;
+
+	selectByName "Body" -type Locator;
+	select -a $rtgSetup;
+	parent;
+}
+
+//// Parent the root to the retargeting setup so we don't have a locator inbetween
+
+// Get the retargeting root bone
+selectByName "root" -type RetargetingBone;
+if( `getNumModules -sel` != 1 )
+{
+	print "Please ensure the retarget skeleton has a single skeleton with only one root bone." -error;
+	return;
+}
+string $root = `getModule`;
+
+// Get the retargeting pelvis bone
+selectByName "pelvis" -type RetargetingBone;
+if( `getNumModules -sel` != 1 )
+{
+	print "Unable to locate retargeting bone \"pelvis\"" -error;
+	return;
+}
+string $pelvis = `getModule`;
+
+
+select $root $rtgSetup;
+parent;
+
+//// Set the pelvis as the root
+setProperty "DOF" "Tx" false -onMod $root;
+setProperty "DOF" "Ty" false -onMod $root;
+setProperty "DOF" "Tz" false -onMod $root;
+setProperty "DOF" "Rx" false -onMod $root;
+setProperty "DOF" "Ry" false -onMod $root;
+setProperty "DOF" "Rz" false -onMod $root;
+
+setProperty "DOF" "Tx" true -onMod $pelvis;
+setProperty "DOF" "Ty" true -onMod $pelvis;
+setProperty "DOF" "Tz" true -onMod $pelvis;
+setProperty "DOF" "Rx" true -onMod $pelvis;
+setProperty "DOF" "Ry" true -onMod $pelvis;
+setProperty "DOF" "Rz" true -onMod $pelvis;
+
+
+//// Setup dofs
+if( `exists "LeftHandIndex1" -type SolvingBone` )
+{
+	SetUE5MannequinDOFsSidesPartsWithFingers;
+}
+else
+{
+	SetUE5MannequinDOFsSidesParts;
+}
+
+// Disable MetaHuman extra bones if present
+DisableMetaHumanExtraBones;
+
+// Disable and hide other bones we're not putting data on
+selectByName "root" -type RetargetingBone -childOf $rtgSetup;
+SelectChildren_Only;
+selectByName "pelvis" -r -type RetargetingBone -childOf $rtgSetup;
+SelectChildren_Add_All;
+if( `getNumModules -sel` > 0)
+{
+	setProperty "DOF" "Tx" false;
+	setProperty "DOF" "Ty" false;
+	setProperty "DOF" "Tz" false;
+	setProperty "DOF" "Rx" false;
+	setProperty "DOF" "Ry" false;
+	setProperty "DOF" "Rz" false;
+}
+selectByName "root" -a -type RetargetingBone -childOf $rtgSetup;
+hide;
+
+selectByName "*_twist_*" -type RetargetingBone;
+SelectChildren_Add_All;
+hide;
+
+//// Set geo twists
+SetUE5MannequinGeoTwists;
+
+//// Enable map mode
+setRetargetingMapModeEnabled true;
+
+//// Set target skeleton scale
+// If you want to change the target skeleton scale, run the script
+// to this point, modify the scale, then run the rest of the script.
+
+//// Pose target skeleton
+PoseUE5MannequinForMapMode;
+if( `exists "LeftHandIndex1" -type SolvingBone` )
+{
+	PoseUE5MannequinLeftHandFingersForMapMode;
+	PoseUE5MannequinRightHandFingersForMapMode;
+}
+
+//// Auto create default constraints
+autoCreateRetargetingConstraints;
+if( `exists "LeftHandIndex1" -type SolvingBone` )
+{
+	CreateUE5MannequinFingerConstraints;
+}
+
+//// Exit map mode
+selectByType RetargetingBone;
+setPreferredPose;
+setRetargetingMapModeEnabled false;
+manipulator -mirror false;
+
+select;
+
+print "Default retarget setup complete. Run retarget to retarget animation from actor to target skeleton.";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+setProperty "DOF" "Ry" true -onMod lowerarm_r;
+setProperty "DOF" "Rx" true -onMod lowerarm_r;
+setProperty "DOF" "Rx" false -onMod lowerarm_r;
+setProperty "DOF" "Rx" true -onMod lowerarm_r;
+setProperty "DOF" "Ry" true -onMod lowerarm_l;
+setProperty "DOF" "Rx" true -onMod lowerarm_l;
+setConstraint;manipulator -posManip on;
+manipulator;
+
+retarget -selectedCharacters;
+
+setProperty "Pre_Rotation" 0.000000 -10.000000 0.000000 -onMod clavicle_l;
+setProperty "Pre_Rotation" 0.000000 10.000000 0.000000 -onMod clavicle_r;
+
+setConstraint;
+retarget -selectedCharacters;
+
+
+setProperty "DOF" "Rz" false -onMod Jess\Solving\Hips\Spine\Spine1\Spine2\Spine3\RightShoulder\RightArm\RightForeArm;
+select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand";
+setProperty "DOF" "Rz" true -onMod Jess\Solving\Hips\Spine\Spine1\Spine2\Spine3\RightShoulder\RightArm\RightForeArm\RightHand;
+select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm";
+setProperty "DOF" "Rz" false -onMod Jess\Solving\Hips\Spine\Spine1\Spine2\Spine3\LeftShoulder\LeftArm\LeftForeArm;
+select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand";
+setProperty "DOF" "Rz" true -onMod Jess\Solving\Hips\Spine\Spine1\Spine2\Spine3\LeftShoulder\LeftArm\LeftForeArm\LeftHand;
+
+solve;
+
+
+
+string $sel[] = `getModules -selected`;
+select Jess;
+retarget -selectedCharacters;
+select $sel;
+
+
+select Jess;
+string $mods[] = `getModules -selected`;
+select "Jess";
+saveFile -s "G:/My Drive/mocap 17-02-2026/1-airport/take1/face-je/retarget/Jess.vsr";
+select $mods;
+
+select "ARIEL" -a;select "LFHD" -a;select "LBHD" -a;select "RFHD" -a;select "RBHD" -a;select "C7" -a;select "T10" -a;select "LT10" -a;select "RT10" -a;select "CLAV" -a;select "STRN" -a;select "LFSH" -a;select "LTSH" -a;select "LBSH" -a;select "LUPA" -a;select "LELB" -a;select "LBEL" -a;select "LFRM" -a;select "LIWR" -a;select "LOWR" -a;select "LIHAND" -a;select "LOHAND" -a;select "LTHM3" -a;select "LTHM6" -a;select "LIDX3" -a;select "LIDX6" -a;select "LMID0" -a;select "LMID6" -a;select "LRNG3" -a;select "LRNG6" -a;select "LPNK3" -a;select "LPNK6" -a;select "RFSH" -a;select "RTSH" -a;select "RBSH" -a;select "RUPA" -a;select "RELB" -a;select "RBEL" -a;select "RFRM" -a;select "RIWR" -a;select "ROWR" -a;select "RIHAND" -a;select "ROHAND" -a;select "RTHM3" -a;select "RTHM6" -a;select "RIDX3" -a;select "RIDX6" -a;select "RMID0" -a;select "RMID6" -a;select "RRNG3" -a;select "RRNG6" -a;select "RPNK3" -a;select "RPNK6" -a;select "LFWT" -a;select "LMWT" -a;select "LBWT" -a;select "RFWT" -a;select "RMWT" -a;select "RBWT" -a;select "LTHI" -a;select "LKNE" -a;select "LKNU" -a;select "LSHN" -a;select "LANK" -a;select "LHEL" -a;select "LMT5" -a;select "LMT1" -a;select "LTOE" -a;select "RTHI" -a;select "RKNE" -a;select "RKNU" -a;select "RSHN" -a;select "RANK" -a;select "RHEL" -a;select "RMT5" -a;select "RMT1" -a;select "RTOE" -a;select "Tom_cluster_LCM_1" -a;select "Tom_cluster_LCM_2" -a;select "Tom_cluster_LCM_3" -a;select "Tom_cluster_LCM_4" -a;select "Tom_cluster_LCM_5" -a;
+select "ARIEL" -a;select "LFHD" -a;select "LBHD" -a;select "RFHD" -a;select "RBHD" -a;select "C7" -a;select "T10" -a;select "LT10" -a;select "RT10" -a;select "CLAV" -a;select "STRN" -a;select "LFSH" -a;select "LTSH" -a;select "LBSH" -a;select "LUPA" -a;select "LELB" -a;select "LBEL" -a;select "LFRM" -a;select "LIWR" -a;select "LOWR" -a;select "LIHAND" -a;select "LOHAND" -a;select "LTHM3" -a;select "LTHM6" -a;select "LIDX3" -a;select "LIDX6" -a;select "LMID0" -a;select "LMID6" -a;select "LRNG3" -a;select "LRNG6" -a;select "LPNK3" -a;select "LPNK6" -a;select "RFSH" -a;select "RTSH" -a;select "RBSH" -a;select "RUPA" -a;select "RELB" -a;select "RBEL" -a;select "RFRM" -a;select "RIWR" -a;select "ROWR" -a;select "RIHAND" -a;select "ROHAND" -a;select "RTHM3" -a;select "RTHM6" -a;select "RIDX3" -a;select "RIDX6" -a;select "RMID0" -a;select "RMID6" -a;select "RRNG3" -a;select "RRNG6" -a;select "RPNK3" -a;select "RPNK6" -a;select "LFWT" -a;select "LMWT" -a;select "LBWT" -a;select "RFWT" -a;select "RMWT" -a;select "RBWT" -a;select "LTHI" -a;select "LKNE" -a;select "LKNU" -a;select "LSHN" -a;select "LANK" -a;select "LHEL" -a;select "LMT5" -a;select "LMT1" -a;select "LTOE" -a;select "RTHI" -a;select "RKNE" -a;select "RKNU" -a;select "RSHN" -a;select "RANK" -a;select "RHEL" -a;select "RMT5" -a;select "RMT1" -a;select "RTOE" -a;select "Tom_cluster_LCM_1" -a;select "Tom_cluster_LCM_2" -a;select "Tom_cluster_LCM_3" -a;select "Tom_cluster_LCM_4" -a;select "Tom_cluster_LCM_5" -a;
+select "Retargeting";
+select "Retargeting";
+
+select "Jess" -a;
+select "Jess" -a;
+select Jess;
+SelectChildren_Add_Aselect "Retargeting" -r;select "Jess" -r;select "root" -r;select "pelvis" -r;select "spine_01" -r;select "spine_02" -r;select "spine_03" -r;select "spine_04" -r;select "spine_05" -r;select "neck_01" -r;select "neck_02" -r;select "head" -r;select "clavicle_l" -r;select "upperarm_l" -r;select "lowerarm_l" -r;select "lowerarm_twist_02_l" -r;select "lowerarm_twist_01_l" -r;select "hand_l" -r;select "index_metacarpal_l" -r;select "index_01_l" -r;select "index_02_l" -r;select "index_03_l" -r;select "middle_metacarpal_l" -r;select "middle_01_l" -r;select "middle_02_l" -r;select "middle_03_l" -r;select "thumb_01_l" -r;select "thumb_02_l" -r;select "thumb_03_l" -r;select "pinky_metacarpal_l" -r;select "pinky_01_l" -r;select "pinky_02_l" -r;select "pinky_03_l" -r;select "ring_metacarpal_l" -r;select "ring_01_l" -r;select "ring_02_l" -r;select "ring_03_l" -r;select "upperarm_twist_01_l" -r;select "upperarm_twist_02_l" -r;select "clavicle_r" -r;select "upperarm_r" -r;select "lowerarm_r" -r;select "lowerarm_twist_02_r" -r;select "lowerarm_twist_01_r" -r;select "hand_r" -r;select "pinky_metacarpal_r" -r;select "pinky_01_r" -r;select "pinky_02_r" -r;select "pinky_03_r" -r;select "ring_metacarpal_r" -r;select "ring_01_r" -r;select "ring_02_r" -r;select "ring_03_r" -r;select "middle_metacarpal_r" -r;select "middle_01_r" -r;select "middle_02_r" -r;select "middle_03_r" -r;select "index_metacarpal_r" -r;select "index_01_r" -r;select "index_02_r" -r;select "index_03_r" -r;select "thumb_01_r" -r;select "thumb_02_r" -r;select "thumb_03_r" -r;select "upperarm_twist_01_r" -r;select "upperarm_twist_02_r" -r;select "thigh_r" -r;select "calf_r" -r;select "foot_r" -r;select "ball_r" -r;select "calf_twist_02_r" -r;select "calf_twist_01_r" -r;select "thigh_twist_01_r" -r;select "thigh_twist_02_r" -r;select "thigh_l" -r;select "calf_l" -r;select "foot_l" -r;select "ball_l" -r;select "calf_twist_02_l" -r;select "calf_twist_01_l" -r;select "thigh_twist_01_l" -r;select "thigh_twist_02_l" -r;select "ik_foot_root" -r;select "ik_foot_l" -r;select "ik_foot_r" -r;select "ik_hand_root" -r;select "ik_hand_gun" -r;select "ik_hand_l" -r;select "ik_hand_r" -r;select "interaction" -r;select "center_of_mass" -r;select "Jess\\Retargeting\\Position\\Hips_pelvis" -r;select "Jess\\Retargeting\\Position\\LeftFoot_foot_l" -r;select "Jess\\Retargeting\\Position\\RightFoot_foot_r" -r;select "Jess\\Retargeting\\Position\\LeftHand_hand_l" -r;select "Jess\\Retargeting\\Position\\RightHand_hand_r" -r;select "Jess\\Retargeting\\Rotation\\Hips_pelvis" -r;select "LeftUpLeg_thigh_l" -r;select "RightUpLeg_thigh_r" -r;select "LeftLeg_calf_l" -r;select "RightLeg_calf_r" -r;select "Jess\\Retargeting\\Rotation\\LeftFoot_foot_l" -r;select "Jess\\Retargeting\\Rotation\\RightFoot_foot_r" -r;select "LeftToeBase_ball_l" -r;select "RightToeBase_ball_r" -r;select "Spine_spine_01" -r;select "Spine1_spine_02" -r;select "Spine1_spine_03" -r;select "Spine2_spine_04" -r;select "Spine3_spine_05" -r;select "Neck_neck_01" -r;select "Neck1_neck_02" -r;select "Head_head" -r;select "LeftShoulder_clavicle_l" -r;select "RightShoulder_clavicle_r" -r;select "LeftArm_upperarm_l" -r;select "RightArm_upperarm_r" -r;select "LeftForeArm_lowerarm_l" -r;select "RightForeArm_lowerarm_r" -r;select "Jess\\Retargeting\\Rotation\\LeftHand_hand_l" -r;select "Jess\\Retargeting\\Rotation\\RightHand_hand_r" -r;select "LeftHandIndex_index_metacarpal_l" -r;select "RightHandIndex_index_metacarpal_r" -r;select "LeftHand_middle_metacarpal_l" -r;select "RightHand_middle_metacarpal_r" -r;select "LeftHandRing_ring_metacarpal_l" -r;select "RightHandRing_ring_metacarpal_r" -r;select "LeftHandPinky_pinky_metacarpal_l" -r;select "RightHandPinky_pinky_metacarpal_r" -r;select "LeftHandIndex1_index_01_l" -r;select "RightHandIndex1_index_01_r" -r;select "LeftHandMiddle1_middle_01_l" -r;select "RightHandMiddle1_middle_01_r" -r;select "LeftHandRing1_ring_01_l" -r;select "RightHandRing1_ring_01_r" -r;select "LeftHandPinky1_pinky_01_l" -r;select "RightHandPinky1_pinky_01_r" -r;select "LeftHandIndex2_index_02_l" -r;select "RightHandIndex2_index_02_r" -r;select "LeftHandMiddle2_middle_02_l" -r;select "RightHandMiddle2_middle_02_r" -r;select "LeftHandRing2_ring_02_l" -r;select "RightHandRing2_ring_02_r" -r;select "LeftHandPinky2_pinky_02_l" -r;select "RightHandPinky2_pinky_02_r" -r;select "LeftHandIndex3_index_03_l" -r;select "RightHandIndex3_index_03_r" -r;select "LeftHandMiddle3_middle_03_l" -r;select "RightHandMiddle3_middle_03_r" -r;select "LeftHandRing3_ring_03_l" -r;select "RightHandRing3_ring_03_r" -r;select "LeftHandPinky3_pinky_03_l" -r;select "RightHandPinky3_pinky_03_r" -r;select "LeftHandThumb1_thumb_01_l" -r;select "RightHandThumb1_thumb_01_r" -r;select "LeftHandThumb2_thumb_02_l" -r;select "RightHandThumb2_thumb_02_r" -r;select "LeftHandThumb3_thumb_03_l" -r;select "RightHandThumb3_thumb_03_r" -r;select "Labeling_8" -r;select "Jess\\Labeling_8\\Hips" -r;select "Jess\\Labeling_8\\Hips\\Spine" -r;select "Jess\\Labeling_8\\Hips\\Spine\\Tom_cluster" -r;select "Jess\\Labeling_8\\Hips\\Spine\\Head" -r;select "Head_End" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1\\LeftHandMiddle2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1\\LeftHandMiddle2\\LeftHandMiddle3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1\\LeftHandMiddle2\\LeftHandMiddle3\\LeftHandMiddle4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1\\LeftHandRing2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1\\LeftHandRing2\\LeftHandRing3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1\\LeftHandRing2\\LeftHandRing3\\LeftHandRing4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1\\LeftHandPinky2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1\\LeftHandPinky2\\LeftHandPinky3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1\\LeftHandPinky2\\LeftHandPinky3\\LeftHandPinky4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1\\LeftHandIndex2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1\\LeftHandIndex2\\LeftHandIndex3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1\\LeftHandIndex2\\LeftHandIndex3\\LeftHandIndex4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1\\LeftHandThumb2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1\\LeftHandThumb2\\LeftHandThumb3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1\\LeftHandThumb2\\LeftHandThumb3\\LeftHandThumb4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1\\RightHandMiddle2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1\\RightHandMiddle2\\RightHandMiddle3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1\\RightHandMiddle2\\RightHandMiddle3\\RightHandMiddle4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1\\RightHandRing2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1\\RightHandRing2\\RightHandRing3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1\\RightHandRing2\\RightHandRing3\\RightHandRing4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1\\RightHandPinky2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1\\RightHandPinky2\\RightHandPinky3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1\\RightHandPinky2\\RightHandPinky3\\RightHandPinky4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1\\RightHandIndex2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1\\RightHandIndex2\\RightHandIndex3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1\\RightHandIndex2\\RightHandIndex3\\RightHandIndex4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1\\RightHandThumb2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1\\RightHandThumb2\\RightHandThumb3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1\\RightHandThumb2\\RightHandThumb3\\RightHandThumb4" -r;select "Jess\\Labeling_8\\Hips\\LeftUpLeg" -r;select "Jess\\Labeling_8\\Hips\\LeftUpLeg\\LeftLeg" -r;select "Jess\\Labeling_8\\Hips\\LeftUpLeg\\LeftLeg\\LeftFoot" -r;select "Jess\\Labeling_8\\Hips\\LeftUpLeg\\LeftLeg\\LeftFoot\\LeftToeBase" -r;select "LeftToeEnd" -r;select "Jess\\Labeling_8\\Hips\\RightUpLeg" -r;select "Jess\\Labeling_8\\Hips\\RightUpLeg\\RightLeg" -r;select "Jess\\Labeling_8\\Hips\\RightUpLeg\\RightLeg\\RightFoot" -r;select "Jess\\Labeling_8\\Hips\\RightUpLeg\\RightLeg\\RightFoot\\RightToeBase" -r;select "RightToeEnd" -r;select "ARIEL_Head" -r;select "Jess\\Labeling_8\\Position\\LFHD_Head" -r;select "Jess\\Labeling_8\\Position\\LBHD_Head" -r;select "Jess\\Labeling_8\\Position\\RFHD_Head" -r;select "Jess\\Labeling_8\\Position\\RBHD_Head" -r;select "C7_Spine" -r;select "T10_Spine" -r;select "LT10_Spine" -r;select "RT10_Spine" -r;select "CLAV_Spine" -r;select "STRN_Spine" -r;select "Jess\\Labeling_8\\Position\\LFSH_LeftShoulder" -r;select "Jess\\Labeling_8\\Position\\LTSH_LeftShoulder" -r;select "Jess\\Labeling_8\\Position\\LBSH_LeftShoulder" -r;select "Jess\\Labeling_8\\Position\\LUPA_LeftArm" -r;select "Jess\\Labeling_8\\Position\\LELB_LeftArm" -r;select "Jess\\Labeling_8\\Position\\LBEL_LeftArm" -r;select "Jess\\Labeling_8\\Position\\LWRE_LeftForeArm" -r;select "Jess\\Labeling_8\\Position\\LIWR_LeftForeArm" -r;select "Jess\\Labeling_8\\Position\\LOWR_LeftForeArm" -r;select "Jess\\Labeling_8\\Position\\LeftHandIndex_LMCP22" -r;select "Jess\\Labeling_8\\Position\\LeftHandPinky_LMCP52" -r;select "Jess\\Labeling_8\\Position\\LeftHandThumb2_LTMBP2" -r;select "Jess\\Labeling_8\\Position\\LeftHandThumb3_LTMBD2" -r;select "Jess\\Labeling_8\\Position\\LeftHandIndex2_LIDXM2" -r;select "Jess\\Labeling_8\\Position\\LeftHandIndex3_LIDXD2" -r;select "Jess\\Labeling_8\\Position\\LeftHandMiddle1_LMFRP2" -r;select "Jess\\Labeling_8\\Position\\LeftHandMiddle3_LMFRD2" -r;select "Jess\\Labeling_8\\Position\\LeftHandRing2_LRFRM2" -r;select "Jess\\Labeling_8\\Position\\LeftHandRing3_LRFRD2" -r;select "Jess\\Labeling_8\\Position\\LeftHandPinky2_LLFRM2" -r;select "Jess\\Labeling_8\\Position\\LeftHandPinky3_LLFRD2" -r;select "Jess\\Labeling_8\\Position\\RFSH_RightShoulder" -r;select "Jess\\Labeling_8\\Position\\RTSH_RightShoulder" -r;select "Jess\\Labeling_8\\Position\\RBSH_RightShoulder" -r;select "Jess\\Labeling_8\\Position\\RUPA_RightArm" -r;select "Jess\\Labeling_8\\Position\\RELB_RightArm" -r;select "Jess\\Labeling_8\\Position\\RBEL_RightArm" -r;select "Jess\\Labeling_8\\Position\\RWRE_RightForeArm" -r;select "Jess\\Labeling_8\\Position\\RIWR_RightForeArm" -r;select "Jess\\Labeling_8\\Position\\ROWR_RightForeArm" -r;select "Jess\\Labeling_8\\Position\\RightHandIndex_RMCP22" -r;select "Jess\\Labeling_8\\Position\\RightHandPinky_RMCP52" -r;select "Jess\\Labeling_8\\Position\\RightHandThumb2_RTMBP2" -r;select "Jess\\Labeling_8\\Position\\RightHandThumb3_RTMBD2" -r;select "Jess\\Labeling_8\\Position\\RightHandIndex2_RIDXM2" -r;select "Jess\\Labeling_8\\Position\\RightHandIndex3_RIDXD2" -r;select "Jess\\Labeling_8\\Position\\RightHandMiddle1_RMFRP2" -r;select "Jess\\Labeling_8\\Position\\RightHandMiddle3_RMFRD2" -r;select "Jess\\Labeling_8\\Position\\RightHandRing2_RRFRM2" -r;select "Jess\\Labeling_8\\Position\\RightHandRing3_RRFRD2" -r;select "Jess\\Labeling_8\\Position\\RightHandPinky2_RLFRM2" -r;select "Jess\\Labeling_8\\Position\\RightHandPinky3_RLFRD2" -r;select "Jess\\Labeling_8\\Position\\LFWT_Hips" -r;select "Jess\\Labeling_8\\Position\\LMWT_Hips" -r;select "Jess\\Labeling_8\\Position\\LBWT_Hips" -r;select "Jess\\Labeling_8\\Position\\RFWT_Hips" -r;select "Jess\\Labeling_8\\Position\\RMWT_Hips" -r;select "Jess\\Labeling_8\\Position\\RBWT_Hips" -r;select "Jess\\Labeling_8\\Position\\LHIP_LeftUpLeg" -r;select "Jess\\Labeling_8\\Position\\LKNE_LeftUpLeg" -r;select "Jess\\Labeling_8\\Position\\LKNU_LeftUpLeg" -r;select "Jess\\Labeling_8\\Position\\LSHN_LeftLeg" -r;select "Jess\\Labeling_8\\Position\\LANK_LeftLeg" -r;select "Jess\\Labeling_8\\Position\\LHEL_LeftFoot" -r;select "Jess\\Labeling_8\\Position\\LMT5_LeftFoot" -r;select "Jess\\Labeling_8\\Position\\LMT1_LeftFoot" -r;select "Jess\\Labeling_8\\Position\\LTOE_LeftToeBase" -r;select "Jess\\Labeling_8\\Position\\RHIP_RightUpLeg" -r;select "Jess\\Labeling_8\\Position\\RKNE_RightUpLeg" -r;select "Jess\\Labeling_8\\Position\\RKNU_RightUpLeg" -r;select "Jess\\Labeling_8\\Position\\RSHN_RightLeg" -r;select "Jess\\Labeling_8\\Position\\RANK_RightLeg" -r;select "Jess\\Labeling_8\\Position\\RHEL_RightFoot" -r;select "Jess\\Labeling_8\\Position\\RMT5_RightFoot" -r;select "Jess\\Labeling_8\\Position\\RMT1_RightFoot" -r;select "Jess\\Labeling_8\\Position\\RTOE_RightToeBase" -r;select "ARIEL" -r;select "LFHD" -r;select "LBHD" -r;select "RFHD" -r;select "RBHD" -r;select "C7" -r;select "T10" -r;select "LT10" -r;select "RT10" -r;select "CLAV" -r;select "STRN" -r;select "LFSH" -r;select "LTSH" -r;select "LBSH" -r;select "LUPA" -r;select "LELB" -r;select "LBEL" -r;select "LFRM" -r;select "LIWR" -r;select "LOWR" -r;select "LIHAND" -r;select "LOHAND" -r;select "LTHM3" -r;select "LTHM6" -r;select "LIDX3" -r;select "LIDX6" -r;select "LMID0" -r;select "LMID6" -r;select "LRNG3" -r;select "LRNG6" -r;select "LPNK3" -r;select "LPNK6" -r;select "RFSH" -r;select "RTSH" -r;select "RBSH" -r;select "RUPA" -r;select "RELB" -r;select "RBEL" -r;select "RFRM" -r;select "RIWR" -r;select "ROWR" -r;select "RIHAND" -r;select "ROHAND" -r;select "RTHM3" -r;select "RTHM6" -r;select "RIDX3" -r;select "RIDX6" -r;select "RMID0" -r;select "RMID6" -r;select "RRNG3" -r;select "RRNG6" -r;select "RPNK3" -r;select "RPNK6" -r;select "LFWT" -r;select "LMWT" -r;select "LBWT" -r;select "RFWT" -r;select "RMWT" -r;select "RBWT" -r;select "LTHI" -r;select "LKNE" -r;select "LKNU" -r;select "LSHN" -r;select "LANK" -r;select "LHEL" -r;select "LMT5" -r;select "LMT1" -r;select "LTOE" -r;select "RTHI" -r;select "RKNE" -r;select "RKNU" -r;select "RSHN" -r;select "RANK" -r;select "RHEL" -r;select "RMT5" -r;select "RMT1" -r;select "RTOE" -r;select "Tom_cluster_LCM_1" -r;select "Tom_cluster_LCM_2" -r;select "Tom_cluster_LCM_3" -r;select "Tom_cluster_LCM_4" -r;select "Tom_cluster_LCM_5" -r;select "Solving" -r;select "Jess\\Solving\\Hips" -r;select "Jess\\Solving\\Hips\\Spine" -r;select "Spine1" -r;select "Spine2" -r;select "Spine3" -r;select "Neck" -r;select "Neck1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\Neck\\Neck1\\Head" -r;select "HeadEnd" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1\\RightHandMiddle2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1\\RightHandMiddle2\\RightHandMiddle3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1\\RightHandMiddle2\\RightHandMiddle3\\RightHandMiddle4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1\\RightHandRing2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1\\RightHandRing2\\RightHandRing3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1\\RightHandRing2\\RightHandRing3\\RightHandRing4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1\\RightHandPinky2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1\\RightHandPinky2\\RightHandPinky3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1\\RightHandPinky2\\RightHandPinky3\\RightHandPinky4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1\\RightHandIndex2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1\\RightHandIndex2\\RightHandIndex3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1\\RightHandIndex2\\RightHandIndex3\\RightHandIndex4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1\\RightHandThumb2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1\\RightHandThumb2\\RightHandThumb3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1\\RightHandThumb2\\RightHandThumb3\\RightHandThumb4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1\\LeftHandMiddle2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1\\LeftHandMiddle2\\LeftHandMiddle3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1\\LeftHandMiddle2\\LeftHandMiddle3\\LeftHandMiddle4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1\\LeftHandRing2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1\\LeftHandRing2\\LeftHandRing3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1\\LeftHandRing2\\LeftHandRing3\\LeftHandRing4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1\\LeftHandPinky2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1\\LeftHandPinky2\\LeftHandPinky3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1\\LeftHandPinky2\\LeftHandPinky3\\LeftHandPinky4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1\\LeftHandIndex2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1\\LeftHandIndex2\\LeftHandIndex3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1\\LeftHandIndex2\\LeftHandIndex3\\LeftHandIndex4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1\\LeftHandThumb2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1\\LeftHandThumb2\\LeftHandThumb3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1\\LeftHandThumb2\\LeftHandThumb3\\LeftHandThumb4" -r;select "Jess\\Solving\\Hips\\RightUpLeg" -r;select "Jess\\Solving\\Hips\\RightUpLeg\\RightLeg" -r;select "Jess\\Solving\\Hips\\RightUpLeg\\RightLeg\\RightFoot" -r;select "Jess\\Solving\\Hips\\RightUpLeg\\RightLeg\\RightFoot\\RightToeBase" -r;select "RightToeBaseEnd" -r;select "Jess\\Solving\\Hips\\LeftUpLeg" -r;select "Jess\\Solving\\Hips\\LeftUpLeg\\LeftLeg" -r;select "Jess\\Solving\\Hips\\LeftUpLeg\\LeftLeg\\LeftFoot" -r;select "Jess\\Solving\\Hips\\LeftUpLeg\\LeftLeg\\LeftFoot\\LeftToeBase" -r;select "LeftToeBaseEnd" -r;select "Jess\\Solving\\Position\\LFHD_Head" -r;select "Jess\\Solving\\Position\\LBHD_Head" -r;select "Jess\\Solving\\Position\\RFHD_Head" -r;select "Jess\\Solving\\Position\\RBHD_Head" -r;select "C7_Spine3" -r;select "T10_Spine3" -r;select "LT10_Spine3" -r;select "RT10_Spine3" -r;select "CLAV_Spine3" -r;select "STRN_Spine3" -r;select "Jess\\Solving\\Position\\LFSH_LeftShoulder" -r;select "Jess\\Solving\\Position\\LTSH_LeftShoulder" -r;select "Jess\\Solving\\Position\\LBSH_LeftShoulder" -r;select "Jess\\Solving\\Position\\LUPA_LeftArm" -r;select "Jess\\Solving\\Position\\LELB_LeftArm" -r;select "Jess\\Solving\\Position\\LBEL_LeftArm" -r;select "Jess\\Solving\\Position\\LWRE_LeftForeArm" -r;select "Jess\\Solving\\Position\\LIWR_LeftForeArm" -r;select "Jess\\Solving\\Position\\LOWR_LeftForeArm" -r;select "Jess\\Solving\\Position\\LeftHandIndex_LMCP22" -r;select "Jess\\Solving\\Position\\LeftHandPinky_LMCP52" -r;select "Jess\\Solving\\Position\\LeftHandThumb2_LTMBP2" -r;select "Jess\\Solving\\Position\\LeftHandThumb3_LTMBD2" -r;select "Jess\\Solving\\Position\\LeftHandIndex2_LIDXM2" -r;select "Jess\\Solving\\Position\\LeftHandIndex3_LIDXD2" -r;select "Jess\\Solving\\Position\\LeftHandMiddle1_LMFRP2" -r;select "Jess\\Solving\\Position\\LeftHandMiddle3_LMFRD2" -r;select "Jess\\Solving\\Position\\LeftHandRing2_LRFRM2" -r;select "Jess\\Solving\\Position\\LeftHandRing3_LRFRD2" -r;select "Jess\\Solving\\Position\\LeftHandPinky2_LLFRM2" -r;select "Jess\\Solving\\Position\\LeftHandPinky3_LLFRD2" -r;select "Jess\\Solving\\Position\\RFSH_RightShoulder" -r;select "Jess\\Solving\\Position\\RTSH_RightShoulder" -r;select "Jess\\Solving\\Position\\RBSH_RightShoulder" -r;select "Jess\\Solving\\Position\\RUPA_RightArm" -r;select "Jess\\Solving\\Position\\RELB_RightArm" -r;select "Jess\\Solving\\Position\\RBEL_RightArm" -r;select "Jess\\Solving\\Position\\RWRE_RightForeArm" -r;select "Jess\\Solving\\Position\\RIWR_RightForeArm" -r;select "Jess\\Solving\\Position\\ROWR_RightForeArm" -r;select "Jess\\Solving\\Position\\RightHandIndex_RMCP22" -r;select "Jess\\Solving\\Position\\RightHandPinky_RMCP52" -r;select "Jess\\Solving\\Position\\RightHandThumb2_RTMBP2" -r;select "Jess\\Solving\\Position\\RightHandThumb3_RTMBD2" -r;select "Jess\\Solving\\Position\\RightHandIndex2_RIDXM2" -r;select "Jess\\Solving\\Position\\RightHandIndex3_RIDXD2" -r;select "Jess\\Solving\\Position\\RightHandMiddle1_RMFRP2" -r;select "Jess\\Solving\\Position\\RightHandMiddle3_RMFRD2" -r;select "Jess\\Solving\\Position\\RightHandRing2_RRFRM2" -r;select "Jess\\Solving\\Position\\RightHandRing3_RRFRD2" -r;select "Jess\\Solving\\Position\\RightHandPinky2_RLFRM2" -r;select "Jess\\Solving\\Position\\RightHandPinky3_RLFRD2" -r;select "Jess\\Solving\\Position\\LFWT_Hips" -r;select "Jess\\Solving\\Position\\LMWT_Hips" -r;select "Jess\\Solving\\Position\\LBWT_Hips" -r;select "Jess\\Solving\\Position\\RFWT_Hips" -r;select "Jess\\Solving\\Position\\RMWT_Hips" -r;select "Jess\\Solving\\Position\\RBWT_Hips" -r;select "Jess\\Solving\\Position\\LHIP_LeftUpLeg" -r;select "Jess\\Solving\\Position\\LKNE_LeftUpLeg" -r;select "Jess\\Solving\\Position\\LKNU_LeftUpLeg" -r;select "Jess\\Solving\\Position\\LSHN_LeftLeg" -r;select "Jess\\Solving\\Position\\LANK_LeftLeg" -r;select "Jess\\Solving\\Position\\LHEL_LeftFoot" -r;select "Jess\\Solving\\Position\\LMT5_LeftFoot" -r;select "Jess\\Solving\\Position\\LMT1_LeftFoot" -r;select "Jess\\Solving\\Position\\LTOE_LeftToeBase" -r;select "Jess\\Solving\\Position\\RHIP_RightUpLeg" -r;select "Jess\\Solving\\Position\\RKNE_RightUpLeg" -r;select "Jess\\Solving\\Position\\RKNU_RightUpLeg" -r;select "Jess\\Solving\\Position\\RSHN_RightLeg" -r;select "Jess\\Solving\\Position\\RANK_RightLeg" -r;select "Jess\\Solving\\Position\\RHEL_RightFoot" -r;select "Jess\\Solving\\Position\\RMT5_RightFoot" -r;select "Jess\\Solving\\Position\\RMT1_RightFoot" -r;select "Jess\\Solving\\Position\\RTOE_RightToeBase" -r;
+select "Retargeting" -r;select "Jess" -r;select "root" -r;select "pelvis" -r;select "spine_01" -r;select "spine_02" -r;select "spine_03" -r;select "spine_04" -r;select "spine_05" -r;select "neck_01" -r;select "neck_02" -r;select "head" -r;select "clavicle_l" -r;select "upperarm_l" -r;select "lowerarm_l" -r;select "lowerarm_twist_02_l" -r;select "lowerarm_twist_01_l" -r;select "hand_l" -r;select "index_metacarpal_l" -r;select "index_01_l" -r;select "index_02_l" -r;select "index_03_l" -r;select "middle_metacarpal_l" -r;select "middle_01_l" -r;select "middle_02_l" -r;select "middle_03_l" -r;select "thumb_01_l" -r;select "thumb_02_l" -r;select "thumb_03_l" -r;select "pinky_metacarpal_l" -r;select "pinky_01_l" -r;select "pinky_02_l" -r;select "pinky_03_l" -r;select "ring_metacarpal_l" -r;select "ring_01_l" -r;select "ring_02_l" -r;select "ring_03_l" -r;select "upperarm_twist_01_l" -r;select "upperarm_twist_02_l" -r;select "clavicle_r" -r;select "upperarm_r" -r;select "lowerarm_r" -r;select "lowerarm_twist_02_r" -r;select "lowerarm_twist_01_r" -r;select "hand_r" -r;select "pinky_metacarpal_r" -r;select "pinky_01_r" -r;select "pinky_02_r" -r;select "pinky_03_r" -r;select "ring_metacarpal_r" -r;select "ring_01_r" -r;select "ring_02_r" -r;select "ring_03_r" -r;select "middle_metacarpal_r" -r;select "middle_01_r" -r;select "middle_02_r" -r;select "middle_03_r" -r;select "index_metacarpal_r" -r;select "index_01_r" -r;select "index_02_r" -r;select "index_03_r" -r;select "thumb_01_r" -r;select "thumb_02_r" -r;select "thumb_03_r" -r;select "upperarm_twist_01_r" -r;select "upperarm_twist_02_r" -r;select "thigh_r" -r;select "calf_r" -r;select "foot_r" -r;select "ball_r" -r;select "calf_twist_02_r" -r;select "calf_twist_01_r" -r;select "thigh_twist_01_r" -r;select "thigh_twist_02_r" -r;select "thigh_l" -r;select "calf_l" -r;select "foot_l" -r;select "ball_l" -r;select "calf_twist_02_l" -r;select "calf_twist_01_l" -r;select "thigh_twist_01_l" -r;select "thigh_twist_02_l" -r;select "ik_foot_root" -r;select "ik_foot_l" -r;select "ik_foot_r" -r;select "ik_hand_root" -r;select "ik_hand_gun" -r;select "ik_hand_l" -r;select "ik_hand_r" -r;select "interaction" -r;select "center_of_mass" -r;select "Jess\\Retargeting\\Position\\Hips_pelvis" -r;select "Jess\\Retargeting\\Position\\LeftFoot_foot_l" -r;select "Jess\\Retargeting\\Position\\RightFoot_foot_r" -r;select "Jess\\Retargeting\\Position\\LeftHand_hand_l" -r;select "Jess\\Retargeting\\Position\\RightHand_hand_r" -r;select "Jess\\Retargeting\\Rotation\\Hips_pelvis" -r;select "LeftUpLeg_thigh_l" -r;select "RightUpLeg_thigh_r" -r;select "LeftLeg_calf_l" -r;select "RightLeg_calf_r" -r;select "Jess\\Retargeting\\Rotation\\LeftFoot_foot_l" -r;select "Jess\\Retargeting\\Rotation\\RightFoot_foot_r" -r;select "LeftToeBase_ball_l" -r;select "RightToeBase_ball_r" -r;select "Spine_spine_01" -r;select "Spine1_spine_02" -r;select "Spine1_spine_03" -r;select "Spine2_spine_04" -r;select "Spine3_spine_05" -r;select "Neck_neck_01" -r;select "Neck1_neck_02" -r;select "Head_head" -r;select "LeftShoulder_clavicle_l" -r;select "RightShoulder_clavicle_r" -r;select "LeftArm_upperarm_l" -r;select "RightArm_upperarm_r" -r;select "LeftForeArm_lowerarm_l" -r;select "RightForeArm_lowerarm_r" -r;select "Jess\\Retargeting\\Rotation\\LeftHand_hand_l" -r;select "Jess\\Retargeting\\Rotation\\RightHand_hand_r" -r;select "LeftHandIndex_index_metacarpal_l" -r;select "RightHandIndex_index_metacarpal_r" -r;select "LeftHand_middle_metacarpal_l" -r;select "RightHand_middle_metacarpal_r" -r;select "LeftHandRing_ring_metacarpal_l" -r;select "RightHandRing_ring_metacarpal_r" -r;select "LeftHandPinky_pinky_metacarpal_l" -r;select "RightHandPinky_pinky_metacarpal_r" -r;select "LeftHandIndex1_index_01_l" -r;select "RightHandIndex1_index_01_r" -r;select "LeftHandMiddle1_middle_01_l" -r;select "RightHandMiddle1_middle_01_r" -r;select "LeftHandRing1_ring_01_l" -r;select "RightHandRing1_ring_01_r" -r;select "LeftHandPinky1_pinky_01_l" -r;select "RightHandPinky1_pinky_01_r" -r;select "LeftHandIndex2_index_02_l" -r;select "RightHandIndex2_index_02_r" -r;select "LeftHandMiddle2_middle_02_l" -r;select "RightHandMiddle2_middle_02_r" -r;select "LeftHandRing2_ring_02_l" -r;select "RightHandRing2_ring_02_r" -r;select "LeftHandPinky2_pinky_02_l" -r;select "RightHandPinky2_pinky_02_r" -r;select "LeftHandIndex3_index_03_l" -r;select "RightHandIndex3_index_03_r" -r;select "LeftHandMiddle3_middle_03_l" -r;select "RightHandMiddle3_middle_03_r" -r;select "LeftHandRing3_ring_03_l" -r;select "RightHandRing3_ring_03_r" -r;select "LeftHandPinky3_pinky_03_l" -r;select "RightHandPinky3_pinky_03_r" -r;select "LeftHandThumb1_thumb_01_l" -r;select "RightHandThumb1_thumb_01_r" -r;select "LeftHandThumb2_thumb_02_l" -r;select "RightHandThumb2_thumb_02_r" -r;select "LeftHandThumb3_thumb_03_l" -r;select "RightHandThumb3_thumb_03_r" -r;select "Labeling_8" -r;select "Jess\\Labeling_8\\Hips" -r;select "Jess\\Labeling_8\\Hips\\Spine" -r;select "Jess\\Labeling_8\\Hips\\Spine\\Tom_cluster" -r;select "Jess\\Labeling_8\\Hips\\Spine\\Head" -r;select "Head_End" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1\\LeftHandMiddle2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1\\LeftHandMiddle2\\LeftHandMiddle3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1\\LeftHandMiddle2\\LeftHandMiddle3\\LeftHandMiddle4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1\\LeftHandRing2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1\\LeftHandRing2\\LeftHandRing3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1\\LeftHandRing2\\LeftHandRing3\\LeftHandRing4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1\\LeftHandPinky2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1\\LeftHandPinky2\\LeftHandPinky3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1\\LeftHandPinky2\\LeftHandPinky3\\LeftHandPinky4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1\\LeftHandIndex2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1\\LeftHandIndex2\\LeftHandIndex3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1\\LeftHandIndex2\\LeftHandIndex3\\LeftHandIndex4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1\\LeftHandThumb2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1\\LeftHandThumb2\\LeftHandThumb3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1\\LeftHandThumb2\\LeftHandThumb3\\LeftHandThumb4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1\\RightHandMiddle2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1\\RightHandMiddle2\\RightHandMiddle3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1\\RightHandMiddle2\\RightHandMiddle3\\RightHandMiddle4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1\\RightHandRing2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1\\RightHandRing2\\RightHandRing3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1\\RightHandRing2\\RightHandRing3\\RightHandRing4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1\\RightHandPinky2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1\\RightHandPinky2\\RightHandPinky3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1\\RightHandPinky2\\RightHandPinky3\\RightHandPinky4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1\\RightHandIndex2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1\\RightHandIndex2\\RightHandIndex3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1\\RightHandIndex2\\RightHandIndex3\\RightHandIndex4" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1\\RightHandThumb2" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1\\RightHandThumb2\\RightHandThumb3" -r;select "Jess\\Labeling_8\\Hips\\Spine\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1\\RightHandThumb2\\RightHandThumb3\\RightHandThumb4" -r;select "Jess\\Labeling_8\\Hips\\LeftUpLeg" -r;select "Jess\\Labeling_8\\Hips\\LeftUpLeg\\LeftLeg" -r;select "Jess\\Labeling_8\\Hips\\LeftUpLeg\\LeftLeg\\LeftFoot" -r;select "Jess\\Labeling_8\\Hips\\LeftUpLeg\\LeftLeg\\LeftFoot\\LeftToeBase" -r;select "LeftToeEnd" -r;select "Jess\\Labeling_8\\Hips\\RightUpLeg" -r;select "Jess\\Labeling_8\\Hips\\RightUpLeg\\RightLeg" -r;select "Jess\\Labeling_8\\Hips\\RightUpLeg\\RightLeg\\RightFoot" -r;select "Jess\\Labeling_8\\Hips\\RightUpLeg\\RightLeg\\RightFoot\\RightToeBase" -r;select "RightToeEnd" -r;select "ARIEL_Head" -r;select "Jess\\Labeling_8\\Position\\LFHD_Head" -r;select "Jess\\Labeling_8\\Position\\LBHD_Head" -r;select "Jess\\Labeling_8\\Position\\RFHD_Head" -r;select "Jess\\Labeling_8\\Position\\RBHD_Head" -r;select "C7_Spine" -r;select "T10_Spine" -r;select "LT10_Spine" -r;select "RT10_Spine" -r;select "CLAV_Spine" -r;select "STRN_Spine" -r;select "Jess\\Labeling_8\\Position\\LFSH_LeftShoulder" -r;select "Jess\\Labeling_8\\Position\\LTSH_LeftShoulder" -r;select "Jess\\Labeling_8\\Position\\LBSH_LeftShoulder" -r;select "Jess\\Labeling_8\\Position\\LUPA_LeftArm" -r;select "Jess\\Labeling_8\\Position\\LELB_LeftArm" -r;select "Jess\\Labeling_8\\Position\\LBEL_LeftArm" -r;select "Jess\\Labeling_8\\Position\\LWRE_LeftForeArm" -r;select "Jess\\Labeling_8\\Position\\LIWR_LeftForeArm" -r;select "Jess\\Labeling_8\\Position\\LOWR_LeftForeArm" -r;select "Jess\\Labeling_8\\Position\\LeftHandIndex_LMCP22" -r;select "Jess\\Labeling_8\\Position\\LeftHandPinky_LMCP52" -r;select "Jess\\Labeling_8\\Position\\LeftHandThumb2_LTMBP2" -r;select "Jess\\Labeling_8\\Position\\LeftHandThumb3_LTMBD2" -r;select "Jess\\Labeling_8\\Position\\LeftHandIndex2_LIDXM2" -r;select "Jess\\Labeling_8\\Position\\LeftHandIndex3_LIDXD2" -r;select "Jess\\Labeling_8\\Position\\LeftHandMiddle1_LMFRP2" -r;select "Jess\\Labeling_8\\Position\\LeftHandMiddle3_LMFRD2" -r;select "Jess\\Labeling_8\\Position\\LeftHandRing2_LRFRM2" -r;select "Jess\\Labeling_8\\Position\\LeftHandRing3_LRFRD2" -r;select "Jess\\Labeling_8\\Position\\LeftHandPinky2_LLFRM2" -r;select "Jess\\Labeling_8\\Position\\LeftHandPinky3_LLFRD2" -r;select "Jess\\Labeling_8\\Position\\RFSH_RightShoulder" -r;select "Jess\\Labeling_8\\Position\\RTSH_RightShoulder" -r;select "Jess\\Labeling_8\\Position\\RBSH_RightShoulder" -r;select "Jess\\Labeling_8\\Position\\RUPA_RightArm" -r;select "Jess\\Labeling_8\\Position\\RELB_RightArm" -r;select "Jess\\Labeling_8\\Position\\RBEL_RightArm" -r;select "Jess\\Labeling_8\\Position\\RWRE_RightForeArm" -r;select "Jess\\Labeling_8\\Position\\RIWR_RightForeArm" -r;select "Jess\\Labeling_8\\Position\\ROWR_RightForeArm" -r;select "Jess\\Labeling_8\\Position\\RightHandIndex_RMCP22" -r;select "Jess\\Labeling_8\\Position\\RightHandPinky_RMCP52" -r;select "Jess\\Labeling_8\\Position\\RightHandThumb2_RTMBP2" -r;select "Jess\\Labeling_8\\Position\\RightHandThumb3_RTMBD2" -r;select "Jess\\Labeling_8\\Position\\RightHandIndex2_RIDXM2" -r;select "Jess\\Labeling_8\\Position\\RightHandIndex3_RIDXD2" -r;select "Jess\\Labeling_8\\Position\\RightHandMiddle1_RMFRP2" -r;select "Jess\\Labeling_8\\Position\\RightHandMiddle3_RMFRD2" -r;select "Jess\\Labeling_8\\Position\\RightHandRing2_RRFRM2" -r;select "Jess\\Labeling_8\\Position\\RightHandRing3_RRFRD2" -r;select "Jess\\Labeling_8\\Position\\RightHandPinky2_RLFRM2" -r;select "Jess\\Labeling_8\\Position\\RightHandPinky3_RLFRD2" -r;select "Jess\\Labeling_8\\Position\\LFWT_Hips" -r;select "Jess\\Labeling_8\\Position\\LMWT_Hips" -r;select "Jess\\Labeling_8\\Position\\LBWT_Hips" -r;select "Jess\\Labeling_8\\Position\\RFWT_Hips" -r;select "Jess\\Labeling_8\\Position\\RMWT_Hips" -r;select "Jess\\Labeling_8\\Position\\RBWT_Hips" -r;select "Jess\\Labeling_8\\Position\\LHIP_LeftUpLeg" -r;select "Jess\\Labeling_8\\Position\\LKNE_LeftUpLeg" -r;select "Jess\\Labeling_8\\Position\\LKNU_LeftUpLeg" -r;select "Jess\\Labeling_8\\Position\\LSHN_LeftLeg" -r;select "Jess\\Labeling_8\\Position\\LANK_LeftLeg" -r;select "Jess\\Labeling_8\\Position\\LHEL_LeftFoot" -r;select "Jess\\Labeling_8\\Position\\LMT5_LeftFoot" -r;select "Jess\\Labeling_8\\Position\\LMT1_LeftFoot" -r;select "Jess\\Labeling_8\\Position\\LTOE_LeftToeBase" -r;select "Jess\\Labeling_8\\Position\\RHIP_RightUpLeg" -r;select "Jess\\Labeling_8\\Position\\RKNE_RightUpLeg" -r;select "Jess\\Labeling_8\\Position\\RKNU_RightUpLeg" -r;select "Jess\\Labeling_8\\Position\\RSHN_RightLeg" -r;select "Jess\\Labeling_8\\Position\\RANK_RightLeg" -r;select "Jess\\Labeling_8\\Position\\RHEL_RightFoot" -r;select "Jess\\Labeling_8\\Position\\RMT5_RightFoot" -r;select "Jess\\Labeling_8\\Position\\RMT1_RightFoot" -r;select "Jess\\Labeling_8\\Position\\RTOE_RightToeBase" -r;select "ARIEL" -r;select "LFHD" -r;select "LBHD" -r;select "RFHD" -r;select "RBHD" -r;select "C7" -r;select "T10" -r;select "LT10" -r;select "RT10" -r;select "CLAV" -r;select "STRN" -r;select "LFSH" -r;select "LTSH" -r;select "LBSH" -r;select "LUPA" -r;select "LELB" -r;select "LBEL" -r;select "LFRM" -r;select "LIWR" -r;select "LOWR" -r;select "LIHAND" -r;select "LOHAND" -r;select "LTHM3" -r;select "LTHM6" -r;select "LIDX3" -r;select "LIDX6" -r;select "LMID0" -r;select "LMID6" -r;select "LRNG3" -r;select "LRNG6" -r;select "LPNK3" -r;select "LPNK6" -r;select "RFSH" -r;select "RTSH" -r;select "RBSH" -r;select "RUPA" -r;select "RELB" -r;select "RBEL" -r;select "RFRM" -r;select "RIWR" -r;select "ROWR" -r;select "RIHAND" -r;select "ROHAND" -r;select "RTHM3" -r;select "RTHM6" -r;select "RIDX3" -r;select "RIDX6" -r;select "RMID0" -r;select "RMID6" -r;select "RRNG3" -r;select "RRNG6" -r;select "RPNK3" -r;select "RPNK6" -r;select "LFWT" -r;select "LMWT" -r;select "LBWT" -r;select "RFWT" -r;select "RMWT" -r;select "RBWT" -r;select "LTHI" -r;select "LKNE" -r;select "LKNU" -r;select "LSHN" -r;select "LANK" -r;select "LHEL" -r;select "LMT5" -r;select "LMT1" -r;select "LTOE" -r;select "RTHI" -r;select "RKNE" -r;select "RKNU" -r;select "RSHN" -r;select "RANK" -r;select "RHEL" -r;select "RMT5" -r;select "RMT1" -r;select "RTOE" -r;select "Tom_cluster_LCM_1" -r;select "Tom_cluster_LCM_2" -r;select "Tom_cluster_LCM_3" -r;select "Tom_cluster_LCM_4" -r;select "Tom_cluster_LCM_5" -r;select "Solving" -r;select "Jess\\Solving\\Hips" -r;select "Jess\\Solving\\Hips\\Spine" -r;select "Spine1" -r;select "Spine2" -r;select "Spine3" -r;select "Neck" -r;select "Neck1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\Neck\\Neck1\\Head" -r;select "HeadEnd" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1\\RightHandMiddle2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1\\RightHandMiddle2\\RightHandMiddle3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandMiddle1\\RightHandMiddle2\\RightHandMiddle3\\RightHandMiddle4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1\\RightHandRing2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1\\RightHandRing2\\RightHandRing3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandRing1\\RightHandRing2\\RightHandRing3\\RightHandRing4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1\\RightHandPinky2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1\\RightHandPinky2\\RightHandPinky3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandRing\\RightHandPinky\\RightHandPinky1\\RightHandPinky2\\RightHandPinky3\\RightHandPinky4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1\\RightHandIndex2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1\\RightHandIndex2\\RightHandIndex3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandIndex1\\RightHandIndex2\\RightHandIndex3\\RightHandIndex4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1\\RightHandThumb2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1\\RightHandThumb2\\RightHandThumb3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand\\RightHandIndex\\RightHandThumb1\\RightHandThumb2\\RightHandThumb3\\RightHandThumb4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1\\LeftHandMiddle2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1\\LeftHandMiddle2\\LeftHandMiddle3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandMiddle1\\LeftHandMiddle2\\LeftHandMiddle3\\LeftHandMiddle4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1\\LeftHandRing2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1\\LeftHandRing2\\LeftHandRing3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandRing1\\LeftHandRing2\\LeftHandRing3\\LeftHandRing4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1\\LeftHandPinky2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1\\LeftHandPinky2\\LeftHandPinky3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandRing\\LeftHandPinky\\LeftHandPinky1\\LeftHandPinky2\\LeftHandPinky3\\LeftHandPinky4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1\\LeftHandIndex2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1\\LeftHandIndex2\\LeftHandIndex3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandIndex1\\LeftHandIndex2\\LeftHandIndex3\\LeftHandIndex4" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1\\LeftHandThumb2" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1\\LeftHandThumb2\\LeftHandThumb3" -r;select "Jess\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand\\LeftHandIndex\\LeftHandThumb1\\LeftHandThumb2\\LeftHandThumb3\\LeftHandThumb4" -r;select "Jess\\Solving\\Hips\\RightUpLeg" -r;select "Jess\\Solving\\Hips\\RightUpLeg\\RightLeg" -r;select "Jess\\Solving\\Hips\\RightUpLeg\\RightLeg\\RightFoot" -r;select "Jess\\Solving\\Hips\\RightUpLeg\\RightLeg\\RightFoot\\RightToeBase" -r;select "RightToeBaseEnd" -r;select "Jess\\Solving\\Hips\\LeftUpLeg" -r;select "Jess\\Solving\\Hips\\LeftUpLeg\\LeftLeg" -r;select "Jess\\Solving\\Hips\\LeftUpLeg\\LeftLeg\\LeftFoot" -r;select "Jess\\Solving\\Hips\\LeftUpLeg\\LeftLeg\\LeftFoot\\LeftToeBase" -r;select "LeftToeBaseEnd" -r;select "Jess\\Solving\\Position\\LFHD_Head" -r;select "Jess\\Solving\\Position\\LBHD_Head" -r;select "Jess\\Solving\\Position\\RFHD_Head" -r;select "Jess\\Solving\\Position\\RBHD_Head" -r;select "C7_Spine3" -r;select "T10_Spine3" -r;select "LT10_Spine3" -r;select "RT10_Spine3" -r;select "CLAV_Spine3" -r;select "STRN_Spine3" -r;select "Jess\\Solving\\Position\\LFSH_LeftShoulder" -r;select "Jess\\Solving\\Position\\LTSH_LeftShoulder" -r;select "Jess\\Solving\\Position\\LBSH_LeftShoulder" -r;select "Jess\\Solving\\Position\\LUPA_LeftArm" -r;select "Jess\\Solving\\Position\\LELB_LeftArm" -r;select "Jess\\Solving\\Position\\LBEL_LeftArm" -r;select "Jess\\Solving\\Position\\LWRE_LeftForeArm" -r;select "Jess\\Solving\\Position\\LIWR_LeftForeArm" -r;select "Jess\\Solving\\Position\\LOWR_LeftForeArm" -r;select "Jess\\Solving\\Position\\LeftHandIndex_LMCP22" -r;select "Jess\\Solving\\Position\\LeftHandPinky_LMCP52" -r;select "Jess\\Solving\\Position\\LeftHandThumb2_LTMBP2" -r;select "Jess\\Solving\\Position\\LeftHandThumb3_LTMBD2" -r;select "Jess\\Solving\\Position\\LeftHandIndex2_LIDXM2" -r;select "Jess\\Solving\\Position\\LeftHandIndex3_LIDXD2" -r;select "Jess\\Solving\\Position\\LeftHandMiddle1_LMFRP2" -r;select "Jess\\Solving\\Position\\LeftHandMiddle3_LMFRD2" -r;select "Jess\\Solving\\Position\\LeftHandRing2_LRFRM2" -r;select "Jess\\Solving\\Position\\LeftHandRing3_LRFRD2" -r;select "Jess\\Solving\\Position\\LeftHandPinky2_LLFRM2" -r;select "Jess\\Solving\\Position\\LeftHandPinky3_LLFRD2" -r;select "Jess\\Solving\\Position\\RFSH_RightShoulder" -r;select "Jess\\Solving\\Position\\RTSH_RightShoulder" -r;select "Jess\\Solving\\Position\\RBSH_RightShoulder" -r;select "Jess\\Solving\\Position\\RUPA_RightArm" -r;select "Jess\\Solving\\Position\\RELB_RightArm" -r;select "Jess\\Solving\\Position\\RBEL_RightArm" -r;select "Jess\\Solving\\Position\\RWRE_RightForeArm" -r;select "Jess\\Solving\\Position\\RIWR_RightForeArm" -r;select "Jess\\Solving\\Position\\ROWR_RightForeArm" -r;select "Jess\\Solving\\Position\\RightHandIndex_RMCP22" -r;select "Jess\\Solving\\Position\\RightHandPinky_RMCP52" -r;select "Jess\\Solving\\Position\\RightHandThumb2_RTMBP2" -r;select "Jess\\Solving\\Position\\RightHandThumb3_RTMBD2" -r;select "Jess\\Solving\\Position\\RightHandIndex2_RIDXM2" -r;select "Jess\\Solving\\Position\\RightHandIndex3_RIDXD2" -r;select "Jess\\Solving\\Position\\RightHandMiddle1_RMFRP2" -r;select "Jess\\Solving\\Position\\RightHandMiddle3_RMFRD2" -r;select "Jess\\Solving\\Position\\RightHandRing2_RRFRM2" -r;select "Jess\\Solving\\Position\\RightHandRing3_RRFRD2" -r;select "Jess\\Solving\\Position\\RightHandPinky2_RLFRM2" -r;select "Jess\\Solving\\Position\\RightHandPinky3_RLFRD2" -r;select "Jess\\Solving\\Position\\LFWT_Hips" -r;select "Jess\\Solving\\Position\\LMWT_Hips" -r;select "Jess\\Solving\\Position\\LBWT_Hips" -r;select "Jess\\Solving\\Position\\RFWT_Hips" -r;select "Jess\\Solving\\Position\\RMWT_Hips" -r;select "Jess\\Solving\\Position\\RBWT_Hips" -r;select "Jess\\Solving\\Position\\LHIP_LeftUpLeg" -r;select "Jess\\Solving\\Position\\LKNE_LeftUpLeg" -r;select "Jess\\Solving\\Position\\LKNU_LeftUpLeg" -r;select "Jess\\Solving\\Position\\LSHN_LeftLeg" -r;select "Jess\\Solving\\Position\\LANK_LeftLeg" -r;select "Jess\\Solving\\Position\\LHEL_LeftFoot" -r;select "Jess\\Solving\\Position\\LMT5_LeftFoot" -r;select "Jess\\Solving\\Position\\LMT1_LeftFoot" -r;select "Jess\\Solving\\Position\\LTOE_LeftToeBase" -r;select "Jess\\Solving\\Position\\RHIP_RightUpLeg" -r;select "Jess\\Solving\\Position\\RKNE_RightUpLeg" -r;select "Jess\\Solving\\Position\\RKNU_RightUpLeg" -r;select "Jess\\Solving\\Position\\RSHN_RightLeg" -r;select "Jess\\Solving\\Position\\RANK_RightLeg" -r;select "Jess\\Solving\\Position\\RHEL_RightFoot" -r;select "Jess\\Solving\\Position\\RMT5_RightFoot" -r;select "Jess\\Solving\\Position\\RMT1_RightFoot" -r;select "Jess\\Solving\\Position\\RTOE_RightToeBase" -r;
+select "Jess" -a;
+select "Jess" -a;
+select "Retargeting";
+select "Retargeting";
+select "Solving";
+select "Solving";
+select "Labeling_8";
+select "Labeling_8";
+select "ARIEL" "LFHD" "LBHD" "RFHD" "RBHD" "C7" "T10" "LT10" "RT10" "CLAV" "STRN" "LFSH" "LTSH" "LBSH" "LUPA" "LELB" "LBEL" "LFRM" "LIWR" "LOWR" "LIHAND" "LOHAND" "LTHM3" "LTHM6" "LIDX3" "LIDX6" "LMID0" "LMID6" "LRNG3" "LRNG6" "LPNK3" "LPNK6" "RFSH" "RTSH" "RBSH" "RUPA" "RELB" "RBEL" "RFRM" "RIWR" "ROWR" "RIHAND" "ROHAND" "RTHM3" "RTHM6" "RIDX3" "RIDX6" "RMID0" "RMID6" "RRNG3" "RRNG6" "RPNK3" "RPNK6" "LFWT" "LMWT" "LBWT" "RFWT" "RMWT" "RBWT" "LTHI" "LKNE" "LKNU" "LSHN" "LANK" "LHEL" "LMT5" "LMT1" "LTOE" "RTHI" "RKNE" "RKNU" "RSHN" "RANK" "RHEL" "RMT5" "RMT1" "RTOE" "Tom_cluster_LCM_1" "Tom_cluster_LCM_2" "Tom_cluster_LCM_3" "Tom_cluster_LCM_4" "Tom_cluster_LCM_5" ;
+select "ARIEL" -r;select "LFHD" -r;select "LBHD" -r;select "RFHD" -r;select "RBHD" -r;select "C7" -r;select "T10" -r;select "LT10" -r;select "RT10" -r;select "CLAV" -r;select "STRN" -r;select "LFSH" -r;select "LTSH" -r;select "LBSH" -r;select "LUPA" -r;select "LELB" -r;select "LBEL" -r;select "LFRM" -r;select "LIWR" -r;select "LOWR" -r;select "LIHAND" -r;select "LOHAND" -r;select "LTHM3" -r;select "LTHM6" -r;select "LIDX3" -r;select "LIDX6" -r;select "LMID0" -r;select "LMID6" -r;select "LRNG3" -r;select "LRNG6" -r;select "LPNK3" -r;select "LPNK6" -r;select "RFSH" -r;select "RTSH" -r;select "RBSH" -r;select "RUPA" -r;select "RELB" -r;select "RBEL" -r;select "RFRM" -r;select "RIWR" -r;select "ROWR" -r;select "RIHAND" -r;select "ROHAND" -r;select "RTHM3" -r;select "RTHM6" -r;select "RIDX3" -r;select "RIDX6" -r;select "RMID0" -r;select "RMID6" -r;select "RRNG3" -r;select "RRNG6" -r;select "RPNK3" -r;select "RPNK6" -r;select "LFWT" -r;select "LMWT" -r;select "LBWT" -r;select "RFWT" -r;select "RMWT" -r;select "RBWT" -r;select "LTHI" -r;select "LKNE" -r;select "LKNU" -r;select "LSHN" -r;select "LANK" -r;select "LHEL" -r;select "LMT5" -r;select "LMT1" -r;select "LTOE" -r;select "RTHI" -r;select "RKNE" -r;select "RKNU" -r;select "RSHN" -r;select "RANK" -r;select "RHEL" -r;select "RMT5" -r;select "RMT1" -r;select "RTOE" -r;select "Tom_cluster_LCM_1" -r;select "Tom_cluster_LCM_2" -r;select "Tom_cluster_LCM_3" -r;select "Tom_cluster_LCM_4" -r;select "Tom_cluster_LCM_5" -r;
+select "ARIEL" -r;select "LFHD" -r;select "LBHD" -r;select "RFHD" -r;select "RBHD" -r;select "C7" -r;select "T10" -r;select "LT10" -r;select "RT10" -r;select "CLAV" -r;select "STRN" -r;select "LFSH" -r;select "LTSH" -r;select "LBSH" -r;select "LUPA" -r;select "LELB" -r;select "LBEL" -r;select "LFRM" -r;select "LIWR" -r;select "LOWR" -r;select "LIHAND" -r;select "LOHAND" -r;select "LTHM3" -r;select "LTHM6" -r;select "LIDX3" -r;select "LIDX6" -r;select "LMID0" -r;select "LMID6" -r;select "LRNG3" -r;select "LRNG6" -r;select "LPNK3" -r;select "LPNK6" -r;select "RFSH" -r;select "RTSH" -r;select "RBSH" -r;select "RUPA" -r;select "RELB" -r;select "RBEL" -r;select "RFRM" -r;select "RIWR" -r;select "ROWR" -r;select "RIHAND" -r;select "ROHAND" -r;select "RTHM3" -r;select "RTHM6" -r;select "RIDX3" -r;select "RIDX6" -r;select "RMID0" -r;select "RMID6" -r;select "RRNG3" -r;select "RRNG6" -r;select "RPNK3" -r;select "RPNK6" -r;select "LFWT" -r;select "LMWT" -r;select "LBWT" -r;select "RFWT" -r;select "RMWT" -r;select "RBWT" -r;select "LTHI" -r;select "LKNE" -r;select "LKNU" -r;select "LSHN" -r;select "LANK" -r;select "LHEL" -r;select "LMT5" -r;select "LMT1" -r;select "LTOE" -r;select "RTHI" -r;select "RKNE" -r;select "RKNU" -r;select "RSHN" -r;select "RANK" -r;select "RHEL" -r;select "RMT5" -r;select "RMT1" -r;select "RTOE" -r;select "Tom_cluster_LCM_1" -r;select "Tom_cluster_LCM_2" -r;select "Tom_cluster_LCM_3" -r;select "Tom_cluster_LCM_4" -r;select "Tom_cluster_LCM_5" -r;
+select "Jess" -a;
+select "Jess" -a;
+select "Retargeting";
+select "Retargeting";
+SelectChildren_Add_All;
+saveFile -s "G:/My Drive/mocap 17-02-2026/1-airport/take1/exported/actors/retargeted/jes_retarget.mcp";
+ll;
+

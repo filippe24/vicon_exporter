@@ -1,0 +1,12 @@
+from pathlib import Path
+from configuration.settings import LOCAL_PATH_TO_MODEL
+
+def generate_retarget_hsl(actor_source_path: Path, output_path: Path):
+    template = Path("hsl/retarget_template.hsl").read_text()
+
+    return (
+        template
+        .replace("{ACTOR_MCP}", actor_source_path)
+        .replace("{OUTPUT_DIR}", output_path)
+        .replace("{MODEL_PATH}", LOCAL_PATH_TO_MODEL) 
+    )
