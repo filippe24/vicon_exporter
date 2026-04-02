@@ -1,14 +1,4 @@
 //---------------------------------------------------
-//-------------- this script requires only one ------
-//-- subject at the time and to import manually the -
-//----- mesh (I need to find a way to automate this) -
-//---------------------------------------------------
-
-
-
-
-
-//---------------------------------------------------
 //-------------- vicon code ------------------------
 //---------------------------------------------------
 //---------------------------------------------------
@@ -219,6 +209,13 @@ print "Default retarget setup complete. Run retarget to retarget animation from 
 //-------------- from tutorial for meta human -------
 //---- https://www.youtube.com/watch?v=KnRPx-b5Rx8 --
 //---------------------------------------------------
+
+
+
+string $sel[] = `getModules -sel -type Character`;
+string $subject = $sel[0];
+
+
 // get selected character
 selectByType Character;
 if( `getNumModules -sel` != 1 )
@@ -227,6 +224,16 @@ if( `getNumModules -sel` != 1 )
 	return;
 }
 string $subject = `getModule`;
+
+
+// unlock lower arms
+setProperty "DOF" "Ry" true -onMod lowerarm_r";
+setProperty "DOF" "Rx" true -onMod lowerarm_r";
+setProperty "DOF" "Ry" true -onMod lowerarm_l";
+setProperty "DOF" "Rx" true -onMod lowerarm_l";
+
+selectByName $subject
+retarget -selectedCharacters;
 
 // clavicle pre-rotations
 setProperty "Pre_Rotation" 0.000000 -10.000000 0.000000 -onMod clavicle_l;
@@ -258,19 +265,9 @@ setConstraint;
 retarget -selectedCharacters;
 
 
-// saving
-select;
-select "Retargeting" -a;
-SelectChildren_Add_All;
 
-string $first;
-string $filename;
-string $actors_export_directory;
-$actors_export_directory = ("{EXPORT_DIR}/{ACTORS_FOLDER}/");
-$first = `strLeft $subject 3`;
-string $filename_fbx;
-$filename_fbx = ($actors_export_directory + $first + "_retarget_.fbx");
-saveFile -s $filename_fbx;
+
+
 
 
 
