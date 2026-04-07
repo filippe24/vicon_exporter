@@ -1,7 +1,8 @@
 # gui_menu.py
 
-from tkinter import Tk, Label, Button, Checkbutton, IntVar, filedialog
 from pathlib import Path
+from tkinter import Button, Checkbutton, IntVar, Label, Tk, filedialog
+
 
 class UserSelection:
     def __init__(self):
@@ -9,6 +10,7 @@ class UserSelection:
         self.run_export = False
         self.run_retarget = False
         self.run_convert_bvh = False
+        self.run_rename_face_videos = False
 
 
 def open_menu():
@@ -17,15 +19,21 @@ def open_menu():
     root = Tk()
     root.title("Vicon Exporter")
 
-    Label(root, text="Select operations to run:", font=("Arial", 12, "bold")).pack(pady=10)
+    Label(root, text="Select operations to run:", font=("Arial", 12, "bold")).pack(
+        pady=10
+    )
 
     export_var = IntVar()
     retarget_var = IntVar()
     convert_var = IntVar()
+    rename_var = IntVar()
 
     Checkbutton(root, text="Run Export", variable=export_var).pack(anchor="w")
     Checkbutton(root, text="Run Retarget", variable=retarget_var).pack(anchor="w")
-    Checkbutton(root, text="Convert BVH Rotations", variable=convert_var).pack(anchor="w")
+    Checkbutton(root, text="Convert BVH Rotations", variable=convert_var).pack(
+        anchor="w"
+    )
+    Checkbutton(root, text="Run Renaming", variable=rename_var).pack(anchor="w")
 
     def choose_folder():
         folder = filedialog.askdirectory(title="Select take folder")
@@ -41,6 +49,7 @@ def open_menu():
         selection.run_export = bool(export_var.get())
         selection.run_retarget = bool(retarget_var.get())
         selection.run_convert_bvh = bool(convert_var.get())
+        selection.run_rename_face_videos = bool(rename_var.get())
         root.destroy()
 
     Button(root, text="Run", command=confirm, bg="#4CAF50", fg="white").pack(pady=20)

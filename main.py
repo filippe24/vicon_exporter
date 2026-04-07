@@ -5,6 +5,7 @@ import shutil
 from pathlib import Path
 from tkinter import Tk, filedialog
 
+from bvh.converter import convert
 from configuration.settings import (
     ACTORS_FOLDER_NAME,
     EXPORT_FOLDER_NAME,
@@ -15,7 +16,7 @@ from exporter.export_pipeline import generate_hsl
 from exporter.retarget_pipeline import generate_retarget_hsl
 from ui.menu import open_menu
 from utils.file_search import find_take_folders
-from wrapper.bvh_converter import convert_vicon_bvh_to_target
+from utils.rename_face_videos import rename_face_videos
 from wrapper.shogun_runner import run_shogun
 
 
@@ -117,8 +118,8 @@ def process_retargeting(take_dir: Path, shogun_path: Path):
     export_dir = take_dir / EXPORT_FOLDER_NAME / ACTORS_FOLDER_NAME
 
     # find all actor .mcp files
-    actor_mcps = list(export_dir.glob("*.mcp"))
-    if not actor_mcps:
+    actor_mocaps = list(export_dir.glob("*.mcp"))
+    if not actor_mocaps:
         print("   ⚠ no actor .mcp files found, skipping.")
         return
 
@@ -126,7 +127,7 @@ def process_retargeting(take_dir: Path, shogun_path: Path):
     retarget_dir = take_dir / EXPORT_FOLDER_NAME / "retargeted"
     retarget_dir.mkdir(exist_ok=True)
 
-    for actor_mcp in actor_mcps:
+    for actor_mcp in actor_mocaps:
         print(f"   ▶ retargeting actor: {actor_mcp.name}")
 
         # generate retarget HSL
@@ -162,7 +163,13 @@ def process_bvh(root: Path):
     for bvh in bvh_files:
         out = bvh.with_name(bvh.stem + "_converted.bvh")
         print(f"   ▶ Converting {bvh.name} → {out.name}")
-        convert_vicon_bvh_to_target(bvh, out)
+        convert(bvh, out)
+
+
+def process_face_videos(take_folders):
+    print("\n🎥 Renaming face videos...")
+    for t in take_folders:
+        rename_face_videos(t)
 
 
 if __name__ == "__main__":
@@ -195,6 +202,10 @@ if __name__ == "__main__":
     if selection.run_convert_bvh:
         print("\n🔄 Converting all BVH files in folder...")
         process_bvh(selection.folder)
+
+    # Run face video renaming
+    if selection.run_rename_face_videos:
+        process_face_videos(take_folders)
 
     print("\n✨ Done!")
 
