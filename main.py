@@ -1,60 +1,59 @@
-# import os
-# from wrapper.vicon_wrapper import export_take
-
-# ROOT = r"C:\Users\jovan\Documents\project\dati\data_gilab\mocap_actors_16_03_2026\1-street\take1"
-
-
 # # main.py
 
-from pathlib import Path
+import argparse
 import shutil
+from pathlib import Path
 from tkinter import Tk, filedialog
-from typing import List
+
+from configuration.settings import (
+    ACTORS_FOLDER_NAME,
+    EXPORT_FOLDER_NAME,
+    PROCESSED_MCP_NAME,
+    SHOGUN_PATH,
+)
 from exporter.export_pipeline import generate_hsl
 from exporter.retarget_pipeline import generate_retarget_hsl
+from ui.menu import open_menu
+from utils.file_search import find_take_folders
+from wrapper.bvh_converter import convert_vicon_bvh_to_target
 from wrapper.shogun_runner import run_shogun
-from configuration.settings import (
-    SHOGUN_PATH,
-    EXPORT_FOLDER_NAME,
-    ACTORS_FOLDER_NAME,
-    HSL_FILENAME,
-    PROCESSED_MCP_NAME,
-)
-import argparse
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="vicon exporter")
     parser.add_argument(
-        "-f", "--force",
+        "-f",
+        "--force",
         action="store_true",
-        help="force reprocessing even if output already exists"
+        help="force reprocessing even if output already exists",
     )
     parser.add_argument(
-        "-r", "--retarget",
+        "-r",
+        "--retarget",
         action="store_true",
-        help="run retargeting pass after export"
+        help="run retargeting pass after export",
     )
     return parser.parse_args()
 
 
 def print_pyramid():
-    PURPLE = "\033[35m"
-    BLUE = "\033[36m"
-    YELLOW = "\033[33m"
-    RESET = "\033[0m"
-    BOLD = "\033[1m"
+    purple = "\033[35m"
+    blue = "\033[36m"
+    yellow = "\033[33m"
+    reset = "\033[0m"
+    bold = "\033[1m"
 
     lines = [
-        (PURPLE, "             vicon exporter"),
-        (PURPLE, "          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"),
-        (PURPLE, "               ▓▓▓▓▓▓▓▓▓▓▓▓"),
-        (BLUE,   "             ▓▓▓ ▓▓▓▓▓▓▓▓▓▓"),
-        (YELLOW, "                     ▓▓▓▓▓▓"),
+        (purple, "             vicon exporter"),
+        (purple, "          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"),
+        (purple, "               ▓▓▓▓▓▓▓▓▓▓▓▓"),
+        (blue, "             ▓▓▓ ▓▓▓▓▓▓▓▓▓▓"),
+        (yellow, "                     ▓▓▓▓▓▓"),
     ]
 
     print()
     for color, text in lines:
-        print(color + BOLD + text + RESET)
+        print(color + bold + text + reset)
     print()
 
 
@@ -64,23 +63,6 @@ def choose_folder() -> Path:
     folder = filedialog.askdirectory(title="select take folder.")
     root.destroy()
     return Path(folder) if folder else None
-
-def find_take_folders(root: Path) -> List[Path]:
-    """return all folders under root that contain an .mcp file."""
-
-    take_folders = []
-
-    # A) the folder contains mcp file.
-    if any(root.glob("*.mcp")):
-        take_folders.append(root)
-        return take_folders
-
-    # B) recursively look for sub-folders.
-    for sub in root.iterdir():
-        if sub.is_dir():
-            take_folders.extend(find_take_folders(sub))
-
-    return take_folders
 
 
 def process_take(take_dir: Path, shogun_path: Path, force: bool):
@@ -92,7 +74,7 @@ def process_take(take_dir: Path, shogun_path: Path, force: bool):
     if export_dir.exists() and not force:
         print(f"  skipping {take_dir.name} (export folder already exists).")
         return
-    
+
     if force:
         if processed_file.exists():
             processed_file.unlink()
@@ -111,8 +93,7 @@ def process_take(take_dir: Path, shogun_path: Path, force: bool):
     # actors_folder: str = "actors"
     actors_folder: str = ACTORS_FOLDER_NAME
     (export_dir / actors_folder).mkdir(exist_ok=True)
-    print(f"   export folders created.")
-
+    print("   export folders created.")
 
     print("generating hsl file.")
     hsl_content = generate_hsl(export_dir, actors_folder)
@@ -124,7 +105,9 @@ def process_take(take_dir: Path, shogun_path: Path, force: bool):
     out_file = take_dir / PROCESSED_MCP_NAME
 
     print("running shogun processing.")
-    run_shogun(mcp_file=mcp, hsl_file=hsl_file, out_file=out_file, shogun_path=shogun_path)
+    run_shogun(
+        mcp_file=mcp, hsl_file=hsl_file, out_file=out_file, shogun_path=shogun_path
+    )
     print(f"     complete Output saved to: {out_file}\n")
 
 
@@ -161,47 +144,64 @@ def process_retargeting(take_dir: Path, shogun_path: Path):
             mcp_file=actor_mcp,
             hsl_file=hsl_file,
             out_file=out_file,
-            shogun_path=shogun_path
+            shogun_path=shogun_path,
         )
 
 
+def find_bvh_files(root: Path):
+    return [f for f in root.rglob("*.bvh") if not f.name.endswith("_converted.bvh")]
+
+
+def process_bvh(root: Path):
+    bvh_files = find_bvh_files(root)
+    if not bvh_files:
+        print("⚠ No BVH files found.")
+        return
+
+    print(f"🔍 Found {len(bvh_files)} BVH files.")
+    for bvh in bvh_files:
+        out = bvh.with_name(bvh.stem + "_converted.bvh")
+        print(f"   ▶ Converting {bvh.name} → {out.name}")
+        convert_vicon_bvh_to_target(bvh, out)
+
 
 if __name__ == "__main__":
-    args = parse_args()
-    # shogun_path = Path(r"C:\Program Files\Vicon\ShogunPost1.18\ShogunPostCL.exe")
-    shogun_path: Path = SHOGUN_PATH
-    
     print_pyramid()
-    # test for a take.
-    print("📂 select the folder...")
-    # take_path = Path(r"G:\My Drive\mocap 16-02-2026\1-living-room\take-1")
-    main_folder = choose_folder()
-    
-    if not main_folder:
-        print("❌ no folder selected :(.")
+
+    selection = open_menu()
+
+    if not selection.folder:
+        print("❌ No folder selected.")
         exit(1)
-    
-    take_folders = find_take_folders(main_folder)
-    for t in take_folders:
-        print("   •", t)
+
+    take_folders = find_take_folders(selection.folder)
 
     for t in take_folders:
-        print(f"\n processing take: {t}")
-        process_take(take_dir=t, shogun_path=shogun_path, force=args.force)
+        print(" •", t)
 
-    if args.retarget:
-        print("\n🎯 running retargeting pass...")
+    # Run export
+    if selection.run_export:
         for t in take_folders:
-            process_retargeting(take_dir=t, shogun_path=shogun_path)
+            print(f"\n▶ Processing take: {t}")
+            process_take(take_dir=t, shogun_path=SHOGUN_PATH, force=True)
 
+    # Run retarget
+    if selection.run_retarget:
+        print("\n🎯 Running retargeting pass...")
+        for t in take_folders:
+            process_retargeting(take_dir=t, shogun_path=SHOGUN_PATH)
 
-    print("success!")
+    # Run BVH conversion
+    if selection.run_convert_bvh:
+        print("\n🔄 Converting all BVH files in folder...")
+        process_bvh(selection.folder)
+
+    print("\n✨ Done!")
 
     # for take_directory in main_folder.iterdir():
     #     if take_directory.is_dir():
     #         process_take(take_dir=take_directory, shogun_path=shogun_path)
-   
-   
+
     # process_take(take_dir=main_folder, shogun_path=shogun_path)
 
     # # later on for all the take.

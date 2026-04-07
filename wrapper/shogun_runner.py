@@ -5,8 +5,8 @@ from pathlib import Path
 
 
 def run_shogun(mcp_file: Path, hsl_file: Path, out_file: Path, shogun_path: Path):
-    
-    print(f"   ▶ running Shogun:")
+
+    print("   ▶ running Shogun:")
     print(f"     - mcp: {mcp_file}")
     print(f"     - hsl: {hsl_file}")
     print(f"     - out: {out_file}")
@@ -24,7 +24,7 @@ def run_shogun(mcp_file: Path, hsl_file: Path, out_file: Path, shogun_path: Path
         stderr=subprocess.PIPE,
         text=True,
         bufsize=1,
-        universal_newlines=True
+        universal_newlines=True,
     )
     # Read stdout live
     print("   ── shogun output:")

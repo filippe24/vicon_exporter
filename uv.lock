@@ -31,9 +31,12 @@ wheels = [
 name = "vicon-exporter"
 version = "0.1.0"
 source = { virtual = "." }
-dependencies = [
+
+[package.optional-dependencies]
+dev = [
     { name = "ruff" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "ruff", specifier = ">=0.15.6" }]
+requires-dist = [{ name = "ruff", marker = "extra == 'dev'", specifier = ">=0.15.6" }]
+provides-extras = ["dev"]

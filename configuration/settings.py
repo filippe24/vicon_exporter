@@ -1,3 +1,4 @@
+# configuration/settings.py
 from pathlib import Path
 
 # path to ShogunPostCL executable.

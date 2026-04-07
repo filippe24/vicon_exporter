@@ -4,6 +4,39 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = [
-    "ruff>=0.15.6",
+
+
+[project.optional-dependencies]
+dev = ["ruff>=0.15.6"]
+
+
+[tool.ruff]
+lint.extend-select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "W",   # pycodestyle warnings
+    "I",   # import sorting
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # bugbear
+    "A",   # builtins
+    "C4",  # comprehensions
+    "SIM", # simplify
+    "RET", # return statements
+    "ARG", # unused arguments
 ]
+lint.ignore = [
+    "E501",  # line length (we handle manually)
+    "B008",  # function call in default argument (Tkinter patterns)
+    "RET504", # allow explicit return None
+]
+exclude = [
+    "exported/",
+    "models/",
+    "hsl/",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
