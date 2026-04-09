@@ -1,3 +1,107 @@
+// remove props.
+selectProps;
+SelectChildren_Add_All;
+delete;
+
+//--------- export actors -------
+selectProps;
+select -invert;
+
+string $sel[] = `getModules -sel -type Character`;
+int $numsel = `getCount $sel`;
+int $i;
+
+string $first;
+string $filename;
+
+string $actors_export_directory;
+$actors_export_directory = ("{EXPORT_DIR}/{ACTORS_FOLDER}/");
+
+for ($i = 0; $i < $numsel; $i+= 1)
+{
+   print $sel[$i];
+
+    // select full hierarchy
+   selectChildren -recursive $sel[$i];
+
+    // get first letter
+   $first = `strLeft $sel[$i] 3`;
+	
+	// load the retarget
+	// loadFile -importType "curClipCreateNew" -currentSubject "C:/Users/jovan/Documents/project/python/vicon_exporter/models/geeno.vsr";
+	loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/python/vicon_exporter/models/geeno.vsr";
+
+
+
+    // Build path
+	 // string $filename_fbx;
+	 // string $filename_bvh;
+    // $filename_fbx = ($actors_export_directory + $first + "_.fbx");
+    // $filename_bvh = ($actors_export_directory + $first + "_.bvh");
+
+    // Export
+    // saveFile -s $filename_fbx;
+    // saveFile -s $filename_bvh;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// old 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //--------- export actors -------
 selectProps;
 select -invert;
