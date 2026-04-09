@@ -1,0 +1,90 @@
+//--------- export actors -------
+selectProps;
+select -invert;
+
+string $sel[] = `getModules -sel -type Character`;
+int $numsel = `getCount $sel`;
+int $i;
+
+string $first;
+string $filename;
+
+string $actors_export_directory;
+$actors_export_directory = ("{EXPORT_DIR}/{ACTORS_FOLDER}/");
+
+for ($i = 0; $i < $numsel; $i+= 1)
+{
+    print $sel[$i];
+
+    // Select full hierarchy
+    selectChildren -recursive $sel[$i];
+
+    // Get first letter
+    $first = `strLeft $sel[$i] 3`;
+
+    // Build path
+	string $filename_c3d;
+	string $filename_fbx;
+	string $filename_bvh;
+	string $filename_mcp;
+    $filename_c3d = ($actors_export_directory + $first + "_.c3d");
+    $filename_fbx = ($actors_export_directory + $first + "_.fbx");
+    $filename_bvh = ($actors_export_directory + $first + "_.bvh");
+    $filename_mcp = ($actors_export_directory + $first + "_.mcp");
+
+
+    // Export
+    saveFile -s $filename_c3d;
+    saveFile -s $filename_fbx;
+    saveFile -s $filename_bvh;
+    saveFile -s $filename_mcp;
+}
+
+
+
+
+
+
+
+
+
+
+
+select;
+select "eye_tracker_2" -a;select "clapperboard_top" -a;select "clapperboard_down" -a;select "eye_tracker_1" -a;select "teapot_1" -a;select "menu_food_specials_1" -a;select "menu_coffe" -a;select "desk_2" -a;select "coffee_cup_1" -a;select "bar_table_1" -a;select "cupcackes_1" -a;
+select "eye_tracker_2" -a;select "clapperboard_top" -a;select "clapperboard_down" -a;select "eye_tracker_1" -a;select "teapot_1" -a;select "menu_food_specials_1" -a;select "menu_coffe" -a;select "desk_2" -a;select "coffee_cup_1" -a;select "bar_table_1" -a;select "cupcackes_1" -a;
+select eye_tracker_2 clapperboard_top clapperboard_down eye_tracker_1 teapot_1 menu_food_specials_1 menu_coffe desk_2 coffee_cup_1 bar_table_1 cupcackes_1;
+deleteCharacters;
+select "yiyang" -a;
+select "yiyang" -a;
+SelectChildren_Add_All;
+loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/python/vicon_exporter/models/geeno.vsr";
+string $sel[] = `getModules -selected`;
+select yiyang;
+retarget -selectedCharacters;
+select $sel;
+saveFile -s "G:/My Drive/submission-mocaps/mocap 17-03-2026/2-dance/take6/exported/actors/y_geeno_.fbx";
+select "Retargeting";
+SelectChildren_Add_All;
+saveFile -s "G:/My Drive/submission-mocaps/mocap 17-03-2026/2-dance/take6/exported/actors/y_geeno_.fbx";
+select yiyang\Retargeting\Rotation\RightHandThumb1_RightHandThumb2 ;
+select yiyang\Retargeting\Rotation\RightHand_RightHand ;
+select yiyang\Retargeting\Rotation\RightHandThumb1_RightHandThumb2 ;
+select yiyang\Retargeting\Rotation\RightHand_RightHand ;
+setTrackList;
+cameraView -track "objects";
+
+
+
+select "Shuyu";
+SelectChildren_Add_All;
+loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/python/vicon_exporter/models/geeno.vsr";
+string $sel[] = `getModules -selected`;
+select Shuyu;
+retarget -selectedCharacters;
+select $sel;
+saveFile -s "G:/My Drive/submission-mocaps/mocap 17-03-2026/2-dance/take6/exported/actors/S_geeno_.fbx";
+select "Shuyu";
+select "Shuyu\\\\Retargeting";
+SelectChildren_Add_All;
+saveFile -s "G:/My Drive/submission-mocaps/mocap 17-03-2026/2-dance/take6/exported/actors/S_geeno_.fbx";
