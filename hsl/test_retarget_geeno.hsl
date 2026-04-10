@@ -18,6 +18,91 @@ for ($i = 0; $i < $numsel; $i+= 1)
 
         select  $sel[$i];
 
+        // select full hierarchy.
+        selectChildren -recursive $sel[$i];
+        // set current subject.
+        setCurrentSubject $sel[$i];
+
+
+
+        // load the retarget file.
+        // loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/python/vicon_exporter/models/geeno.vsr";
+        loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/python/vicon_exporter/models/geeno.vsr";
+
+        retarget -selectedCharacters;
+
+        // select ;
+        select $sel[$i]"\\\\Retargeting";
+        selectChildren -recursive  $sel[$i]"\\\\Retargeting";
+
+        // get first letter
+        $first = `strLeft $sel[$i] 3`;
+
+
+        // build path.
+        string $filename_fbx;
+        //string $filename_bvh;
+        $filename_fbx = ($actors_export_directory + $first + "_geeno_.fbx");
+        //$filename_bvh = ($actors_export_directory + $first + "_geeno_.bvh");
+
+        // export.
+        saveFile -s $filename_fbx;
+        //saveFile -s $filename_bvh;
+
+
+        DeleteSelected;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ****** select actors.
+selectProps;
+select -invert;
+
+string $sel[] = `getModules -sel -type Character`;
+int $numsel = `getCount $sel`;
+int $i;
+
+string $first;
+string $filename;
+
+string $actors_export_directory;
+$actors_export_directory = ("C:/Users/jovan/Documents/project/dati/data_gilab/mocap_actors_16_03_2026/1-street/take1/exported/actors/");
+
+for ($i = 0; $i < $numsel; $i+= 1)
+{
+        print $sel[$i];
+
+        select  $sel[$i];
+
         // select full hierarchy
         selectChildren -recursive $sel[$i];
 
