@@ -33,7 +33,7 @@ for ($i = 0; $i < $numsel; $i+= 1)
 
 	// select ;
 	select $sel[$i]"\\\\Retargeting";
-	SelectChildren_Add_All;
+	selectChildren -recursive  $sel[$i]"\\\\Retargeting";
 
 	// get first letter
 	$first = `strLeft $sel[$i] 3`;
@@ -48,5 +48,8 @@ for ($i = 0; $i < $numsel; $i+= 1)
 	// export.
 	saveFile -s $filename_fbx;
 	//saveFile -s $filename_bvh;
+
+
+	DeleteSelected;
 
 }
