@@ -1,9 +1,4 @@
-// remove props.
-selectProps;
-SelectChildren_Add_All;
-delete;
-
-//--------- export actors -------
+// ****** select actors.
 selectProps;
 select -invert;
 
@@ -15,33 +10,44 @@ string $first;
 string $filename;
 
 string $actors_export_directory;
-$actors_export_directory = ("{EXPORT_DIR}/{ACTORS_FOLDER}/");
+$actors_export_directory = ("C:/Users/jovan/Documents/project/dati/data_gilab/mocap_actors_16_03_2026/1-street/take1/exported/actors/");
 
 for ($i = 0; $i < $numsel; $i+= 1)
 {
-   print $sel[$i];
+        print $sel[$i];
 
-    // select full hierarchy
-   selectChildren -recursive $sel[$i];
+        select  $sel[$i];
 
-    // get first letter
-   $first = `strLeft $sel[$i] 3`;
-	
-	// load the retarget
-	// loadFile -importType "curClipCreateNew" -currentSubject "C:/Users/jovan/Documents/project/python/vicon_exporter/models/geeno.vsr";
-	loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/python/vicon_exporter/models/geeno.vsr";
+        // select full hierarchy
+        selectChildren -recursive $sel[$i];
 
 
+		  setCurrentSubject $sel[$i];
+        // load the retarget file
+        //loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/python/vicon_exporter/models/geeno.vsr";
+        loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/python/vicon_exporter/models/geeno.vsr";
 
-    // Build path
-	 // string $filename_fbx;
-	 // string $filename_bvh;
-    // $filename_fbx = ($actors_export_directory + $first + "_.fbx");
-    // $filename_bvh = ($actors_export_directory + $first + "_.bvh");
+        retarget -selectedCharacters;
 
-    // Export
-    // saveFile -s $filename_fbx;
-    // saveFile -s $filename_bvh;
+
+        select $sel[$i]"\\\\Retargeting";
+        //SelectChildren_Add_All;
+		  DeleteSelected;
+
+        // get first letter
+        $first = `strLeft $sel[$i] 3`;
+
+
+        // Build path
+        string $filename_fbx;
+        string $filename_bvh;
+        $filename_fbx = ($actors_export_directory + $first + "_geeno_.fbx");
+        $filename_bvh = ($actors_export_directory + $first + "_geeno_.bvh");
+
+        // Export
+        saveFile -s $filename_fbx;
+        saveFile -s $filename_bvh;
+
 }
 
 
@@ -56,49 +62,7 @@ for ($i = 0; $i < $numsel; $i+= 1)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // old 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
