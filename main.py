@@ -3,6 +3,7 @@
 import argparse
 import shutil
 from pathlib import Path
+from tempfile import template
 from tkinter import Tk, filedialog
 
 from bvh.converter import convert
@@ -13,8 +14,10 @@ from configuration.settings import (
     PROCESSED_MCP_NAME,
     SHOGUN_PATH,
 )
+from configuration.types import RETARGET_CONFIGS, RetargetType
 from exporter.export_pipeline import generate_hsl
 from exporter.geeno_retarget_pipeline import generate_geeno_retarget_hsl
+from exporter.general_retarget_pipeline import generate_general_retarget_hsl
 from exporter.mannequin_retarget_pipeline import generate_mannequin_retarget_hsl
 from ui.menu import open_menu
 from utils.file_search import find_take_folders
@@ -214,11 +217,92 @@ def process_geeno_retargeting(take_dir: Path, shogun_path: Path, force: bool):
     run_shogun(
         mcp_file=mcp_file,
         hsl_file=hsl_file,
-        out_file=dummy_output_mcp,  # Shogun ignores this for Geeno
+        out_file=dummy_output_mcp,
         shogun_path=shogun_path,
     )
 
     print(f"   ✔ Geeno retarget complete → actors written to {actors_dir}")
+
+
+def process_general_retargeting(
+    take_dir: Path,
+    shogun_path: Path,
+    retarget_type: RetargetType,
+):
+    configuration = RETARGET_CONFIGS[retarget_type]
+
+    print(f"\n🤖  retargeting ({configuration.name}): {take_dir}")
+
+    # -----------------------------------------------------
+    # 1.determine which MCP to use (processed > original).
+    # -----------------------------------------------------
+    processed_mcp = take_dir / PROCESSED_MCP_NAME
+    original_mcps = list(take_dir.glob("*.mcp"))
+
+    if processed_mcp.exists():
+        mcp_file = processed_mcp
+    elif original_mcps:
+        mcp_file = original_mcps[0]
+    else:
+        print("   ⚠ no MCP file found, skipping.")
+        return
+
+    print(f"   • using MCP: {mcp_file.name}")
+
+    # -------------------------------------------
+    # 2. output folder is ALWAYS exported/actors
+    # -------------------------------------------
+    export_root = take_dir / EXPORT_FOLDER_NAME
+    actors_dir = export_root / ACTORS_FOLDER_NAME
+
+    if not actors_dir.exists():
+        print(f"   ⚠ Actors folder missing: {actors_dir}")
+        return
+
+    # ------------------------------------------------
+    # 3. load the VSR retarget file from project root.
+    # ------------------------------------------------
+    project_root = Path(__file__).resolve().parents[0]  # vicon_exporter/
+    retarget_vsr = project_root / configuration.vsr_source_path
+
+    if not retarget_vsr.exists():
+        print(f"    ERROR: retarget VSR not found at: {retarget_vsr}")
+        return
+
+    print(f"   • using retargeter: {retarget_vsr}")
+
+    # ---------------------------------------------------------
+    # 4. Generate HSL (EXPORT_DIR must be exported/)
+    # ---------------------------------------------------------
+    hsl_content = generate_general_retarget_hsl(
+        template_path=configuration.hsl_source_path,
+        output_path=export_root,
+        retarget_vsr_file_path=retarget_vsr,
+        actors_output_folder=ACTORS_FOLDER_NAME,
+        file_name_prefix=f"{configuration.output_name}_",
+    )
+    print(hsl_content)
+    hsl_file = take_dir / f"{configuration.output_name}_retarget.hsl"
+    hsl_file.write_text(hsl_content)
+
+    # ---------------------------------------------------------
+    # 5. Run Shogun retargeting
+    #    NOTE: Output MCP is NOT needed; Shogun will generate
+    #    FBX/BVH directly into exported/actors/
+    # ---------------------------------------------------------
+    dummy_output_mcp = take_dir / f"temp_{configuration.output_name}_output.mcp"
+
+    print("   • Running Shogun retargeting...")
+    run_shogun(
+        mcp_file=mcp_file,
+        hsl_file=hsl_file,
+        out_file=dummy_output_mcp,
+        shogun_path=shogun_path,
+    )
+
+    print(
+        f"   ✔ {configuration.output_name} retarget complete → actors written to {actors_dir}"
+    )
 
 
 def find_bvh_files(root: Path):
@@ -255,26 +339,45 @@ if __name__ == "__main__":
 
     take_folders = find_take_folders(selection.folder)
 
-    for t in take_folders:
-        print(" •", t)
+    for curr_take_directry in take_folders:
+        print(" •", curr_take_directry)
 
     # Run export
     if selection.run_export:
-        for t in take_folders:
-            print(f"\n▶ Processing take: {t}")
-            process_take(take_dir=t, shogun_path=SHOGUN_PATH, force=True)
+        for curr_take_directry in take_folders:
+            print(f"\n▶ Processing take: {curr_take_directry}")
+            process_take(
+                take_dir=curr_take_directry, shogun_path=SHOGUN_PATH, force=True
+            )
 
-    # Run retarget
     if selection.run_mannequin_retarget:
-        print("\n🎯 Running retargeting pass...")
-        for t in take_folders:
-            process_mannequin_retargeting(take_dir=t, shogun_path=SHOGUN_PATH)
+        print("\n🎯 Running mannequin retargeting pass...")
+        for curr_take_directry in take_folders:
+            process_general_retargeting(
+                take_dir=curr_take_directry,
+                shogun_path=SHOGUN_PATH,
+                retarget_type=RetargetType.MANNEQUIN,
+            )
+            # process_mannequin_retargeting(take_dir=t, shogun_path=SHOGUN_PATH)
 
-    # Run Geeno retarget
+    if selection.run_mannequin_adjusted_retarget:
+        print("\n🎯 Running mannequinadjusted retargeting pass...")
+        for curr_take_directry in take_folders:
+            process_general_retargeting(
+                take_dir=curr_take_directry,
+                shogun_path=SHOGUN_PATH,
+                retarget_type=RetargetType.MANNEQUIN,
+            )
+
     if selection.run_geeno_retarget:
         print("\n🤖 Running Geeno retargeting pass...")
-        for t in take_folders:
-            process_geeno_retargeting(take_dir=t, shogun_path=SHOGUN_PATH, force=True)
+        for curr_take_directry in take_folders:
+            process_general_retargeting(
+                take_dir=curr_take_directry,
+                shogun_path=SHOGUN_PATH,
+                retarget_type=RetargetType.GEENO,
+            )
+            # process_geeno_retargeting(take_dir=t, shogun_path=SHOGUN_PATH, force=True)
 
     # Run BVH conversion
     if selection.run_convert_bvh:

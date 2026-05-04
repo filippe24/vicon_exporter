@@ -12,7 +12,7 @@ def generate_hsl(
 ):
     """code to generate dynamic hls file to run in shogun post."""
     if output_path:
-        output_path: Path = Path(output_path.as_posix())
+        output_path = Path(output_path.as_posix())
 
         template: str = EXPORTER_TEMPLATE.read_text()
 

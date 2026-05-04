@@ -1,0 +1,55 @@
+// ****** select actors.
+selectProps;
+select -invert;
+
+string $sel[] = `getModules -sel -type Character`;
+int $numsel = `getCount $sel`;
+int $i;
+
+string $first;
+string $filename;
+
+string $actors_export_directory;
+$actors_export_directory = ("{EXPORT_DIR}/{ACTORS_FOLDER}/");
+
+for ($i = 0; $i < $numsel; $i+= 1)
+{
+	print $sel[$i];
+
+	select  $sel[$i];
+
+	// select full hierarchy.
+	selectChildren -recursive $sel[$i];
+	// set current subject.
+	setCurrentSubject $sel[$i];
+
+
+    select ($sel[$i]+"\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm");
+    setProperty "DOF" "Rz" false -onMod ($sel[$i]+"\Solving\Hips\Spine\Spine1\Spine2\Spine3\LeftShoulder\LeftArm\LeftForeArm");
+    select ($sel[$i]+"\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand");
+    setProperty "DOF" "Rz" true -onMod ($sel[$i]+"\Solving\Hips\Spine\Spine1\Spine2\Spine3\LeftShoulder\LeftArm\LeftForeArm\LeftHand");
+    solve;
+
+
+	// load the retarget file.
+	// loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/python/vicon_exporter/models/default_mannequin.vsr";
+	loadFile -importType "curClipCreateNew" "{RETARGET_VSR_PATH}";
+
+	retarget -selectedCharacters;
+
+	// select ;
+    select ($sel[$i]+"\\\\Retargeting");
+    SelectChildren_Add_All;
+
+
+	// get first letter
+	$first = `strLeft $sel[$i] 3`;
+
+	// build path.
+	string $filename_fbx;
+	$filename_fbx = ($actors_export_directory + $first + "_{NEW_FILE_NAME}.fbx");
+
+	// export.
+	saveFile -s $filename_fbx;
+
+}

@@ -39,7 +39,7 @@ for ($i = 0; $i < $numsel; $i+= 1)
 
 	// build path.
 	string $filename_fbx;
-	$filename_fbx = ($actors_export_directory + $first + "_{GEENO_FILE_NAME}.fbx");
+	$filename_fbx = ($actors_export_directory + $first + "_{NEW_FILE_NAME}.fbx");
 
 	// export.
 	saveFile -s $filename_fbx;
