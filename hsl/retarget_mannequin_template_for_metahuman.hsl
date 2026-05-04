@@ -1,0 +1,305 @@
+//---------------------------------------------------
+//-------------- this script requires only one ------
+//-- subject at the time and to import manually the -
+//----- mesh (I need to find a way to automate this) -
+//---------------------------------------------------
+
+
+
+
+
+//---------------------------------------------------
+//-------------- vicon code ------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+
+
+// This script automatically sets up a retarget from a 
+// standard Shogun 1.7+ solve skeleton (VSS) to a UE5
+// Mannequin or MetaHuman imported as a retarget skeleton 
+// via FBX.
+// The UE5 Mannequin uses the same base skeleton as MetaHuman,
+// and thus can be used as a simple alternative in Shogun
+// since it contains one skeleton and bound mesh instead of 
+// the multiple skeletons and meshes used in MetaHuman.
+// Animation retargeted to a UE5 Mannequin can then be steamed or 
+// imported onto a MetaHuman skeleton.
+//
+// To use:
+// 1. Have a solved VSS in the scene. Typically a ROM.
+// 2. Via Subject Setup panel > Retargeting tab > Toolbar at top,
+//    click the open button and import a UE5 Mannequin or MetaHuman 
+//    FBX as the retarget skeleton.
+// 3. Run this script which will automatically create a default retarget setup.
+// 4. Run retarget over the play range to retarget the actor motion from
+//    the VSS to the target skeleton.
+
+// Remove Character created if MetaHuman FBX was imported as retarget skeleton
+selectByName "BP_metahuman_*";
+delete;
+
+// Make sure there's only one subject in the scene
+selectByType Character;
+if( `getNumModules -sel` != 1 )
+{
+	print "This script is designed to run with a single subject in the scene. Please load the ROM you wish to setup a retarget for." -error;
+	return;
+}
+string $character = `getModule`;
+
+// Make sure there subject has a solve setup
+selectByType SolvingSetup;
+if( `getNumModules -sel` != 1 )
+{
+	print "Unable to locate SolvingSetup. Please ensure a solving setup exists." -error;
+	return;
+}
+
+//// If imported FBX was MetaHuman, ensure we only have 1 skeleton
+//// since a straight export contains multiple
+
+// Get the retargeting setup
+selectByName "Retargeting" -type RetargetingSetup;
+if( `getNumModules -sel` != 1 )
+{
+	print "Unable to locate Retargeting Setup. Please load the FBX for the retarget skeleton via the Subject Setup panel." -error;
+	return;
+}
+string $rtgSetup = `getModule`;
+
+selectByName "Body" -type Locator -childOf $rtgSetup;
+if( `getNumModules -sel` == 1)
+{
+	unparent;
+
+	select $rtgSetup;
+	SelectChildren_Only_All;
+	delete;
+
+	selectByName "Body" -type Locator;
+	select -a $rtgSetup;
+	parent;
+}
+
+//// Parent the root to the retargeting setup so we don't have a locator inbetween
+
+// Get the retargeting root bone
+selectByName "root" -type RetargetingBone;
+if( `getNumModules -sel` != 1 )
+{
+	print "Please ensure the retarget skeleton has a single skeleton with only one root bone." -error;
+	return;
+}
+string $root = `getModule`;
+
+// Get the retargeting pelvis bone
+selectByName "pelvis" -type RetargetingBone;
+if( `getNumModules -sel` != 1 )
+{
+	print "Unable to locate retargeting bone \"pelvis\"" -error;
+	return;
+}
+string $pelvis = `getModule`;
+
+
+select $root $rtgSetup;
+parent;
+
+//// Set the pelvis as the root
+setProperty "DOF" "Tx" false -onMod $root;
+setProperty "DOF" "Ty" false -onMod $root;
+setProperty "DOF" "Tz" false -onMod $root;
+setProperty "DOF" "Rx" false -onMod $root;
+setProperty "DOF" "Ry" false -onMod $root;
+setProperty "DOF" "Rz" false -onMod $root;
+
+setProperty "DOF" "Tx" true -onMod $pelvis;
+setProperty "DOF" "Ty" true -onMod $pelvis;
+setProperty "DOF" "Tz" true -onMod $pelvis;
+setProperty "DOF" "Rx" true -onMod $pelvis;
+setProperty "DOF" "Ry" true -onMod $pelvis;
+setProperty "DOF" "Rz" true -onMod $pelvis;
+
+
+//// Setup dofs
+if( `exists "LeftHandIndex1" -type SolvingBone` )
+{
+	SetUE5MannequinDOFsSidesPartsWithFingers;
+}
+else
+{
+	SetUE5MannequinDOFsSidesParts;
+}
+
+// Disable MetaHuman extra bones if present
+DisableMetaHumanExtraBones;
+
+// Disable and hide other bones we're not putting data on
+selectByName "root" -type RetargetingBone -childOf $rtgSetup;
+SelectChildren_Only;
+selectByName "pelvis" -r -type RetargetingBone -childOf $rtgSetup;
+SelectChildren_Add_All;
+if( `getNumModules -sel` > 0)
+{
+	setProperty "DOF" "Tx" false;
+	setProperty "DOF" "Ty" false;
+	setProperty "DOF" "Tz" false;
+	setProperty "DOF" "Rx" false;
+	setProperty "DOF" "Ry" false;
+	setProperty "DOF" "Rz" false;
+}
+selectByName "root" -a -type RetargetingBone -childOf $rtgSetup;
+hide;
+
+selectByName "*_twist_*" -type RetargetingBone;
+SelectChildren_Add_All;
+hide;
+
+//// Set geo twists
+SetUE5MannequinGeoTwists;
+
+//// Enable map mode
+setRetargetingMapModeEnabled true;
+
+//// Set target skeleton scale
+// If you want to change the target skeleton scale, run the script
+// to this point, modify the scale, then run the rest of the script.
+
+//// Pose target skeleton
+PoseUE5MannequinForMapMode;
+if( `exists "LeftHandIndex1" -type SolvingBone` )
+{
+	PoseUE5MannequinLeftHandFingersForMapMode;
+	PoseUE5MannequinRightHandFingersForMapMode;
+}
+
+//// Auto create default constraints
+autoCreateRetargetingConstraints;
+if( `exists "LeftHandIndex1" -type SolvingBone` )
+{
+	CreateUE5MannequinFingerConstraints;
+}
+
+//// Exit map mode
+selectByType RetargetingBone;
+setPreferredPose;
+setRetargetingMapModeEnabled false;
+manipulator -mirror false;
+
+select;
+
+print "Default retarget setup complete. Run retarget to retarget animation from actor to target skeleton.";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//---------------------------------------------------
+//-------------- from tutorial for meta human -------
+//---- https://www.youtube.com/watch?v=KnRPx-b5Rx8 --
+//---------------------------------------------------
+// get selected character
+selectByType Character;
+if( `getNumModules -sel` != 1 )
+{
+	print "This script is designed to run with a single subject in the scene. Please load the ROM you wish to setup a retarget for." -error;
+	return;
+}
+string $subject = `getModule`;
+
+// clavicle pre-rotations
+setProperty "Pre_Rotation" 0.000000 -10.000000 0.000000 -onMod clavicle_l;
+setProperty "Pre_Rotation" 0.000000 10.000000 0.000000 -onMod clavicle_r;
+
+selectByName $subject
+setConstraint;
+retarget -selectedCharacters;
+
+// build dynamic module paths
+string $r_forearm = ($subject + "\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm");
+string $r_hand    = ($r_forearm + "\\RightHand");
+
+string $l_forearm = ($subject + "\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm");
+string $l_hand    = ($l_forearm + "\\LeftHand");
+
+// apply DOF changes
+setProperty "DOF" "Rz" false -onMod $r_forearm;
+setProperty "DOF" "Rz" true  -onMod $r_hand;
+
+setProperty "DOF" "Rz" false -onMod $l_forearm;
+setProperty "DOF" "Rz" true  -onMod $l_hand;
+
+selectByName $subject
+solve;
+
+selectByName $subject
+setConstraint;
+retarget -selectedCharacters;
+
+
+// saving
+select;
+select "Retargeting" -a;
+SelectChildren_Add_All;
+
+string $first;
+string $filename;
+string $actors_export_directory;
+$actors_export_directory = ("{EXPORT_DIR}/{ACTORS_FOLDER}/");
+$first = `strLeft $subject 3`;
+string $filename_fbx;
+$filename_fbx = ($actors_export_directory + $first + "_retarget_.fbx");
+saveFile -s $filename_fbx;
+
+
+
+
+
+
+
+
+
+
+//  setProperty "DOF" "Ry" true -onMod lowerarm_r;
+//  setProperty "DOF" "Rx" true -onMod lowerarm_r;
+//  setProperty "DOF" "Ry" true -onMod lowerarm_l;
+//  setProperty "DOF" "Rx" true -onMod lowerarm_l;
+
+
+// retarget -selectedCharacters;
+// setProperty "Pre_Rotation" 0.000000 -10.000000 0.000000 -onMod clavicle_l;
+// setProperty "Pre_Rotation" 0.000000 10.000000 0.000000 -onMod clavicle_r;
+// setConstraint;
+// retarget -selectedCharacters;
+
+
+// setProperty "DOF" "Rz" false -onMod James\Solving\Hips\Spine\Spine1\Spine2\Spine3\RightShoulder\RightArm\RightForeArm;
+// select "James\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm\\RightHand";
+// setProperty "DOF" "Rz" true -onMod James\Solving\Hips\Spine\Spine1\Spine2\Spine3\RightShoulder\RightArm\RightForeArm\RightHand;
+// select "James\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm";
+// setProperty "DOF" "Rz" false -onMod James\Solving\Hips\Spine\Spine1\Spine2\Spine3\LeftShoulder\LeftArm\LeftForeArm;
+// select "James\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand";
+// setProperty "DOF" "Rz" true -onMod James\Solving\Hips\Spine\Spine1\Spine2\Spine3\LeftShoulder\LeftArm\LeftForeArm\LeftHand;
+
+// solve;

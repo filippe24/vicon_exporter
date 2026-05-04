@@ -23,18 +23,13 @@ for ($i = 0; $i < $numsel; $i+= 1)
 	// set current subject.
 	setCurrentSubject $sel[$i];
 
-
-
 	// load the retarget file.
-	// loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/python/vicon_exporter/models/geeno.vsr";
+	// loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/python/vicon_exporter/models/default_mannequin.vsr";
 	loadFile -importType "curClipCreateNew" "{RETARGET_VSR_PATH}";
 
 	retarget -selectedCharacters;
 
 	// select ;
-	//select $sel[$i]"\\\\Retargeting";
-	//selectChildren -recursive  $sel[$i]"\\\\Retargeting";
-	// selectByName $sel[$i] -type RetargetingBone -a;
     select ($sel[$i]+"\\\\Retargeting");
     SelectChildren_Add_All;
 
@@ -42,18 +37,11 @@ for ($i = 0; $i < $numsel; $i+= 1)
 	// get first letter
 	$first = `strLeft $sel[$i] 3`;
 
-
 	// build path.
 	string $filename_fbx;
-	//string $filename_bvh;
 	$filename_fbx = ($actors_export_directory + $first + "_{GEENO_FILE_NAME}.fbx");
-	//$filename_bvh = ($actors_export_directory + $first + "_{GEENO_FILE_NAME}.bvh");
 
 	// export.
 	saveFile -s $filename_fbx;
-	//saveFile -s $filename_bvh;
-
-
-	DeleteSelected;
 
 }

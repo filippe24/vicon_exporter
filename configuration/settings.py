@@ -2,7 +2,8 @@
 from pathlib import Path
 
 # path to ShogunPostCL executable.
-SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.18\ShogunPostCL.exe")
+# SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.18\ShogunPostCL.exe")
+SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.19\ShogunPostCL.exe")
 
 # name of the folder where exported files go
 EXPORT_FOLDER_NAME = "exported"
@@ -24,6 +25,12 @@ EXPORTER_TEMPLATE = Path(r"hsl\template.hsl")
 
 # standard retarget template.
 GEENO_RETARGET_TEMPLATE = Path(r"hsl\retarget_geeno_template.hsl")
-MANNEQUIN_RETARGET_TEMPLATE = Path(r"hsl\retarget_mannequin_template.hsl")
+OLD_MANNEQUIN_RETARGET_TEMPLATE = Path(r"hsl\retarget_mannequin_template.hsl")
+MANNEQUIN_RETARGET_TEMPLATE_BASIC = Path(r"hsl\retarget_mannequin_template_basic.hsl")
+MANNEQUIN_RETARGET_TEMPLATE_ADJUSTED = Path(
+    r"hsl\retarget_mannequin_template_for_metahuman.hsl"
+)
 
+MANNEQUIN_VICON_RETARGET_BASIC = Path(r"models/basic_mannequin.vsr")
+MANNEQUIN_VICON_RETARGET_ADJUSTED = Path(r"models/adjusted_mannequin.vsr")
 GEENO_VICON_RETARGET = Path(r"models/geeno.vsr")

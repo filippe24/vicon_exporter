@@ -6,12 +6,12 @@ from tkinter import Button, Checkbutton, IntVar, Label, Tk, filedialog
 
 class UserSelection:
     def __init__(self):
-        self.folder = None
-        self.run_export = False
-        self.run_retarget = False
-        self.run_geeno_retarget = False
-        self.run_convert_bvh = False
-        self.run_rename_face_videos = False
+        self.folder: Path | None = None
+        self.run_export: bool = False
+        self.run_mannequin_retarget: bool = False
+        self.run_geeno_retarget: bool = False
+        self.run_convert_bvh: bool = False
+        self.run_rename_face_videos: bool = False
 
 
 def open_menu():
@@ -25,13 +25,15 @@ def open_menu():
     )
 
     export_var = IntVar()
-    retarget_var = IntVar()
+    mannequin_var = IntVar()
     geeno_var = IntVar()
     convert_var = IntVar()
     rename_var = IntVar()
 
     Checkbutton(root, text="Run Export", variable=export_var).pack(anchor="w")
-    Checkbutton(root, text="Run Retarget", variable=retarget_var).pack(anchor="w")
+    Checkbutton(root, text="Run Mannequin Retarget", variable=mannequin_var).pack(
+        anchor="w"
+    )
     Checkbutton(root, text="Run Geeno Retarget", variable=geeno_var).pack(anchor="w")
     Checkbutton(root, text="Convert BVH Rotations", variable=convert_var).pack(
         anchor="w"
@@ -50,7 +52,7 @@ def open_menu():
 
     def confirm():
         selection.run_export = bool(export_var.get())
-        selection.run_retarget = bool(retarget_var.get())
+        selection.run_mannequin_retarget = bool(mannequin_var.get())
         selection.run_geeno_retarget = bool(geeno_var.get())
         selection.run_convert_bvh = bool(convert_var.get())
         selection.run_rename_face_videos = bool(rename_var.get())

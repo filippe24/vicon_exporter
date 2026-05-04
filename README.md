@@ -15,7 +15,7 @@ The intended output can be edited from the base `hsl` template and `shogun_runne
 
 ### install and use.
 first install dependencies using `requirements.txt` or using `uv` using `uv sync`.
-be sure that `Vicon's Shogun Post` (we have used version 1.18) is installed. identify the path to `ShogunPostCL.exe` and set it on `confogiration/settings.py`.
+be sure that `Vicon's Shogun Post` (we have used version 1.18 and 1.19) is installed. identify the path to `ShogunPostCL.exe` and set it on `confogiration/settings.py`.
 
 ---
 

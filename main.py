@@ -60,7 +60,7 @@ def print_pyramid():
     print()
 
 
-def choose_folder() -> Path:
+def choose_folder() -> Path | None:
     root = Tk()
     root.withdraw()
     folder = filedialog.askdirectory(title="select take folder.")
@@ -104,7 +104,6 @@ def process_take(take_dir: Path, shogun_path: Path, force: bool):
     hsl_file.write_text(hsl_content)
     print(f"   hsl created {hsl_file.name}.")
 
-    # out_file = take_dir / "processed.mcp"
     out_file = take_dir / PROCESSED_MCP_NAME
 
     print("running shogun processing.")
@@ -114,8 +113,8 @@ def process_take(take_dir: Path, shogun_path: Path, force: bool):
     print(f"     complete Output saved to: {out_file}\n")
 
 
-def process_retargeting(take_dir: Path, shogun_path: Path):
-    print(f"\n🎯 retargeting: {take_dir}")
+def process_mannequin_retargeting(take_dir: Path, shogun_path: Path):
+    print(f"\n🎯 mannequin retargeting: {take_dir}")
 
     export_dir = take_dir / EXPORT_FOLDER_NAME / ACTORS_FOLDER_NAME
 
@@ -196,9 +195,9 @@ def process_geeno_retargeting(take_dir: Path, shogun_path: Path, force: bool):
     # 4. Generate HSL (EXPORT_DIR must be exported/)
     # ---------------------------------------------------------
     hsl_content = generate_geeno_retarget_hsl(
-        output_path=export_root,  # <-- exported/
+        output_path=export_root,
         retarget_vsr_file_path=retarget_vsr,
-        actors_output_folder=ACTORS_FOLDER_NAME,  # "actors"
+        actors_output_folder=ACTORS_FOLDER_NAME,
     )
     print(hsl_content)
     hsl_file = take_dir / "geeno_retarget.hsl"
@@ -266,10 +265,10 @@ if __name__ == "__main__":
             process_take(take_dir=t, shogun_path=SHOGUN_PATH, force=True)
 
     # Run retarget
-    if selection.run_retarget:
+    if selection.run_mannequin_retarget:
         print("\n🎯 Running retargeting pass...")
         for t in take_folders:
-            process_retargeting(take_dir=t, shogun_path=SHOGUN_PATH)
+            process_mannequin_retargeting(take_dir=t, shogun_path=SHOGUN_PATH)
 
     # Run Geeno retarget
     if selection.run_geeno_retarget:
