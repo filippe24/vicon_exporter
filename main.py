@@ -15,6 +15,13 @@ from configuration.settings import (
     SHOGUN_PATH,
 )
 from configuration.types import RETARGET_CONFIGS, RetargetType
+from exporter.aligned_export_pipeline import (
+    create_aligned_export_dirs,
+    generate_aligned_actor_export_hsl,
+    generate_aligned_retarget_hsl,
+    load_aligned_export_plan,
+    write_aligned_export_summary,
+)
 from exporter.export_pipeline import generate_hsl
 from exporter.geeno_retarget_pipeline import generate_geeno_retarget_hsl
 from exporter.general_retarget_pipeline import generate_general_retarget_hsl
@@ -305,6 +312,85 @@ def process_general_retargeting(
     )
 
 
+def process_aligned_export_and_retargeting(take_dir: Path, shogun_path: Path):
+    print(f"\nAligned export + MetaHuman + Geeno retargeting: {take_dir}")
+
+    plan = load_aligned_export_plan(take_dir)
+    if plan is None:
+        return
+
+    mcp_file = _find_retarget_source_mcp(take_dir)
+    if mcp_file is None:
+        print("   warning: no MCP file found, skipping.")
+        return
+
+    create_aligned_export_dirs(plan)
+
+    print(f"   using MCP: {mcp_file.name}")
+    print(f"   using aLigner YAML: {plan.export_yaml_path.name}")
+    print(f"   aligned frame range: {plan.start_frame} -> {plan.end_frame}")
+    print(f"   output: {plan.output_root}")
+
+    actor_hsl = take_dir / "aligned_export_actor_fbx.hsl"
+    actor_hsl.write_text(generate_aligned_actor_export_hsl(plan))
+    actor_output_mcp = plan.output_root / "aligned_actor_export_output.mcp"
+
+    print("   exporting pure aligned actor files...")
+    run_shogun(
+        mcp_file=mcp_file,
+        hsl_file=actor_hsl,
+        out_file=actor_output_mcp,
+        shogun_path=shogun_path,
+    )
+
+    for retarget_type, folder_name, prefix in [
+        (RetargetType.MANNEQUIN_ADJUSTED, "metahuman", "metahuman_aligned"),
+        (RetargetType.GEENO, "geeno", "geeno_aligned"),
+    ]:
+        configuration = RETARGET_CONFIGS[retarget_type]
+        retarget_vsr = Path(__file__).resolve().parent / configuration.vsr_source_path
+
+        if not retarget_vsr.exists():
+            print(
+                f"   warning: retarget VSR missing, skipping {configuration.name}: {retarget_vsr}"
+            )
+            continue
+
+        hsl_file = take_dir / f"aligned_retarget_{folder_name}.hsl"
+        hsl_file.write_text(
+            generate_aligned_retarget_hsl(
+                template_path=configuration.hsl_source_path,
+                plan=plan,
+                retarget_vsr_file_path=retarget_vsr,
+                retarget_folder_name=folder_name,
+                file_name_prefix=prefix,
+            )
+        )
+
+        dummy_output_mcp = plan.output_root / f"temp_{folder_name}_aligned_output.mcp"
+        print(f"   running {configuration.name} aligned retarget...")
+        run_shogun(
+            mcp_file=mcp_file,
+            hsl_file=hsl_file,
+            out_file=dummy_output_mcp,
+            shogun_path=shogun_path,
+        )
+
+    summary_path = write_aligned_export_summary(plan)
+    print(f"   aligned export summary: {summary_path}")
+
+
+def _find_retarget_source_mcp(take_dir: Path) -> Path | None:
+    processed_mcp = take_dir / PROCESSED_MCP_NAME
+    if processed_mcp.exists():
+        return processed_mcp
+
+    original_mcps = [
+        path for path in take_dir.glob("*.mcp") if path.name != PROCESSED_MCP_NAME
+    ]
+    return original_mcps[0] if original_mcps else None
+
+
 def find_bvh_files(root: Path):
     return [f for f in root.rglob("*.bvh") if not f.name.endswith("_converted.bvh")]
 
@@ -378,6 +464,14 @@ if __name__ == "__main__":
                 retarget_type=RetargetType.GEENO,
             )
             # process_geeno_retargeting(take_dir=t, shogun_path=SHOGUN_PATH, force=True)
+
+    if selection.run_aligned_export:
+        print("\nRunning aligned export + MetaHuman + Geeno pass...")
+        for curr_take_directry in take_folders:
+            process_aligned_export_and_retargeting(
+                take_dir=curr_take_directry,
+                shogun_path=SHOGUN_PATH,
+            )
 
     # Run BVH conversion
     if selection.run_convert_bvh:

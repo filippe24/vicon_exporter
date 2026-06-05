@@ -8,6 +8,12 @@ SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.19\ShogunPostCL.exe")
 # name of the folder where exported files go
 EXPORT_FOLDER_NAME = "exported"
 
+# name of the folder where aligner-compatible exports go.
+ALIGNED_EXPORT_FOLDER_NAME = "aligned_exports"
+
+# name of the report folder inside aligned exports.
+ALIGNED_REPORTS_FOLDER_NAME = "reports"
+
 # name of the actors folder inside the export folder.
 ACTORS_FOLDER_NAME = "actors"
 
