@@ -25,9 +25,9 @@ for ($i = 0; $i < $numsel; $i+= 1)
 
 
     select ($sel[$i]+"\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm");
-    setProperty "DOF" "Rz" false -onMod ($sel[$i]+"\Solving\Hips\Spine\Spine1\Spine2\Spine3\LeftShoulder\LeftArm\LeftForeArm");
+    setProperty "DOF" "Rz" false -onMod ($sel[$i]+"\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm");
     select ($sel[$i]+"\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand");
-    setProperty "DOF" "Rz" true -onMod ($sel[$i]+"\Solving\Hips\Spine\Spine1\Spine2\Spine3\LeftShoulder\LeftArm\LeftForeArm\LeftHand");
+    setProperty "DOF" "Rz" true -onMod ($sel[$i]+"\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand");
     solve;
 
 

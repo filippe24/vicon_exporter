@@ -1,51 +1,141 @@
 ![logo](images/logo.png)
 
-a lightweight, terminal-based, python tool for processing Vicon Shogun takes (`.mcp`) and export them in a predefined manner. 
+# Vicon Exporter
 
-**important: this code requires an installation of Shogun Post with Shogun Post CL.** The path to ShogunPostCL can be set inside `configuration/settings.py`.
+A small Python tool for processing Vicon Shogun takes (`.mcp`) with Shogun Post CL. It generates HSL scripts, runs Shogun, and writes predictable mocap exports for the local pipeline.
 
-functionalities:
-- it runs ShogunPostCL with **live streaming output**.
-- it generates `.hsl` (vicon shogun proprietary script language) files for each take.
-- it exports `.fbx`, `.bvh`, `.c3d` files from `.mcp`.
-- it provides live feedback and automatic folders detections.
-This tool is ideal for motion capture pipelines where multiple takes must be processed quickly and consistently.
+Important: this code requires Vicon Shogun Post with `ShogunPostCL.exe`. Set the executable path in `configuration/settings.py`.
 
-The intended output can be edited from the base `hsl` template and `shogun_runner.py`.
+## Features
 
-### install and use.
-first install dependencies using `requirements.txt` or using `uv` using `uv sync`.
-be sure that `Vicon's Shogun Post` (we have used version 1.18 and 1.19) is installed. identify the path to `ShogunPostCL.exe` and set it on `confogiration/settings.py`.
+- Runs Shogun Post CL with live streaming output.
+- Generates HSL scripts for each take.
+- Exports actor `.fbx`, `.bvh`, `.c3d`, and `.mcp` files.
+- Runs mannequin, MetaHuman-adjusted, and Geeno retarget exports.
+- Can read aLigner `*.export.yaml` files and export an aligned frame range without overwriting the classic output.
+- Finds take folders recursively from a selected root folder.
 
----
+## Install
 
-to run the code use the command `uv run main.py` or `python main.py`.
-First you will be prompted to select a folder. The code automatically identify all the folder containing `.mcp` files recursively (it assume one .mcp per folder) and it start exporting automatically.
+Use uv from the repository root:
 
-
-### folder structure.
-
-```
-exporter/
- ├── configuration/
- │     └── settings.py
- ├── exporter/
- │     ├── export_pipeline.py
- │     └── ...
- ├── wrapper/
- │     └── shogun_runner.py
- ├── main.py
- ├── requirements.txt
- └── pyproject.toml
+```powershell
+uv sync
 ```
 
-![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
-![uv](https://img.shields.io/badge/uv-powered-orange.svg)
-![Platform](https://img.shields.io/badge/platform-windows-lightgrey.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+Then run:
 
-      vicon exporter
-      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-      ▓▓▓▓▓▓▓▓▓▓▓▓
-      ▓▓▓ ▓▓▓▓▓▓▓▓▓▓
-      ▓█▓▓▓▓▓
+```powershell
+uv run main.py
+```
+
+If you do not use uv, install the dependencies from `pyproject.toml` into a Python environment and run:
+
+```powershell
+python main.py
+```
+
+## Main Outputs
+
+The classic exporter writes to:
+
+```text
+take/
+  exported/
+    markers_world.c3d
+    clapperboard.c3d
+    actors/
+      <actor>_.c3d
+      <actor>_.fbx
+      <actor>_.bvh
+      <actor>_.mcp
+```
+
+The aLigner-compatible exporter writes to a separate folder:
+
+```text
+take/
+  aligned_exports/
+    actors/
+      <actor>_aligned.c3d
+      <actor>_aligned.fbx
+      <actor>_aligned.bvh
+      <actor>_aligned.mcp
+    retargeted/
+      metahuman/
+        <actor>_metahuman_aligned.fbx
+      geeno/
+        <actor>_geeno_aligned.fbx
+    reports/
+      aligned_export_summary.yaml
+```
+
+This keeps the existing `exported/` folder untouched. The `aligner._data/exports/` folder is also left untouched because it belongs to aLigner.
+
+## aLigner Workflow
+
+After the classic export and an aLigner run, each take should contain:
+
+```text
+take/
+  exported/
+  aligner._data/
+    <take>.export.yaml
+    <take>.state.yaml
+```
+
+Use the menu option:
+
+```text
+Run Aligned Export + MetaHuman + Geeno
+```
+
+That pass reads `aligner._data/<take>.export.yaml`, finds the MOCAP actor entries, and uses their `0_local_start_frame` and `0_local_end_frame` values to generate HSL with:
+
+```hsl
+playRange <start_frame> <end_frame>;
+```
+
+It then exports the pure aligned actor files and runs the aligned mannequin-compatible MetaHuman output and Geeno retargets.
+
+## Retarget Types
+
+There are two mannequin-style retarget modes:
+
+- `mannequin`: uses `models/basic_mannequin.vsr` with `hsl/retarget_general_template.hsl`. This is the simpler path. It selects each Shogun character, loads the VSR, retargets, selects the retargeting hierarchy, and exports FBX.
+- `mannequin adjusted`: uses `models/adjusted_mannequin.vsr` with `hsl/retarget_mannequin_template_adjusted_for_metahuman.hsl`. Before loading the VSR, it changes the left forearm/left hand `Rz` DOF setup and runs `solve`. This is intended for the MetaHuman-adjusted setup, but because it touches the solve skeleton it is more fragile in Shogun.
+
+Geeno retargeting uses `models/geeno.vsr` with the general retarget template.
+
+The aligned `metahuman` output intentionally uses the basic mannequin retarget path because it is less invasive and has been the more reliable Shogun CL path. The adjusted MetaHuman template is still available from the separate menu option, but it touches the solve skeleton and may fail with Shogun script errors around `setProperty -onMod`.
+
+## Generated HSL Files
+
+The app writes HSL files into the take folder so they can be inspected and run manually:
+
+```text
+take/
+  exporter.hsl
+  aligned_export_actor_fbx.hsl
+  aligned_retarget_metahuman.hsl
+  aligned_retarget_geeno.hsl
+```
+
+Shogun Post CL does not always surface detailed script context, so these generated files are the best place to inspect exact line numbers after an error.
+
+## Project Layout
+
+```text
+vicon_exporter/
+  bvh/
+  configuration/
+  exporter/
+  hsl/
+  models/
+  ui/
+  utils/
+  wrapper/
+  main.py
+  pyproject.toml
+  uv.lock
+```

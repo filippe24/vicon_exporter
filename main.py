@@ -344,7 +344,7 @@ def process_aligned_export_and_retargeting(take_dir: Path, shogun_path: Path):
     )
 
     for retarget_type, folder_name, prefix in [
-        (RetargetType.MANNEQUIN_ADJUSTED, "metahuman", "metahuman_aligned"),
+        (RetargetType.MANNEQUIN, "metahuman", "metahuman_aligned"),
         (RetargetType.GEENO, "geeno", "geeno_aligned"),
     ]:
         configuration = RETARGET_CONFIGS[retarget_type]
@@ -369,12 +369,16 @@ def process_aligned_export_and_retargeting(take_dir: Path, shogun_path: Path):
 
         dummy_output_mcp = plan.output_root / f"temp_{folder_name}_aligned_output.mcp"
         print(f"   running {configuration.name} aligned retarget...")
-        run_shogun(
-            mcp_file=mcp_file,
-            hsl_file=hsl_file,
-            out_file=dummy_output_mcp,
-            shogun_path=shogun_path,
-        )
+        try:
+            run_shogun(
+                mcp_file=mcp_file,
+                hsl_file=hsl_file,
+                out_file=dummy_output_mcp,
+                shogun_path=shogun_path,
+            )
+        except RuntimeError as error:
+            print(f"   warning: {configuration.name} aligned retarget failed: {error}")
+            print(f"   inspect generated HSL: {hsl_file}")
 
     summary_path = write_aligned_export_summary(plan)
     print(f"   aligned export summary: {summary_path}")
@@ -452,7 +456,7 @@ if __name__ == "__main__":
             process_general_retargeting(
                 take_dir=curr_take_directry,
                 shogun_path=SHOGUN_PATH,
-                retarget_type=RetargetType.MANNEQUIN,
+                retarget_type=RetargetType.MANNEQUIN_ADJUSTED,
             )
 
     if selection.run_geeno_retarget:
