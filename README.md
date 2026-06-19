@@ -90,7 +90,7 @@ Use the menu option:
 Run Aligned Export + MetaHuman + Geeno
 ```
 
-That pass reads `aligner._data/<take>.export.yaml`, finds the MOCAP actor entries, and uses their `0_local_start_frame` and `0_local_end_frame` values to generate HSL with:
+That pass reads `aligner._data/<take>.export.yaml`, finds the MOCAP actor entries, and uses the exported local start/end frame values to generate HSL with:
 
 ```hsl
 playRange <start_frame> <end_frame>;
