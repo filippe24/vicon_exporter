@@ -16,34 +16,53 @@ for ($i = 0; $i < $numsel; $i+= 1)
 {
 	print $sel[$i];
 
-	select  $sel[$i];
+	string $subject;
+	$subject = $sel[$i];
+
+	select  $subject;
 
 	// select full hierarchy.
-	selectChildren -recursive $sel[$i];
+	selectChildren -recursive $subject;
 	// set current subject.
-	setCurrentSubject $sel[$i];
-
-
-    select ($sel[$i]+"\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm");
-    setProperty "DOF" "Rz" false -onMod ($sel[$i]+"\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm");
-    select ($sel[$i]+"\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand");
-    setProperty "DOF" "Rz" true -onMod ($sel[$i]+"\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm\\LeftHand");
-    solve;
-
+	setCurrentSubject $subject;
 
 	// load the retarget file.
 	// loadFile -importType "curClipCreateNew" "C:/Users/jovan/Documents/project/python/vicon_exporter/models/default_mannequin.vsr";
 	loadFile -importType "curClipCreateNew" "{RETARGET_VSR_PATH}";
 
+	selectByName $subject;
+	setConstraint;
+	retarget -selectedCharacters;
+
+	// move forearm twist from forearm to hand on both sides, then solve and retarget again.
+	string $r_forearm;
+	string $r_hand;
+	string $l_forearm;
+	string $l_hand;
+	$r_forearm = ($subject + "\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\RightShoulder\\RightArm\\RightForeArm");
+	$r_hand = ($r_forearm + "\\RightHand");
+	$l_forearm = ($subject + "\\Solving\\Hips\\Spine\\Spine1\\Spine2\\Spine3\\LeftShoulder\\LeftArm\\LeftForeArm");
+	$l_hand = ($l_forearm + "\\LeftHand");
+
+	setProperty "DOF" "Rz" false -onMod $r_forearm;
+	setProperty "DOF" "Rz" true -onMod $r_hand;
+	setProperty "DOF" "Rz" false -onMod $l_forearm;
+	setProperty "DOF" "Rz" true -onMod $l_hand;
+
+	selectByName $subject;
+	solve;
+
+	selectByName $subject;
+	setConstraint;
 	retarget -selectedCharacters;
 
 	// select ;
-    select ($sel[$i]+"\\\\Retargeting");
+    select ($subject+"\\\\Retargeting");
     SelectChildren_Add_All;
 
 
 	// get first letter
-	$first = `strLeft $sel[$i] 3`;
+	$first = `strLeft $subject 3`;
 
 	// build path.
 	string $filename_fbx;

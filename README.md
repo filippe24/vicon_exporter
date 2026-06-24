@@ -70,7 +70,7 @@ take/
       aligned_export_summary.yaml
 ```
 
-This keeps the existing `exported/` folder untouched. The `aligner._data/exports/` folder is also left untouched because it belongs to aLigner.
+Rerunning the aligned exporter overwrites the previous aligned outputs. This keeps the existing `exported/` folder untouched. The `aligner._data/exports/` folder is also left untouched because it belongs to aLigner.
 
 ## aLigner Workflow
 
@@ -103,7 +103,7 @@ It then exports the pure aligned actor files and runs the aligned mannequin-comp
 There are two mannequin-style retarget modes:
 
 - `mannequin`: uses `models/basic_mannequin.vsr` with `hsl/retarget_general_template.hsl`. This is the simpler path. It selects each Shogun character, loads the VSR, retargets, selects the retargeting hierarchy, and exports FBX.
-- `mannequin adjusted`: uses `models/adjusted_mannequin.vsr` with `hsl/retarget_mannequin_template_adjusted_for_metahuman.hsl`. Before loading the VSR, it changes the left forearm/left hand `Rz` DOF setup and runs `solve`. This is intended for the MetaHuman-adjusted setup, but because it touches the solve skeleton it is more fragile in Shogun.
+- `mannequin adjusted`: uses `models/adjusted_mannequin.vsr` with `hsl/retarget_mannequin_template_adjusted_for_metahuman.hsl`. It retargets once, moves forearm `Rz` twist from the forearm to the hand on both arms, runs `solve`, then retargets again. This is intended for the MetaHuman-adjusted setup, but because it touches the solve skeleton it is more fragile in Shogun.
 
 Geeno retargeting uses `models/geeno.vsr` with the general retarget template.
 
@@ -115,7 +115,6 @@ The app writes HSL files into the take folder so they can be inspected and run m
 
 ```text
 take/
-  exporter.hsl
   aligned_export_actor_fbx.hsl
   aligned_retarget_metahuman.hsl
   aligned_retarget_geeno.hsl
