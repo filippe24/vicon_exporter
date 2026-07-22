@@ -18,7 +18,6 @@ from configuration.types import RETARGET_CONFIGS, RetargetType
 from exporter.aligned_export_pipeline import (
     create_aligned_export_dirs,
     generate_aligned_actor_export_hsl,
-    generate_aligned_retarget_hsl,
     load_aligned_export_plan,
     write_aligned_export_summary,
 )
@@ -443,36 +442,29 @@ def process_aligned_export_and_retargeting(take_dir: Path, shogun_path: Path):
     if plan is None:
         return
 
-    mcp_file = _find_retarget_source_mcp(take_dir)
-    if mcp_file is None:
-        print("   warning: no MCP file found, skipping.")
-        return
-
     create_aligned_export_dirs(plan)
 
-    print(f"   using MCP: {mcp_file.name}")
     print(f"   using aLigner YAML: {plan.export_yaml_path.name}")
     print(f"   aligned frame range: {plan.start_frame} -> {plan.end_frame}")
     print(f"   output: {plan.output_root}")
 
-    actor_hsl = take_dir / "aligned_export_actor_fbx.hsl"
-    actor_hsl.write_text(generate_aligned_actor_export_hsl(plan))
-    actor_output_mcp = plan.output_root / "aligned_actor_export_output.mcp"
-
-    print("   exporting pure aligned actor files...")
-    run_shogun(
-        mcp_file=mcp_file,
-        hsl_file=actor_hsl,
-        out_file=actor_output_mcp,
+    aligned_actor_mcps = _export_aligned_actor_mcps(
+        plan=plan,
+        take_dir=take_dir,
         shogun_path=shogun_path,
     )
+    if not aligned_actor_mcps:
+        print("   warning: no aligned actor MCP files were exported, skipping retargets.")
+        return
 
     for retarget_type, folder_name, prefix in [
         (RetargetType.MANNEQUIN, "metahuman", "metahuman_aligned"),
         (RetargetType.GEENO, "geeno", "geeno_aligned"),
     ]:
         configuration = RETARGET_CONFIGS[retarget_type]
-        retarget_vsr = Path(__file__).resolve().parent / configuration.vsr_source_path
+        project_root = Path(__file__).resolve().parent
+        retarget_vsr = project_root / configuration.vsr_source_path
+        template_path = project_root / configuration.hsl_source_path
 
         if not retarget_vsr.exists():
             print(
@@ -480,32 +472,110 @@ def process_aligned_export_and_retargeting(take_dir: Path, shogun_path: Path):
             )
             continue
 
-        hsl_file = take_dir / f"aligned_retarget_{folder_name}.hsl"
-        hsl_file.write_text(
-            generate_aligned_retarget_hsl(
-                template_path=configuration.hsl_source_path,
-                plan=plan,
-                retarget_vsr_file_path=retarget_vsr,
-                retarget_folder_name=folder_name,
-                file_name_prefix=prefix,
-            )
-        )
-
-        dummy_output_mcp = plan.output_root / f"temp_{folder_name}_aligned_output.mcp"
         print(f"   running {configuration.name} aligned retarget...")
-        try:
-            run_shogun(
-                mcp_file=mcp_file,
-                hsl_file=hsl_file,
-                out_file=dummy_output_mcp,
-                shogun_path=shogun_path,
+        for actor_mcp in aligned_actor_mcps:
+            hsl_file = plan.scripts_dir / f"aligned_retarget_{folder_name}_{actor_mcp.stem}.hsl"
+            hsl_file.write_text(
+                generate_general_retarget_hsl(
+                    template_path=template_path,
+                    output_path=plan.retargeted_dir,
+                    retarget_vsr_file_path=retarget_vsr,
+                    actors_output_folder=folder_name,
+                    file_name_prefix=prefix,
+                )
             )
-        except RuntimeError as error:
-            print(f"   warning: {configuration.name} aligned retarget failed: {error}")
-            print(f"   inspect generated HSL: {hsl_file}")
+
+            dummy_output_mcp = (
+                plan.output_root / f"temp_{folder_name}_{actor_mcp.stem}_output.mcp"
+            )
+            try:
+                run_shogun(
+                    mcp_file=actor_mcp,
+                    hsl_file=hsl_file,
+                    out_file=dummy_output_mcp,
+                    shogun_path=shogun_path,
+                )
+            except RuntimeError as error:
+                print(
+                    f"   warning: {configuration.name} retarget failed for "
+                    f"{actor_mcp.name}: {error}"
+                )
+                print(f"   inspect generated HSL: {hsl_file}")
 
     summary_path = write_aligned_export_summary(plan)
     print(f"   aligned export summary: {summary_path}")
+
+
+def _export_aligned_actor_mcps(
+    *,
+    plan,
+    take_dir: Path,
+    shogun_path: Path,
+) -> list[Path]:
+    aligned_actor_mcps: list[Path] = []
+
+    print("   exporting cropped aligned actor files...")
+    for actor_entry in plan.mocap_entries:
+        actor_source_mcp = actor_entry.source_mcp_path
+        if not actor_source_mcp.exists():
+            print(
+                f"   warning: actor MCP missing for {actor_entry.actor_prefix}, "
+                f"expected: {actor_source_mcp}"
+            )
+            continue
+
+        hsl_file = plan.scripts_dir / f"aligned_export_{actor_entry.actor_prefix}.hsl"
+        hsl_file.write_text(generate_aligned_actor_export_hsl(plan, actor_entry))
+        actor_output_mcp = plan.output_root / f"temp_{actor_entry.actor_prefix}_aligned_output.mcp"
+
+        print(
+            f"   exporting {actor_entry.actor_prefix}: "
+            f"{actor_entry.start_frame} -> {actor_entry.end_frame}"
+        )
+        run_shogun(
+            mcp_file=actor_source_mcp,
+            hsl_file=hsl_file,
+            out_file=actor_output_mcp,
+            shogun_path=shogun_path,
+        )
+
+        aligned_actor_mcp = plan.actors_dir / f"{actor_entry.actor_prefix}_aligned.mcp"
+        if aligned_actor_mcp.exists():
+            aligned_actor_mcps.append(aligned_actor_mcp)
+        else:
+            matching_outputs = sorted(
+                plan.actors_dir.glob(f"{actor_entry.actor_prefix[:3]}*_aligned.mcp")
+            )
+            if matching_outputs:
+                aligned_actor_mcps.extend(matching_outputs)
+            else:
+                print(
+                    f"   warning: aligned MCP was not found for "
+                    f"{actor_entry.actor_prefix}"
+                )
+
+    if aligned_actor_mcps:
+        return sorted(set(aligned_actor_mcps))
+
+    fallback_mcp = _find_retarget_source_mcp(take_dir)
+    if fallback_mcp is None:
+        print("   warning: no fallback MCP file found.")
+        return []
+
+    print(
+        "   warning: no per-actor MCP sources were found; "
+        "falling back to the full take MCP."
+    )
+    hsl_file = plan.scripts_dir / "aligned_export_all_actors.hsl"
+    hsl_file.write_text(generate_aligned_actor_export_hsl(plan))
+    actor_output_mcp = plan.output_root / "aligned_actor_export_output.mcp"
+    run_shogun(
+        mcp_file=fallback_mcp,
+        hsl_file=hsl_file,
+        out_file=actor_output_mcp,
+        shogun_path=shogun_path,
+    )
+    return sorted(plan.actors_dir.glob("*_aligned.mcp"))
 
 
 def _find_retarget_source_mcp(take_dir: Path) -> Path | None:

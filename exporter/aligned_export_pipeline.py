@@ -27,6 +27,10 @@ class AlignedMocapEntry:
     def actor_prefix(self) -> str:
         return self.stem.removesuffix("_")
 
+    @property
+    def source_mcp_path(self) -> Path:
+        return self.source_path.with_suffix(".mcp")
+
 
 @dataclass(frozen=True)
 class AlignedExportPlan:
@@ -36,6 +40,7 @@ class AlignedExportPlan:
     actors_dir: Path
     retargeted_dir: Path
     reports_dir: Path
+    scripts_dir: Path
     mocap_entries: list[AlignedMocapEntry]
     start_frame: int
     end_frame: int
@@ -49,7 +54,7 @@ def load_aligned_export_plan(take_dir: Path) -> AlignedExportPlan | None:
 
     raw_data = yaml.safe_load(export_yaml_path.read_text()) or {}
     mocap_entries = _read_mocap_entries(raw_data)
-    actor_entries = [entry for entry in mocap_entries if entry.stem.lower() != "clapperboard"]
+    actor_entries = _collapse_actor_mocap_entries(mocap_entries)
 
     if not actor_entries:
         print(f"   warning: no actor mocap entries found in {export_yaml_path}")
@@ -70,6 +75,7 @@ def load_aligned_export_plan(take_dir: Path) -> AlignedExportPlan | None:
         actors_dir=output_root / ACTORS_FOLDER_NAME,
         retargeted_dir=output_root / "retargeted",
         reports_dir=output_root / ALIGNED_REPORTS_FOLDER_NAME,
+        scripts_dir=output_root / "scripts",
         mocap_entries=actor_entries,
         start_frame=start_frame,
         end_frame=end_frame,
@@ -80,11 +86,20 @@ def create_aligned_export_dirs(plan: AlignedExportPlan) -> None:
     plan.actors_dir.mkdir(parents=True, exist_ok=True)
     plan.retargeted_dir.mkdir(parents=True, exist_ok=True)
     plan.reports_dir.mkdir(parents=True, exist_ok=True)
+    plan.scripts_dir.mkdir(parents=True, exist_ok=True)
 
 
-def generate_aligned_actor_export_hsl(plan: AlignedExportPlan) -> str:
+def generate_aligned_actor_export_hsl(
+    plan: AlignedExportPlan,
+    actor_entry: AlignedMocapEntry | None = None,
+) -> str:
+    start_frame = actor_entry.start_frame if actor_entry is not None else plan.start_frame
+    end_frame = actor_entry.end_frame if actor_entry is not None else plan.end_frame
+    actor_label = actor_entry.actor_prefix if actor_entry is not None else "all actors"
+
     return f"""// Export aligned actor motion from the aLigner frame window.
-playRange {plan.start_frame} {plan.end_frame};
+// Source: {actor_label}
+playRange {start_frame} {end_frame};
 
 selectProps;
 select -invert;
@@ -150,6 +165,7 @@ def write_aligned_export_summary(plan: AlignedExportPlan) -> Path:
         "aligner_export_yaml": str(plan.export_yaml_path),
         "source_export_folder": str(plan.take_dir / EXPORT_FOLDER_NAME),
         "aligned_export_folder": str(plan.output_root),
+        "generated_scripts_folder": str(plan.scripts_dir),
         "start_frame": plan.start_frame,
         "end_frame": plan.end_frame,
         "actors": [
@@ -168,13 +184,31 @@ def write_aligned_export_summary(plan: AlignedExportPlan) -> Path:
 
 
 def _find_aligner_export_yaml(take_dir: Path) -> Path | None:
-    data_dir = take_dir / "aligner._data"
-    expected_path = data_dir / f"{take_dir.name}.export.yaml"
-    if expected_path.exists():
-        return expected_path
+    data_dirs = [
+        take_dir / "aligner._data",
+        take_dir / "aligner._data" / "exports",
+        take_dir / ALIGNED_EXPORT_FOLDER_NAME / "aligner._data",
+        take_dir / ALIGNED_EXPORT_FOLDER_NAME / "aligner._data" / "exports",
+    ]
 
-    matches = sorted(data_dir.glob("*.export.yaml"))
-    return matches[0] if matches else None
+    matches: list[Path] = []
+    for data_dir in data_dirs:
+        expected_path = data_dir / f"{take_dir.name}.export.yaml"
+        if expected_path.exists():
+            return expected_path
+
+        if data_dir.exists():
+            matches.extend(data_dir.glob("*.export.yaml"))
+
+    if not matches:
+        return None
+
+    return sorted(matches, key=_export_yaml_sort_key)[0]
+
+
+def _export_yaml_sort_key(path: Path) -> tuple[int, str]:
+    is_slim_export = ".slim." in path.name.lower()
+    return (1 if is_slim_export else 0, path.name.lower())
 
 
 def _read_mocap_entries(raw_data: dict[str, Any]) -> list[AlignedMocapEntry]:
@@ -192,6 +226,36 @@ def _read_mocap_entries(raw_data: dict[str, Any]) -> list[AlignedMocapEntry]:
             entries.append(entry)
 
     return entries
+
+
+def _collapse_actor_mocap_entries(
+    mocap_entries: list[AlignedMocapEntry],
+) -> list[AlignedMocapEntry]:
+    entries_by_stem: dict[str, list[AlignedMocapEntry]] = {}
+    for entry in mocap_entries:
+        if not _is_actor_mocap_entry(entry):
+            continue
+        entries_by_stem.setdefault(entry.stem.lower(), []).append(entry)
+
+    return [
+        sorted(entries, key=_actor_entry_sort_key)[0]
+        for _, entries in sorted(entries_by_stem.items())
+    ]
+
+
+def _is_actor_mocap_entry(entry: AlignedMocapEntry) -> bool:
+    return any(part.lower() == ACTORS_FOLDER_NAME for part in entry.source_path.parts)
+
+
+def _actor_entry_sort_key(entry: AlignedMocapEntry) -> tuple[int, str]:
+    suffix = entry.source_path.suffix.lower()
+    suffix_priority = {
+        ".bvh": 0,
+        ".mcp": 1,
+        ".fbx": 2,
+        ".c3d": 3,
+    }
+    return (suffix_priority.get(suffix, 99), entry.name.lower())
 
 
 def _iter_export_track_entries(raw_data: dict[str, Any]) -> list[Any]:

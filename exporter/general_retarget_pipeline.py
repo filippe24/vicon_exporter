@@ -9,7 +9,7 @@ def generate_general_retarget_hsl(
     actors_output_folder: str = "actors",
     file_name_prefix: str = "retargeted_",
 ) -> str:
-    if not template_path.exists:
+    if not template_path.exists():
         return ""
     template = template_path.read_text()
     return (

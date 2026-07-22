@@ -2,8 +2,8 @@
 from pathlib import Path
 
 # path to ShogunPostCL executable.
-# SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.18\ShogunPostCL.exe")
-SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.19\ShogunPostCL.exe")
+# SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.19\ShogunPostCL.exe")
+SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.20\ShogunPostCL.exe")
 
 # name of the folder where exported files go
 EXPORT_FOLDER_NAME = "exported"

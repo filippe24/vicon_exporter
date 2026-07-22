@@ -36,12 +36,26 @@ def open_menu():
     convert_var = IntVar()
     rename_var = IntVar()
 
-    Checkbutton(root, text="Run Export", variable=export_var).pack(anchor="w")
+    Label(root, text="Export", font=("Arial", 10, "bold")).pack(anchor="w", pady=(6, 0))
+    Checkbutton(root, text="Run Classic Export", variable=export_var).pack(anchor="w")
     Checkbutton(
         root,
         text="Include eye tracker + calibration free markers",
         variable=tracking_props_var,
     ).pack(anchor="w")
+
+    Label(root, text="Aligned workflow", font=("Arial", 10, "bold")).pack(
+        anchor="w", pady=(10, 0)
+    )
+    Checkbutton(
+        root,
+        text="Run Aligned Export + MetaHuman + Geeno Retargets",
+        variable=aligned_var,
+    ).pack(anchor="w")
+
+    Label(root, text="Legacy standalone retargets", font=("Arial", 10, "bold")).pack(
+        anchor="w", pady=(10, 0)
+    )
     Checkbutton(root, text="Run Mannequin Retarget", variable=mannequin_var).pack(
         anchor="w"
     )
@@ -49,11 +63,10 @@ def open_menu():
         root, text="Run Mannequin Adjusted Retarget", variable=mannequin_adjusted_var
     ).pack(anchor="w")
     Checkbutton(root, text="Run Geeno Retarget", variable=geeno_var).pack(anchor="w")
-    Checkbutton(
-        root,
-        text="Run Aligned Export + MetaHuman + Geeno",
-        variable=aligned_var,
-    ).pack(anchor="w")
+
+    Label(root, text="Utilities", font=("Arial", 10, "bold")).pack(
+        anchor="w", pady=(10, 0)
+    )
     Checkbutton(root, text="Convert BVH Rotations", variable=convert_var).pack(
         anchor="w"
     )

@@ -76,6 +76,10 @@ take/
         <actor>_geeno_aligned.fbx
     reports/
       aligned_export_summary.yaml
+    scripts/
+      aligned_export_<actor>.hsl
+      aligned_retarget_metahuman_<actor>_aligned.hsl
+      aligned_retarget_geeno_<actor>_aligned.hsl
 ```
 
 Rerunning the aligned exporter overwrites the previous aligned outputs. This keeps the existing `exported/` folder untouched. The `aligner._data/exports/` folder is also left untouched because it belongs to aLigner.
@@ -98,13 +102,13 @@ Use the menu option:
 Run Aligned Export + MetaHuman + Geeno
 ```
 
-That pass reads `aligner._data/<take>.export.yaml`, finds the MOCAP actor entries, and uses the exported local start/end frame values to generate HSL with:
+That pass reads the aLigner `*.export.yaml`, finds the MOCAP actor entries under `exported/actors`, and uses the exported local start/end frame values to generate HSL with:
 
 ```hsl
 playRange <start_frame> <end_frame>;
 ```
 
-It then exports the pure aligned actor files and runs the aligned mannequin-compatible MetaHuman output and Geeno retargets.
+It then exports cropped aligned actor files and runs the aligned mannequin-compatible MetaHuman output and Geeno retargets from the generated `*_aligned.mcp` files.
 
 ## Data Tree Normalization
 
@@ -160,13 +164,15 @@ The aligned `metahuman` output intentionally uses the basic mannequin retarget p
 
 ## Generated HSL Files
 
-The app writes HSL files into the take folder so they can be inspected and run manually:
+The app writes aligned workflow HSL files into the aligned export folder so they can be inspected and run manually:
 
 ```text
 take/
-  aligned_export_actor_fbx.hsl
-  aligned_retarget_metahuman.hsl
-  aligned_retarget_geeno.hsl
+  aligned_exports/
+    scripts/
+      aligned_export_<actor>.hsl
+      aligned_retarget_metahuman_<actor>_aligned.hsl
+      aligned_retarget_geeno_<actor>_aligned.hsl
 ```
 
 Shogun Post CL does not always surface detailed script context, so these generated files are the best place to inspect exact line numbers after an error.
