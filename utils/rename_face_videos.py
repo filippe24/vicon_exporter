@@ -2,22 +2,20 @@ import re
 from pathlib import Path
 
 
+TAKE_NUMBER_RE = re.compile(
+    r"(?:^|[_\-\s])(?:take[_\-\s]*)?(\d+)(?:$|[_\-\s])",
+    re.IGNORECASE,
+)
+DATE_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+
 def rename_face_videos(root_take_dir: Path):
     """
     Recursively finds take folders and renames MP4 files inside face-* folders to:
-        <actor>_<date>_take<take_number>.mp4
+        <actor>_<date>_<take_number>.mp4
     """
 
-    # Find all take folders inside this directory (including itself)
-    take_folders = [
-        d
-        for d in root_take_dir.rglob("*")
-        if d.is_dir() and re.match(r"take\d+", d.name, re.IGNORECASE)
-    ]
-
-    # Also include the folder itself if it is a take folder
-    if re.match(r"take\d+", root_take_dir.name, re.IGNORECASE):
-        take_folders.append(root_take_dir)
+    take_folders = find_face_video_take_folders(root_take_dir)
 
     if not take_folders:
         print(f"⚠ No take folders found in {root_take_dir}")
@@ -27,13 +25,12 @@ def rename_face_videos(root_take_dir: Path):
         print(f"\n🎥 Renaming face videos in {take_dir}")
 
         # Extract take number
-        try:
-            take_number = re.findall(r"\d+", take_dir.name)[0]
-            date_folder = take_dir.parent.parent.name  # "<date>"
-            base_name = f"{date_folder}_take{take_number}"
-        except Exception:
+        take_number = find_take_number(take_dir.name)
+        date_folder = find_nearest_date_folder(take_dir)
+        if take_number is None or date_folder is None:
             print(f"⚠ Could not parse date/take number for {take_dir}")
             continue
+        base_name = f"{date_folder}_{take_number}"
 
         # Find face-* folders inside this take
         face_folders = [
@@ -65,3 +62,29 @@ def rename_face_videos(root_take_dir: Path):
 
                 print(f"   • {mp4.name} → {new_name}")
                 mp4.rename(new_path)
+
+
+def find_face_video_take_folders(root_take_dir: Path) -> list[Path]:
+    candidates = [root_take_dir, *root_take_dir.rglob("*")]
+    return [
+        path
+        for path in candidates
+        if path.is_dir()
+        and find_take_number(path.name) is not None
+        and any(child.is_dir() and child.name.lower().startswith("face") for child in path.iterdir())
+    ]
+
+
+def find_take_number(name: str) -> str | None:
+    match = TAKE_NUMBER_RE.search(name)
+    if match is None:
+        return None
+    return f"{int(match.group(1)):03d}"
+
+
+def find_nearest_date_folder(path: Path) -> str | None:
+    for part in reversed(path.parts):
+        match = DATE_RE.search(part)
+        if match is not None:
+            return match.group(0)
+    return None

@@ -1,0 +1,389 @@
+kind,source,target
+directory,G:\My Drive\submission-mocaps\S028___mocap 18-12-2025,G:\My Drive\submission-mocaps\2025-12-18_S028
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025,G:\My Drive\submission-mocaps\2025-12-19_S029-2030
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026,G:\My Drive\submission-mocaps\2026-02-16_S001-S003
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026,G:\My Drive\submission-mocaps\2026-03-16_S011-S013
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026,G:\My Drive\submission-mocaps\2026-02-17_S004-S007
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026,G:\My Drive\submission-mocaps\2026-03-17_S014-S017
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026,G:\My Drive\submission-mocaps\2026-03-19_S018-S022
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026,G:\My Drive\submission-mocaps\2026-02-20_S008-S010
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026,G:\My Drive\submission-mocaps\2026-03-20_S023-2027
+directory,G:\My Drive\submission-mocaps\17-06-2026,G:\My Drive\submission-mocaps\2026-06-17
+directory,G:\My Drive\submission-mocaps\07-07-2026,G:\My Drive\submission-mocaps\2026-07-07
+directory,G:\My Drive\submission-mocaps\08-07-2026,G:\My Drive\submission-mocaps\2026-07-08
+directory,G:\My Drive\submission-mocaps\16-07-2026,G:\My Drive\submission-mocaps\2026-07-16
+directory,G:\My Drive\submission-mocaps\09-07-2026,G:\My Drive\submission-mocaps\2026-07-09
+directory,G:\My Drive\submission-mocaps\S028___mocap 18-12-2025\X1___props,G:\My Drive\submission-mocaps\2025-12-18_S028\X1_props
+directory,G:\My Drive\submission-mocaps\S028___mocap 18-12-2025\X2___subjects,G:\My Drive\submission-mocaps\2025-12-18_S028\X2_subjects
+directory,G:\My Drive\submission-mocaps\S028___mocap 18-12-2025\S028___restourant,G:\My Drive\submission-mocaps\2025-12-18_S028\S028_restourant
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\X2___props,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\X2_props
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S029___co-living-space,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S029_co-living-space
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\X1___other_takes,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\X1_other_takes
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S030___restourant,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S030_restourant
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S002___2-restourant,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S002_2-restourant
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\X___4-eye-tracker-calibration,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\X_4-eye-tracker-calibration
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\X___4-calibration,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\X_4-calibration
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S013___3-club,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S013_3-club
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S011___1-street,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S011_1-street
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\X___5-calibration,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\X_5-calibration
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S006___3-bus-station-1,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S006_3-bus-station-1
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S005___2-hotel,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S005_2-hotel
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S014___1-tea,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S014_1-tea
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S017___4-club,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S017_4-club
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S016___3-class,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S016_3-class
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\X1___5-calibration,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\X1_5-calibration
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S015___2-dance,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S015_2-dance
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\X2___6-additional-noFace-noEye-noMicrophone,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\X2_6-additional-noFace-noEye-noMicrophone
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\X3___characters,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\X3_characters
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S020___3-restourant,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S020_3-restourant
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S022___5-club,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S022_5-club
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S018___1-home,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S018_1-home
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S019___2-beach,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S019_2-beach
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\X1___7-calibration,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\X1_7-calibration
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\X2___6-others,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\X2_6-others
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S021___4-road,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S021_4-road
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\X3___face-E,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\X3_face-E
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\X4___face-R,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\X4_face-R
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\X___4-calibrations,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\X_4-calibrations
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S008___1-restaurant,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S008_1-restaurant
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S010___3-home,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S010_3-home
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S009___2-art-gallery,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S009_2-art-gallery
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\X4___face-M,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\X4_face-M
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\X1___5-calibration,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\X1_5-calibration
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S025___3-theater-production-company,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S025_3-theater-production-company
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S023___1-sydney,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S023_1-sydney
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S024___2-rio,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S024_2-rio
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\X3___exported,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\X3_exported
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\X2___characters,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\X2_characters
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S026___4-teaching-1,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S026_4-teaching-1
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S027___4-teaching-2,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S027_4-teaching-2
+directory,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop
+directory,G:\My Drive\submission-mocaps\17-06-2026\2 coffe,G:\My Drive\submission-mocaps\2026-06-17\2-coffe
+directory,G:\My Drive\submission-mocaps\17-06-2026\3 gift,G:\My Drive\submission-mocaps\2026-06-17\3-gift
+directory,G:\My Drive\submission-mocaps\17-06-2026\4 vacation memories,G:\My Drive\submission-mocaps\2026-06-17\4-vacation-memories
+directory,G:\My Drive\submission-mocaps\17-06-2026\5 professional meeting,G:\My Drive\submission-mocaps\2026-06-17\5-professional-meeting
+directory,G:\My Drive\submission-mocaps\17-06-2026\6 concert,G:\My Drive\submission-mocaps\2026-06-17\6-concert
+directory,G:\My Drive\submission-mocaps\17-06-2026\7 calibration,G:\My Drive\submission-mocaps\2026-06-17\7-calibration
+directory,G:\My Drive\submission-mocaps\17-06-2026\08-07-2026,G:\My Drive\submission-mocaps\2026-06-17\2026-07-08
+directory,G:\My Drive\submission-mocaps\07-07-2026\take1,G:\My Drive\submission-mocaps\2026-07-07\001
+directory,G:\My Drive\submission-mocaps\07-07-2026\take10,G:\My Drive\submission-mocaps\2026-07-07\010
+directory,G:\My Drive\submission-mocaps\07-07-2026\take11-calibration,G:\My Drive\submission-mocaps\2026-07-07\011-calibration
+directory,G:\My Drive\submission-mocaps\07-07-2026\take2,G:\My Drive\submission-mocaps\2026-07-07\002
+directory,G:\My Drive\submission-mocaps\07-07-2026\take3,G:\My Drive\submission-mocaps\2026-07-07\003
+directory,G:\My Drive\submission-mocaps\07-07-2026\take4,G:\My Drive\submission-mocaps\2026-07-07\004
+directory,G:\My Drive\submission-mocaps\07-07-2026\take5,G:\My Drive\submission-mocaps\2026-07-07\005
+directory,G:\My Drive\submission-mocaps\07-07-2026\take6,G:\My Drive\submission-mocaps\2026-07-07\006
+directory,G:\My Drive\submission-mocaps\07-07-2026\take7,G:\My Drive\submission-mocaps\2026-07-07\007
+directory,G:\My Drive\submission-mocaps\07-07-2026\take8,G:\My Drive\submission-mocaps\2026-07-07\008
+directory,G:\My Drive\submission-mocaps\07-07-2026\take9,G:\My Drive\submission-mocaps\2026-07-07\009
+directory,G:\My Drive\submission-mocaps\08-07-2026\take1-coffe,G:\My Drive\submission-mocaps\2026-07-08\001-coffe
+directory,G:\My Drive\submission-mocaps\08-07-2026\take10-sad,G:\My Drive\submission-mocaps\2026-07-08\010-sad
+directory,G:\My Drive\submission-mocaps\08-07-2026\take11-calibration,G:\My Drive\submission-mocaps\2026-07-08\011-calibration
+directory,G:\My Drive\submission-mocaps\08-07-2026\take12-calibration-only-face,G:\My Drive\submission-mocaps\2026-07-08\012-calibration-only-face
+directory,G:\My Drive\submission-mocaps\08-07-2026\take2-coffe,G:\My Drive\submission-mocaps\2026-07-08\002-coffe
+directory,G:\My Drive\submission-mocaps\08-07-2026\take3-busstop,G:\My Drive\submission-mocaps\2026-07-08\003-busstop
+directory,G:\My Drive\submission-mocaps\08-07-2026\take4-busstop,G:\My Drive\submission-mocaps\2026-07-08\004-busstop
+directory,G:\My Drive\submission-mocaps\08-07-2026\take5-first-meet,G:\My Drive\submission-mocaps\2026-07-08\005-first-meet
+directory,G:\My Drive\submission-mocaps\08-07-2026\take6-first-date,G:\My Drive\submission-mocaps\2026-07-08\006-first-date
+directory,G:\My Drive\submission-mocaps\08-07-2026\take7-icecream-drop,G:\My Drive\submission-mocaps\2026-07-08\007-icecream-drop
+directory,G:\My Drive\submission-mocaps\08-07-2026\take8-upset,G:\My Drive\submission-mocaps\2026-07-08\008-upset
+directory,G:\My Drive\submission-mocaps\08-07-2026\take9-mistake,G:\My Drive\submission-mocaps\2026-07-08\009-mistake
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_1,G:\My Drive\submission-mocaps\2026-07-16\001
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_10,G:\My Drive\submission-mocaps\2026-07-16\010
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_11,G:\My Drive\submission-mocaps\2026-07-16\011
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_12,G:\My Drive\submission-mocaps\2026-07-16\012
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_13,G:\My Drive\submission-mocaps\2026-07-16\013
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_14,G:\My Drive\submission-mocaps\2026-07-16\014
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_15,G:\My Drive\submission-mocaps\2026-07-16\015
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_16,G:\My Drive\submission-mocaps\2026-07-16\016
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_17,G:\My Drive\submission-mocaps\2026-07-16\017
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_2,G:\My Drive\submission-mocaps\2026-07-16\002
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_3,G:\My Drive\submission-mocaps\2026-07-16\003
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_4,G:\My Drive\submission-mocaps\2026-07-16\004
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_5,G:\My Drive\submission-mocaps\2026-07-16\005
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_6,G:\My Drive\submission-mocaps\2026-07-16\006
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_7,G:\My Drive\submission-mocaps\2026-07-16\007
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_8,G:\My Drive\submission-mocaps\2026-07-16\008
+directory,G:\My Drive\submission-mocaps\16-07-2026\take_9,G:\My Drive\submission-mocaps\2026-07-16\009
+directory,G:\My Drive\submission-mocaps\09-07-2026\Reference Video,G:\My Drive\submission-mocaps\2026-07-09\Reference-Video
+directory,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop\take 1,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop\001
+directory,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop\take 2,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop\002
+directory,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop\take 3,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop\003
+directory,G:\My Drive\submission-mocaps\17-06-2026\2 coffe\take 4,G:\My Drive\submission-mocaps\2026-06-17\2-coffe\004
+directory,G:\My Drive\submission-mocaps\17-06-2026\3 gift\take 5,G:\My Drive\submission-mocaps\2026-06-17\3-gift\005
+directory,G:\My Drive\submission-mocaps\17-06-2026\3 gift\take 6,G:\My Drive\submission-mocaps\2026-06-17\3-gift\006
+directory,G:\My Drive\submission-mocaps\17-06-2026\4 vacation memories\take 7,G:\My Drive\submission-mocaps\2026-06-17\4-vacation-memories\007
+directory,G:\My Drive\submission-mocaps\17-06-2026\5 professional meeting\take 8,G:\My Drive\submission-mocaps\2026-06-17\5-professional-meeting\008
+directory,G:\My Drive\submission-mocaps\17-06-2026\6 concert\take 10,G:\My Drive\submission-mocaps\2026-06-17\6-concert\010
+directory,G:\My Drive\submission-mocaps\17-06-2026\6 concert\take 11,G:\My Drive\submission-mocaps\2026-06-17\6-concert\011
+directory,G:\My Drive\submission-mocaps\17-06-2026\6 concert\take 9,G:\My Drive\submission-mocaps\2026-06-17\6-concert\009
+directory,G:\My Drive\submission-mocaps\17-06-2026\7 calibration\take 12,G:\My Drive\submission-mocaps\2026-06-17\7-calibration\012
+directory,G:\My Drive\submission-mocaps\17-06-2026\7 calibration\take13,G:\My Drive\submission-mocaps\2026-06-17\7-calibration\013
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\X1___5-calibration\take13,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\X1_5-calibration\013
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S025___3-theater-production-company\I01___take8,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S025_3-theater-production-company\I01_008
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S025___3-theater-production-company\I03___take10,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S025_3-theater-production-company\I03_010
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S025___3-theater-production-company\I02___take9,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S025_3-theater-production-company\I02_009
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S023___1-sydney\I01___take1,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S023_1-sydney\I01_001
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S023___1-sydney\I04___take4,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S023_1-sydney\I04_004
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S023___1-sydney\I03___take3,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S023_1-sydney\I03_003
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S023___1-sydney\I02___take2,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S023_1-sydney\I02_002
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S024___2-rio\I01___take5,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S024_2-rio\I01_005
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S024___2-rio\I03___take7,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S024_2-rio\I03_007
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S024___2-rio\I02___take6,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S024_2-rio\I02_006
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S026___4-teaching-1\I01___take11,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S026_4-teaching-1\I01_011
+directory,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S027___4-teaching-2\I01___take12,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S027_4-teaching-2\I01_012
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\X___4-calibrations\take11,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\X_4-calibrations\011
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\X___4-calibrations\take10,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\X_4-calibrations\010
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S008___1-restaurant\I01___take1,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S008_1-restaurant\I01_001
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S008___1-restaurant\I02___take2,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S008_1-restaurant\I02_002
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S010___3-home\I04___take7,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S010_3-home\I04_007
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S010___3-home\I06___take9,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S010_3-home\I06_009
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S010___3-home\I03___take6,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S010_3-home\I03_006
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S010___3-home\I01___take4,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S010_3-home\I01_004
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S010___3-home\I05___take8,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S010_3-home\I05_008
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S010___3-home\I02___take5,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S010_3-home\I02_005
+directory,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S009___2-art-gallery\I01___take3,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S009_2-art-gallery\I01_003
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S020___3-restourant\I01___take7,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S020_3-restourant\I01_007
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S022___5-club\I01___take9,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S022_5-club\I01_009
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S022___5-club\I03___take11,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S022_5-club\I03_011
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S022___5-club\I02___take10,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S022_5-club\I02_010
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S018___1-home\I01___take1,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S018_1-home\I01_001
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S018___1-home\I03___take3,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S018_1-home\I03_003
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S018___1-home\I02___take2,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S018_1-home\I02_002
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S018___1-home\I04___take4,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S018_1-home\I04_004
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S019___2-beach\I01___take5,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S019_2-beach\I01_005
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S019___2-beach\I02___take6,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S019_2-beach\I02_006
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\X1___7-calibration\take13,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\X1_7-calibration\013
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\X2___6-others\take12,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\X2_6-others\012
+directory,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S021___4-road\I01___take8,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S021_4-road\I01_008
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S014___1-tea\I02___take2,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S014_1-tea\I02_002
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S014___1-tea\I04___take4,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S014_1-tea\I04_004
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S014___1-tea\I03___take3,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S014_1-tea\I03_003
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S014___1-tea\I01___take1,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S014_1-tea\I01_001
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S017___4-club\I02___take13,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S017_4-club\I02_013
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S017___4-club\I01___take12,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S017_4-club\I01_012
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S016___3-class\I02___take10,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S016_3-class\I02_010
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S016___3-class\I03___take11,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S016_3-class\I03_011
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S016___3-class\I01___take9,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S016_3-class\I01_009
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\X1___5-calibration\take14,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\X1_5-calibration\014
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S015___2-dance\I01___take5,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S015_2-dance\I01_005
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S015___2-dance\I04___take8,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S015_2-dance\I04_008
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S015___2-dance\I03___take7,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S015_2-dance\I03_007
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S015___2-dance\I02___take6,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S015_2-dance\I02_006
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\X2___6-additional-noFace-noEye-noMicrophone\take15,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\X2_6-additional-noFace-noEye-noMicrophone\015
+directory,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\X2___6-additional-noFace-noEye-noMicrophone\take16,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\X2_6-additional-noFace-noEye-noMicrophone\016
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\X___5-calibration\take12,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\X_5-calibration\012
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\X___5-calibration\take13,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\X_5-calibration\013
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I01___take1,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I01_001
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I02___take2,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I02_002
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I03___take3,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I03_003
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I04___take4,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I04_004
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S006___3-bus-station-1\I01___take6,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S006_3-bus-station-1\I01_006
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I04___take10,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I04_010
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I02___take8,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I02_008
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I03___take9,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I03_009
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I01___take7,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I01_007
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I05___take11,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I05_011
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S005___2-hotel\I01___take5,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S005_2-hotel\I01_005
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\X___4-calibration\take12,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\X_4-calibration\012
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S013___3-club\I01___take11,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S013_3-club\I01_011
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I06___take8,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I06_008
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I01___take3,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I01_003
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I04___take6,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I04_006
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I03___take5,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I03_005
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I02___take4,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I02_004
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I05___take7,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I05_007
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S011___1-street\I02___take2,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S011_1-street\I02_002
+directory,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S011___1-street\I01___take1,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S011_1-street\I01_001
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S002___2-restourant\I01___take7,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S002_2-restourant\I01_007
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S002___2-restourant\I02___take8,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S002_2-restourant\I02_008
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I02___take10,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I02_010
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I03___take11,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I03_011
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I04___take12,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I04_012
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I06___take14,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I06_014
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I05___take13,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I05_013
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I01___take9,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I01_009
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I02___take2,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I02_002
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I03___take3,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I03_003
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I01___take1,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I01_001
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I06___take6,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I06_006
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I04___take4,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I04_004
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I05___take5,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I05_005
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S029___co-living-space\take5,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S029_co-living-space\005
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S029___co-living-space\take4,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S029_co-living-space\004
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S029___co-living-space\take6,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S029_co-living-space\006
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S029___co-living-space\take7,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S029_co-living-space\007
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S029___co-living-space\take3,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S029_co-living-space\003
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S029___co-living-space\take2,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S029_co-living-space\002
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S029___co-living-space\take9,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S029_co-living-space\009
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S029___co-living-space\take8,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S029_co-living-space\008
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S029___co-living-space\take10,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S029_co-living-space\010
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\X1___other_takes\take1,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\X1_other_takes\001
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S030___restourant\I01___take11,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S030_restourant\I01_011
+directory,G:\My Drive\submission-mocaps\S029-2030___mocap 19-12-2025\S030___restourant\I02___take12,G:\My Drive\submission-mocaps\2025-12-19_S029-2030\S030_restourant\I02_012
+directory,G:\My Drive\submission-mocaps\S028___mocap 18-12-2025\S028___restourant\I01___take1,G:\My Drive\submission-mocaps\2025-12-18_S028\S028_restourant\I01_001
+directory,G:\My Drive\submission-mocaps\S028___mocap 18-12-2025\S028___restourant\I02___take2,G:\My Drive\submission-mocaps\2025-12-18_S028\S028_restourant\I02_002
+file,G:\My Drive\submission-mocaps\08-07-2026\take1-coffe\aligner._data\take1-coffe.state.yaml,G:\My Drive\submission-mocaps\2026-07-08\001-coffe\aligner._data\001-coffe.state.yaml
+file,G:\My Drive\submission-mocaps\08-07-2026\take1-coffe\aligner._data\take1-coffe.export.yaml,G:\My Drive\submission-mocaps\2026-07-08\001-coffe\aligner._data\001-coffe.export.yaml
+file,G:\My Drive\submission-mocaps\08-07-2026\take1-coffe\aligner._data\take1-coffe.slim.export.yaml,G:\My Drive\submission-mocaps\2026-07-08\001-coffe\aligner._data\001-coffe.slim.export.yaml
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\X___5-calibration\take13\jessica-calibration-s004-s007-2026-02-17,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\X_5-calibration\013\2026-02-17_jessica-calibration-s004-s007
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\X___5-calibration\take13\james-calibration-s004-s007-2026-02-17,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\X_5-calibration\013\2026-02-17_james-calibration-s004-s007
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S011___1-street\I02___take2\take2.export.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S011_1-street\I02_002\002.export.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S011___1-street\I02___take2\take2.state.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S011_1-street\I02_002\002.state.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S011___1-street\I01___take1\take1.state.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S011_1-street\I01_001\001.state.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S011___1-street\I01___take1\take1.export.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S011_1-street\I01_001\001.export.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I01___take3\take3.export.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I01_003\003.export.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I01___take3\take3.state.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I01_003\003.state.yaml
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\X___4-eye-tracker-calibration\eye-jam\jam-calibration-s001-s003-2026-02-16,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\X_4-eye-tracker-calibration\eye-jam\2026-02-16_jam-calibration-s001-s003
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\X___4-eye-tracker-calibration\aligner._data\X___4-eye-tracker-calibration.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\X_4-eye-tracker-calibration\aligner._data\X_4-eye-tracker-calibration.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\X___4-eye-tracker-calibration\aligner._data\X___4-eye-tracker-calibration.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\X_4-eye-tracker-calibration\aligner._data\X_4-eye-tracker-calibration.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\X___4-eye-tracker-calibration\aligner._data\X___4-eye-tracker-calibration.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\X_4-eye-tracker-calibration\aligner._data\X_4-eye-tracker-calibration.slim.export.yaml
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\X___4-eye-tracker-calibration\eye-tom\tom-calibration-s001-s003-2026-02-16,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\X_4-eye-tracker-calibration\eye-tom\2026-02-16_tom-calibration-s001-s003
+file,G:\My Drive\submission-mocaps\17-06-2026\6 concert\take 9\aligner._data\take 9.state.yaml,G:\My Drive\submission-mocaps\2026-06-17\6-concert\009\aligner._data\009.state.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\6 concert\take 9\aligner._data\take 9.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\6-concert\009\aligner._data\009.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\6 concert\take 9\aligner._data\take 9.slim.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\6-concert\009\aligner._data\009.slim.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\6 concert\take 11\aligner._data\take 11.state.yaml,G:\My Drive\submission-mocaps\2026-06-17\6-concert\011\aligner._data\011.state.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\6 concert\take 11\aligner._data\take 11.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\6-concert\011\aligner._data\011.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\6 concert\take 11\aligner._data\take 11.slim.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\6-concert\011\aligner._data\011.slim.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\6 concert\take 10\aligner._data\take 10.state.yaml,G:\My Drive\submission-mocaps\2026-06-17\6-concert\010\aligner._data\010.state.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\6 concert\take 10\aligner._data\take 10.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\6-concert\010\aligner._data\010.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\6 concert\take 10\aligner._data\take 10.slim.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\6-concert\010\aligner._data\010.slim.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\5 professional meeting\take 8\aligner._data\take 8.state.yaml,G:\My Drive\submission-mocaps\2026-06-17\5-professional-meeting\008\aligner._data\008.state.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\5 professional meeting\take 8\aligner._data\take 8.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\5-professional-meeting\008\aligner._data\008.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\5 professional meeting\take 8\aligner._data\take 8.slim.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\5-professional-meeting\008\aligner._data\008.slim.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\4 vacation memories\take 7\aligner._data\take 7.state.yaml,G:\My Drive\submission-mocaps\2026-06-17\4-vacation-memories\007\aligner._data\007.state.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\4 vacation memories\take 7\aligner._data\take 7.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\4-vacation-memories\007\aligner._data\007.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\4 vacation memories\take 7\aligner._data\take 7.slim.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\4-vacation-memories\007\aligner._data\007.slim.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\3 gift\take 6\aligner._data\take 6.state.yaml,G:\My Drive\submission-mocaps\2026-06-17\3-gift\006\aligner._data\006.state.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\3 gift\take 6\aligner._data\take 6.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\3-gift\006\aligner._data\006.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\3 gift\take 6\aligner._data\take 6.slim.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\3-gift\006\aligner._data\006.slim.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\3 gift\take 5\aligner._data\take 5.state.yaml,G:\My Drive\submission-mocaps\2026-06-17\3-gift\005\aligner._data\005.state.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\3 gift\take 5\aligner._data\take 5.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\3-gift\005\aligner._data\005.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\3 gift\take 5\aligner._data\take 5.slim.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\3-gift\005\aligner._data\005.slim.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\2 coffe\take 4\aligner._data\take 4.state.yaml,G:\My Drive\submission-mocaps\2026-06-17\2-coffe\004\aligner._data\004.state.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\2 coffe\take 4\aligner._data\take 4.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\2-coffe\004\aligner._data\004.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\2 coffe\take 4\aligner._data\take 4.slim.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\2-coffe\004\aligner._data\004.slim.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop\take 3\aligner._data\take 3.state.yaml,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop\003\aligner._data\003.state.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop\take 3\aligner._data\take 3.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop\003\aligner._data\003.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop\take 3\aligner._data\take 3.slim.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop\003\aligner._data\003.slim.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop\take 2\aligner._data\take 2.state.yaml,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop\002\aligner._data\002.state.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop\take 2\aligner._data\take 2.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop\002\aligner._data\002.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop\take 2\aligner._data\take 2.slim.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop\002\aligner._data\002.slim.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop\take 1\aligner._data\take 1.state.yaml,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop\001\aligner._data\001.state.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop\take 1\aligner._data\take 1.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop\001\aligner._data\001.export.yaml
+file,G:\My Drive\submission-mocaps\17-06-2026\1 bus stop\take 1\aligner._data\take 1.slim.export.yaml,G:\My Drive\submission-mocaps\2026-06-17\1-bus-stop\001\aligner._data\001.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S023___1-sydney\I01___take1\aligner._data\I01___take1.state.yaml,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S023_1-sydney\I01_001\aligner._data\I01_001.state.yaml
+file,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S023___1-sydney\I01___take1\aligner._data\I01___take1.export.yaml,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S023_1-sydney\I01_001\aligner._data\I01_001.export.yaml
+file,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S023___1-sydney\I01___take1\aligner._data\I01___take1.slim.export.yaml,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S023_1-sydney\I01_001\aligner._data\I01_001.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S025___3-theater-production-company\I02___take9\aligner._data\take9.state.yaml,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S025_3-theater-production-company\I02_009\aligner._data\009.state.yaml
+file,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S025___3-theater-production-company\I02___take9\aligner._data\take9.export.yaml,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S025_3-theater-production-company\I02_009\aligner._data\009.export.yaml
+file,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S025___3-theater-production-company\I03___take10\aligner._data\take10.state.yaml,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S025_3-theater-production-company\I03_010\aligner._data\010.state.yaml
+file,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S025___3-theater-production-company\I03___take10\aligner._data\take10.export.yaml,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S025_3-theater-production-company\I03_010\aligner._data\010.export.yaml
+file,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S025___3-theater-production-company\I01___take8\aligner._data\take8.state.yaml,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S025_3-theater-production-company\I01_008\aligner._data\008.state.yaml
+file,G:\My Drive\submission-mocaps\S023-2027___mocap 20-03-2026\S025___3-theater-production-company\I01___take8\aligner._data\take8.export.yaml,G:\My Drive\submission-mocaps\2026-03-20_S023-2027\S025_3-theater-production-company\I01_008\aligner._data\008.export.yaml
+file,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S008___1-restaurant\I02___take2\aligner._data\I02___take2.state.yaml,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S008_1-restaurant\I02_002\aligner._data\I02_002.state.yaml
+file,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S008___1-restaurant\I02___take2\aligner._data\I02___take2.export.yaml,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S008_1-restaurant\I02_002\aligner._data\I02_002.export.yaml
+file,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S008___1-restaurant\I02___take2\aligner._data\I02___take2.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S008_1-restaurant\I02_002\aligner._data\I02_002.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S008___1-restaurant\I01___take1\aligner._data\I01___take1.state.yaml,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S008_1-restaurant\I01_001\aligner._data\I01_001.state.yaml
+file,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S008___1-restaurant\I01___take1\aligner._data\I01___take1.export.yaml,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S008_1-restaurant\I01_001\aligner._data\I01_001.export.yaml
+file,G:\My Drive\submission-mocaps\S008-S010___mocap 20-02-2026\S008___1-restaurant\I01___take1\aligner._data\I01___take1.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-20_S008-S010\S008_1-restaurant\I01_001\aligner._data\I01_001.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S022___5-club\I02___take10\aligner._data\take10.state.yaml,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S022_5-club\I02_010\aligner._data\010.state.yaml
+file,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S022___5-club\I02___take10\aligner._data\take10.export.yaml,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S022_5-club\I02_010\aligner._data\010.export.yaml
+file,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S022___5-club\I01___take9\aligner._data\take9.state.yaml,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S022_5-club\I01_009\aligner._data\009.state.yaml
+file,G:\My Drive\submission-mocaps\S018-S022___mocap 19-03-2026\S022___5-club\I01___take9\aligner._data\take9.export.yaml,G:\My Drive\submission-mocaps\2026-03-19_S018-S022\S022_5-club\I01_009\aligner._data\009.export.yaml
+file,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S014___1-tea\I01___take1\aligner._data\take1.state.yaml,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S014_1-tea\I01_001\aligner._data\001.state.yaml
+file,G:\My Drive\submission-mocaps\S014-S017___mocap 17-03-2026\S014___1-tea\I01___take1\aligner._data\take1.export.yaml,G:\My Drive\submission-mocaps\2026-03-17_S014-S017\S014_1-tea\I01_001\aligner._data\001.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S005___2-hotel\I01___take5\aligner._data\I01___take5.state.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S005_2-hotel\I01_005\aligner._data\I01_005.state.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S005___2-hotel\I01___take5\aligner._data\I01___take5.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S005_2-hotel\I01_005\aligner._data\I01_005.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S005___2-hotel\I01___take5\aligner._data\I01___take5.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S005_2-hotel\I01_005\aligner._data\I01_005.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I05___take11\aligner._data\I05___take11.state.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I05_011\aligner._data\I05_011.state.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I05___take11\aligner._data\I05___take11.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I05_011\aligner._data\I05_011.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I01___take7\aligner._data\I01___take7.state.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I01_007\aligner._data\I01_007.state.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I01___take7\aligner._data\I01___take7.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I01_007\aligner._data\I01_007.export.yaml
+directory,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I03___take9\metahuman-faces\IPS_2026-02-17.12.39.15.8300_1_23CA3782497F31CF80ABB8839BF4E5C8,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I03_009\metahuman-faces\2026-02-17_IPS_.12.39.15.8300_1_23CA3782497F31CF80ABB8839BF4E5C8
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I03___take9\aligner._data\I03___take9.state.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I03_009\aligner._data\I03_009.state.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I03___take9\aligner._data\I03___take9.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I03_009\aligner._data\I03_009.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I03___take9\aligner._data\I03___take9.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I03_009\aligner._data\I03_009.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I02___take8\aligner._data\I02___take8.state.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I02_008\aligner._data\I02_008.state.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I02___take8\aligner._data\I02___take8.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I02_008\aligner._data\I02_008.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I02___take8\aligner._data\I02___take8.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I02_008\aligner._data\I02_008.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I04___take10\aligner._data\I04___take10.state.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I04_010\aligner._data\I04_010.state.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S007___4-improvisation\I04___take10\aligner._data\I04___take10.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S007_4-improvisation\I04_010\aligner._data\I04_010.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S006___3-bus-station-1\I01___take6\aligner._data\I01___take6.state.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S006_3-bus-station-1\I01_006\aligner._data\I01_006.state.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S006___3-bus-station-1\I01___take6\aligner._data\I01___take6.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S006_3-bus-station-1\I01_006\aligner._data\I01_006.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S006___3-bus-station-1\I01___take6\aligner._data\I01___take6.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S006_3-bus-station-1\I01_006\aligner._data\I01_006.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I04___take4\aligner._data\I04___take4.state.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I04_004\aligner._data\I04_004.state.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I04___take4\aligner._data\I04___take4.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I04_004\aligner._data\I04_004.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I04___take4\aligner._data\I04___take4.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I04_004\aligner._data\I04_004.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I03___take3\aligner._data\I03___take3.state.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I03_003\aligner._data\I03_003.state.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I03___take3\aligner._data\I03___take3.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I03_003\aligner._data\I03_003.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I03___take3\aligner._data\I03___take3.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I03_003\aligner._data\I03_003.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I02___take2\aligner._data\I02___take2.state.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I02_002\aligner._data\I02_002.state.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I02___take2\aligner._data\I02___take2.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I02_002\aligner._data\I02_002.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I02___take2\aligner._data\I02___take2.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I02_002\aligner._data\I02_002.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I01___take1\aligner._data\I01___take1.state.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I01_001\aligner._data\I01_001.state.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I01___take1\aligner._data\I01___take1.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I01_001\aligner._data\I01_001.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\S004___1-airport\I01___take1\aligner._data\I01___take1.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\S004_1-airport\I01_001\aligner._data\I01_001.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\X___5-calibration\take13\aligner._data\take13.state.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\X_5-calibration\013\aligner._data\013.state.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\X___5-calibration\take13\aligner._data\take13.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\X_5-calibration\013\aligner._data\013.export.yaml
+file,G:\My Drive\submission-mocaps\S004-S007___mocap 17-02-2026\X___5-calibration\take13\aligner._data\take13.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-17_S004-S007\X_5-calibration\013\aligner._data\013.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S011___1-street\I02___take2\aligner._data\take2.export.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S011_1-street\I02_002\aligner._data\002.export.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S011___1-street\I02___take2\aligner._data\take2.state.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S011_1-street\I02_002\aligner._data\002.state.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I05___take7\aligner._data\take7.state.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I05_007\aligner._data\007.state.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I05___take7\aligner._data\take7.export.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I05_007\aligner._data\007.export.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I02___take4\aligner._data\take4.state.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I02_004\aligner._data\004.state.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I02___take4\aligner._data\take4.export.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I02_004\aligner._data\004.export.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I03___take5\aligner._data\take5.state.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I03_005\aligner._data\005.state.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I03___take5\aligner._data\take5.export.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I03_005\aligner._data\005.export.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I04___take6\aligner._data\take6.state.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I04_006\aligner._data\006.state.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I04___take6\aligner._data\take6.export.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I04_006\aligner._data\006.export.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I01___take3\aligner._data\take3.export.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I01_003\aligner._data\003.export.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I01___take3\aligner._data\take3.state.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I01_003\aligner._data\003.state.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I06___take8\aligner._data\take8.state.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I06_008\aligner._data\008.state.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S012___2-coffe\I06___take8\aligner._data\take8.export.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S012_2-coffe\I06_008\aligner._data\008.export.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S013___3-club\I01___take11\aligner._data\take11.state.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S013_3-club\I01_011\aligner._data\011.state.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S013___3-club\I01___take11\aligner._data\take11.export.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S013_3-club\I01_011\aligner._data\011.export.yaml
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\X___4-eye-tracker-calibration\eye-tom\tom-calibration-s001-s003-2026-02-16\callibration_2026-02-16_17-14-38-cc21913a,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\X_4-eye-tracker-calibration\eye-tom\2026-02-16_tom-calibration-s001-s003\2026-02-16_callibration_17-14-38-cc21913a
+directory,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\X___4-eye-tracker-calibration\eye-jam\jam-calibration-s001-s003-2026-02-16\callibration_2026-02-16_17-14-40-c5afb7d8,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\X_4-eye-tracker-calibration\eye-jam\2026-02-16_jam-calibration-s001-s003\2026-02-16_callibration_17-14-40-c5afb7d8
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I05___take5\aligner._data\I05___take5.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I05_005\aligner._data\I05_005.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I05___take5\aligner._data\I05___take5.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I05_005\aligner._data\I05_005.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I04___take4\aligner._data\I04___take4.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I04_004\aligner._data\I04_004.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I04___take4\aligner._data\I04___take4.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I04_004\aligner._data\I04_004.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I06___take6\aligner._data\I06___take6.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I06_006\aligner._data\I06_006.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I06___take6\aligner._data\I06___take6.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I06_006\aligner._data\I06_006.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I01___take1\aligner._data\take1.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I01_001\aligner._data\001.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I01___take1\aligner._data\take1.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I01_001\aligner._data\001.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I01___take1\aligner._data\I01___take1.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I01_001\aligner._data\I01_001.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I01___take1\aligner._data\I01___take1.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I01_001\aligner._data\I01_001.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I01___take1\aligner._data\I01___take1.slim.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I01_001\aligner._data\I01_001.slim.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I03___take3\aligner._data\take3.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I03_003\aligner._data\003.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I03___take3\aligner._data\take3.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I03_003\aligner._data\003.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I03___take3\aligner._data\I03___take3.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I03_003\aligner._data\I03_003.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I03___take3\aligner._data\I03___take3.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I03_003\aligner._data\I03_003.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I02___take2\aligner._data\take2.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I02_002\aligner._data\002.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I02___take2\aligner._data\take2.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I02_002\aligner._data\002.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I02___take2\aligner._data\I02___take2.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I02_002\aligner._data\I02_002.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S001___1-living-room\I02___take2\aligner._data\I02___take2.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S001_1-living-room\I02_002\aligner._data\I02_002.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I01___take9\aligner._data\I01___take9.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I01_009\aligner._data\I01_009.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I01___take9\aligner._data\I01___take9.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I01_009\aligner._data\I01_009.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I05___take13\aligner._data\I05___take13.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I05_013\aligner._data\I05_013.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I05___take13\aligner._data\I05___take13.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I05_013\aligner._data\I05_013.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I06___take14\aligner._data\I06___take14.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I06_014\aligner._data\I06_014.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I06___take14\aligner._data\I06___take14.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I06_014\aligner._data\I06_014.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I04___take12\aligner._data\I04___take12.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I04_012\aligner._data\I04_012.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I04___take12\aligner._data\I04___take12.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I04_012\aligner._data\I04_012.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I03___take11\aligner._data\I03___take11.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I03_011\aligner._data\I03_011.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I03___take11\aligner._data\I03___take11.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I03_011\aligner._data\I03_011.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I02___take10\aligner._data\I02___take10.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I02_010\aligner._data\I02_010.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S003___3-back-home\I02___take10\aligner._data\I02___take10.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S003_3-back-home\I02_010\aligner._data\I02_010.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S002___2-restourant\I02___take8\aligner._data\I02___take8.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S002_2-restourant\I02_008\aligner._data\I02_008.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S002___2-restourant\I02___take8\aligner._data\I02___take8.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S002_2-restourant\I02_008\aligner._data\I02_008.export.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S002___2-restourant\I01___take7\aligner._data\I01___take7.state.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S002_2-restourant\I01_007\aligner._data\I01_007.state.yaml
+file,G:\My Drive\submission-mocaps\S001-S003___mocap 16-02-2026\S002___2-restourant\I01___take7\aligner._data\I01___take7.export.yaml,G:\My Drive\submission-mocaps\2026-02-16_S001-S003\S002_2-restourant\I01_007\aligner._data\I01_007.export.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S011___1-street\I02___take2\aligner._data\backup\take2.state.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S011_1-street\I02_002\aligner._data\backup\002.state.yaml
+file,G:\My Drive\submission-mocaps\S011-S013___mocap 16-03-2026\S011___1-street\I02___take2\aligner._data\backup\take2.export.yaml,G:\My Drive\submission-mocaps\2026-03-16_S011-S013\S011_1-street\I02_002\aligner._data\backup\002.export.yaml

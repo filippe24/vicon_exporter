@@ -12,6 +12,8 @@ if( `getCount $array` > 0 )
 }
 saveFile -s "{EXPORT_DIR}/clapperboard.c3d";
 select ; // deselect.
+{ADDITIONAL_PROP_EXPORTS}
+{CALIBRATION_MARKER_EXPORT}
 //--------- export actors -------
 selectProps;
 select -invert;

@@ -22,7 +22,12 @@ from exporter.aligned_export_pipeline import (
     load_aligned_export_plan,
     write_aligned_export_summary,
 )
-from exporter.export_pipeline import generate_hsl
+from exporter.export_pipeline import (
+    DEFAULT_TRACKING_PROP_EXPORTS,
+    TrackingPropExport,
+    generate_extra_exports_hsl,
+    generate_hsl,
+)
 from exporter.geeno_retarget_pipeline import generate_geeno_retarget_hsl
 from exporter.general_retarget_pipeline import generate_general_retarget_hsl
 from exporter.mannequin_retarget_pipeline import generate_mannequin_retarget_hsl
@@ -78,7 +83,12 @@ def choose_folder() -> Path | None:
     return Path(folder) if folder else None
 
 
-def process_take(take_dir: Path, shogun_path: Path, force: bool):
+def _process_take_legacy(
+    take_dir: Path,
+    shogun_path: Path,
+    force: bool,
+    include_tracking_props: bool = False,
+):
     processed_file = take_dir / PROCESSED_MCP_NAME
     if processed_file.exists() and not force:
         print(f"⏭   skipping {take_dir.name} (already processed).")
@@ -109,7 +119,121 @@ def process_take(take_dir: Path, shogun_path: Path, force: bool):
     print("   export folders created.")
 
     print("generating hsl file.")
-    hsl_content = generate_hsl(export_dir, actors_folder)
+    hsl_content = generate_hsl(
+        export_dir,
+        actors_folder,
+        include_tracking_props=include_tracking_props,
+        include_calibration_markers=(
+            include_tracking_props and _is_calibration_take(take_dir)
+        ),
+    )
+    hsl_file = take_dir / "exporter.hsl"
+    hsl_file.write_text(hsl_content)
+    print(f"   hsl created {hsl_file.name}.")
+
+    out_file = take_dir / PROCESSED_MCP_NAME
+
+    print("running shogun processing.")
+    run_shogun(
+        mcp_file=mcp, hsl_file=hsl_file, out_file=out_file, shogun_path=shogun_path
+    )
+    print(f"     complete Output saved to: {out_file}\n")
+
+
+def process_take(
+    take_dir: Path,
+    shogun_path: Path,
+    force: bool,
+    include_tracking_props: bool = False,
+):
+    processed_file = take_dir / PROCESSED_MCP_NAME
+    export_dir = take_dir / EXPORT_FOLDER_NAME
+
+    missing_tracking_prop_exports: list[TrackingPropExport] = []
+    missing_calibration_markers = False
+    if include_tracking_props:
+        missing_tracking_prop_exports = _missing_tracking_prop_exports(export_dir)
+        missing_calibration_markers = (
+            _is_calibration_take(take_dir)
+            and not (export_dir / "calibration_markers.c3d").exists()
+        )
+
+    has_existing_export = processed_file.exists() and export_dir.exists()
+    has_missing_extra_exports = bool(
+        missing_tracking_prop_exports or missing_calibration_markers
+    )
+
+    if has_existing_export and not force:
+        if not has_missing_extra_exports:
+            print(f"   skipping {take_dir.name} (already exported).")
+            return
+
+        print(f"\nselected folder: {take_dir}.")
+        print("looking for original .mcp file.")
+        mcp = _find_original_take_mcp(take_dir)
+        if mcp is None:
+            print("   no original .mcp file found, skipping.")
+            return
+        print(f"   found: {mcp.name}.")
+
+        print("generating hsl file for missing extra exports.")
+        hsl_content = generate_extra_exports_hsl(
+            export_dir,
+            tracking_prop_exports=missing_tracking_prop_exports,
+            include_calibration_markers=missing_calibration_markers,
+        )
+        if not hsl_content or not hsl_content.strip():
+            print("   no missing extra exports, skipping.")
+            return
+
+        hsl_file = take_dir / "extra_exports.hsl"
+        hsl_file.write_text(hsl_content)
+        print(f"   hsl created {hsl_file.name}.")
+
+        out_file = take_dir / "extra_exports_output.mcp"
+        print("running shogun extra export processing.")
+        run_shogun(
+            mcp_file=mcp,
+            hsl_file=hsl_file,
+            out_file=out_file,
+            shogun_path=shogun_path,
+        )
+        print(f"     complete extra exports saved under: {export_dir}\n")
+        return
+
+    if force:
+        if processed_file.exists():
+            processed_file.unlink()
+        if export_dir.exists():
+            shutil.rmtree(export_dir)
+        if include_tracking_props:
+            missing_tracking_prop_exports = list(DEFAULT_TRACKING_PROP_EXPORTS)
+            missing_calibration_markers = _is_calibration_take(take_dir)
+
+    print(f"\nselected folder: {take_dir}.")
+    print("looking for original .mcp file.")
+    mcp = _find_original_take_mcp(take_dir)
+    if mcp is None:
+        print("   no original .mcp file found, skipping.")
+        return
+    print(f"   found: {mcp.name}.")
+
+    print("creating export folders.")
+    export_dir.mkdir(exist_ok=True)
+    actors_folder: str = ACTORS_FOLDER_NAME
+    (export_dir / actors_folder).mkdir(exist_ok=True)
+    print("   export folders created.")
+
+    print("generating hsl file.")
+    hsl_content = generate_hsl(
+        export_dir,
+        actors_folder,
+        include_tracking_props=include_tracking_props,
+        include_calibration_markers=(
+            include_tracking_props and _is_calibration_take(take_dir)
+        ),
+        tracking_prop_exports=missing_tracking_prop_exports,
+    )
     hsl_file = take_dir / "exporter.hsl"
     hsl_file.write_text(hsl_content)
     print(f"   hsl created {hsl_file.name}.")
@@ -395,6 +519,27 @@ def _find_retarget_source_mcp(take_dir: Path) -> Path | None:
     return original_mcps[0] if original_mcps else None
 
 
+def _find_original_take_mcp(take_dir: Path) -> Path | None:
+    original_mcps = [
+        path
+        for path in sorted(take_dir.glob("*.mcp"))
+        if path.name != PROCESSED_MCP_NAME
+    ]
+    return original_mcps[0] if original_mcps else None
+
+
+def _missing_tracking_prop_exports(export_dir: Path) -> list[TrackingPropExport]:
+    return [
+        export
+        for export in DEFAULT_TRACKING_PROP_EXPORTS
+        if not (export_dir / export.output_filename).exists()
+    ]
+
+
+def _is_calibration_take(take_dir: Path) -> bool:
+    return any("calibration" in part.lower() for part in take_dir.parts)
+
+
 def find_bvh_files(root: Path):
     return [f for f in root.rglob("*.bvh") if not f.name.endswith("_converted.bvh")]
 
@@ -437,7 +582,10 @@ if __name__ == "__main__":
         for curr_take_directry in take_folders:
             print(f"\n▶ Processing take: {curr_take_directry}")
             process_take(
-                take_dir=curr_take_directry, shogun_path=SHOGUN_PATH, force=True
+                take_dir=curr_take_directry,
+                shogun_path=SHOGUN_PATH,
+                force=False,
+                include_tracking_props=selection.include_tracking_props,
             )
 
     if selection.run_mannequin_retarget:

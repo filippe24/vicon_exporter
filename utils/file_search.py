@@ -1,18 +1,37 @@
 from pathlib import Path
 
+from configuration.settings import (
+    ALIGNED_EXPORT_FOLDER_NAME,
+    EXPORT_FOLDER_NAME,
+    PROCESSED_MCP_NAME,
+)
+
+
+SKIPPED_TAKE_SEARCH_FOLDERS = {
+    ".git",
+    "__pycache__",
+    EXPORT_FOLDER_NAME.lower(),
+    ALIGNED_EXPORT_FOLDER_NAME.lower(),
+    "actors",
+    "retargeted",
+}
+
 
 def find_take_folders(root: Path) -> list[Path]:
-    """return all folders under root that contain an .mcp file."""
+    """Return original take folders under root that contain an .mcp file."""
 
     take_folders = []
 
-    # A) the folder contains mcp file.
-    if any(root.glob("*.mcp")):
-        take_folders.append(root)
+    if root.name.lower() in SKIPPED_TAKE_SEARCH_FOLDERS:
         return take_folders
 
-    # B) recursively look for sub-folders.
-    for sub in root.iterdir():
+    original_mcps = [
+        path for path in root.glob("*.mcp") if path.name != PROCESSED_MCP_NAME
+    ]
+    if original_mcps:
+        take_folders.append(root)
+
+    for sub in sorted(root.iterdir()):
         if sub.is_dir():
             take_folders.extend(find_take_folders(sub))
 

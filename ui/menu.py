@@ -8,6 +8,7 @@ class UserSelection:
     def __init__(self):
         self.folder: Path | None = None
         self.run_export: bool = False
+        self.include_tracking_props: bool = False
         self.run_mannequin_retarget: bool = False
         self.run_mannequin_adjusted_retarget: bool = False
         self.run_geeno_retarget: bool = False
@@ -27,6 +28,7 @@ def open_menu():
     )
 
     export_var = IntVar()
+    tracking_props_var = IntVar()
     mannequin_var = IntVar()
     mannequin_adjusted_var = IntVar()
     geeno_var = IntVar()
@@ -35,6 +37,11 @@ def open_menu():
     rename_var = IntVar()
 
     Checkbutton(root, text="Run Export", variable=export_var).pack(anchor="w")
+    Checkbutton(
+        root,
+        text="Include eye tracker + calibration free markers",
+        variable=tracking_props_var,
+    ).pack(anchor="w")
     Checkbutton(root, text="Run Mannequin Retarget", variable=mannequin_var).pack(
         anchor="w"
     )
@@ -64,6 +71,7 @@ def open_menu():
 
     def confirm():
         selection.run_export = bool(export_var.get())
+        selection.include_tracking_props = bool(tracking_props_var.get())
         selection.run_mannequin_retarget = bool(mannequin_var.get())
         selection.run_mannequin_adjusted_retarget = bool(mannequin_adjusted_var.get())
         selection.run_geeno_retarget = bool(geeno_var.get())

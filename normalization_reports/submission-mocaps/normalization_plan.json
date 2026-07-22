@@ -1,0 +1,2788 @@
+{
+  "root": "G:\\My Drive\\submission-mocaps",
+  "renames": [
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S028___mocap 18-12-2025",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-18_S028"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\07-07-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-07"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\09-07-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-09"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S028___mocap 18-12-2025\\X1___props",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-18_S028\\X1_props"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S028___mocap 18-12-2025\\X2___subjects",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-18_S028\\X2_subjects"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S028___mocap 18-12-2025\\S028___restourant",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-18_S028\\S028_restourant"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\X2___props",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\X2_props"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S029___co-living-space",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S029_co-living-space"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\X1___other_takes",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\X1_other_takes"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S030___restourant",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S030_restourant"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S002_2-restourant"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\X_4-eye-tracker-calibration"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\X___4-calibration",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\X_4-calibration"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S013___3-club",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S013_3-club"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S011_1-street"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\X___5-calibration",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\X_5-calibration"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S006_3-bus-station-1"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S005_2-hotel"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S014___1-tea",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S014_1-tea"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S017___4-club",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S017_4-club"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S016___3-class",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S016_3-class"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\X1___5-calibration",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\X1_5-calibration"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S015___2-dance",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S015_2-dance"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\X2___6-additional-noFace-noEye-noMicrophone",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\X2_6-additional-noFace-noEye-noMicrophone"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\X3___characters",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\X3_characters"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S020___3-restourant",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S020_3-restourant"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S022_5-club"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S018___1-home",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S018_1-home"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S019___2-beach",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S019_2-beach"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\X1___7-calibration",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\X1_7-calibration"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\X2___6-others",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\X2_6-others"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S021___4-road",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S021_4-road"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\X3___face-E",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\X3_face-E"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\X4___face-R",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\X4_face-R"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\X___4-calibrations",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\X_4-calibrations"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S008_1-restaurant"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S010___3-home",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S010_3-home"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S009___2-art-gallery",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S009_2-art-gallery"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\X4___face-M",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\X4_face-M"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\X1___5-calibration",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\X1_5-calibration"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S025_3-theater-production-company"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S023_1-sydney"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S024___2-rio",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S024_2-rio"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\X3___exported",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\X3_exported"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\X2___characters",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\X2_characters"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S026___4-teaching-1",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S026_4-teaching-1"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S027___4-teaching-2",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S027_4-teaching-2"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\2-coffe"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\3-gift"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\4-vacation-memories"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\5-professional-meeting"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\7 calibration",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\7-calibration"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\08-07-2026",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\2026-07-08"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\07-07-2026\\take1",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-07\\001"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\07-07-2026\\take10",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-07\\010"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\07-07-2026\\take11-calibration",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-07\\011-calibration"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\07-07-2026\\take2",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-07\\002"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\07-07-2026\\take3",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-07\\003"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\07-07-2026\\take4",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-07\\004"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\07-07-2026\\take5",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-07\\005"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\07-07-2026\\take6",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-07\\006"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\07-07-2026\\take7",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-07\\007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\07-07-2026\\take8",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-07\\008"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\07-07-2026\\take9",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-07\\009"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take1-coffe",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\001-coffe"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take10-sad",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\010-sad"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take11-calibration",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\011-calibration"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take12-calibration-only-face",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\012-calibration-only-face"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take2-coffe",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\002-coffe"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take3-busstop",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\003-busstop"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take4-busstop",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\004-busstop"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take5-first-meet",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\005-first-meet"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take6-first-date",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\006-first-date"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take7-icecream-drop",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\007-icecream-drop"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take8-upset",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\008-upset"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take9-mistake",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\009-mistake"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_1",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\001"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_10",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\010"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_11",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\011"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_12",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\012"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_13",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\013"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_14",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\014"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_15",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\015"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_16",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\016"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_17",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\017"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_2",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\002"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_3",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\003"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_4",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\004"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_5",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\005"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_6",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\006"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_7",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_8",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\008"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\16-07-2026\\take_9",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-16\\009"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\09-07-2026\\Reference Video",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-09\\Reference-Video"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 1",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop\\001"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 2",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop\\002"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 3",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop\\003"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe\\take 4",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\2-coffe\\004"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 5",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\3-gift\\005"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 6",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\3-gift\\006"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories\\take 7",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\4-vacation-memories\\007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting\\take 8",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\5-professional-meeting\\008"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 10",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert\\010"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 11",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert\\011"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 9",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert\\009"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\7 calibration\\take 12",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\7-calibration\\012"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\7 calibration\\take13",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\7-calibration\\013"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\X1___5-calibration\\take13",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\X1_5-calibration\\013"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I01___take8",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S025_3-theater-production-company\\I01_008"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I03___take10",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S025_3-theater-production-company\\I03_010"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I02___take9",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S025_3-theater-production-company\\I02_009"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I01___take1",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S023_1-sydney\\I01_001"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I04___take4",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S023_1-sydney\\I04_004"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I03___take3",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S023_1-sydney\\I03_003"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I02___take2",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S023_1-sydney\\I02_002"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S024___2-rio\\I01___take5",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S024_2-rio\\I01_005"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S024___2-rio\\I03___take7",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S024_2-rio\\I03_007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S024___2-rio\\I02___take6",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S024_2-rio\\I02_006"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S026___4-teaching-1\\I01___take11",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S026_4-teaching-1\\I01_011"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S027___4-teaching-2\\I01___take12",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S027_4-teaching-2\\I01_012"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\X___4-calibrations\\take11",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\X_4-calibrations\\011"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\X___4-calibrations\\take10",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\X_4-calibrations\\010"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I01___take1",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S008_1-restaurant\\I01_001"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I02___take2",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S008_1-restaurant\\I02_002"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S010___3-home\\I04___take7",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S010_3-home\\I04_007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S010___3-home\\I06___take9",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S010_3-home\\I06_009"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S010___3-home\\I03___take6",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S010_3-home\\I03_006"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S010___3-home\\I01___take4",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S010_3-home\\I01_004"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S010___3-home\\I05___take8",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S010_3-home\\I05_008"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S010___3-home\\I02___take5",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S010_3-home\\I02_005"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S009___2-art-gallery\\I01___take3",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S009_2-art-gallery\\I01_003"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S020___3-restourant\\I01___take7",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S020_3-restourant\\I01_007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I01___take9",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S022_5-club\\I01_009"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I03___take11",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S022_5-club\\I03_011"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I02___take10",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S022_5-club\\I02_010"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S018___1-home\\I01___take1",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S018_1-home\\I01_001"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S018___1-home\\I03___take3",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S018_1-home\\I03_003"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S018___1-home\\I02___take2",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S018_1-home\\I02_002"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S018___1-home\\I04___take4",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S018_1-home\\I04_004"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S019___2-beach\\I01___take5",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S019_2-beach\\I01_005"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S019___2-beach\\I02___take6",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S019_2-beach\\I02_006"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\X1___7-calibration\\take13",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\X1_7-calibration\\013"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\X2___6-others\\take12",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\X2_6-others\\012"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S021___4-road\\I01___take8",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S021_4-road\\I01_008"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S014___1-tea\\I02___take2",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S014_1-tea\\I02_002"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S014___1-tea\\I04___take4",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S014_1-tea\\I04_004"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S014___1-tea\\I03___take3",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S014_1-tea\\I03_003"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S014___1-tea\\I01___take1",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S014_1-tea\\I01_001"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S017___4-club\\I02___take13",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S017_4-club\\I02_013"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S017___4-club\\I01___take12",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S017_4-club\\I01_012"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S016___3-class\\I02___take10",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S016_3-class\\I02_010"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S016___3-class\\I03___take11",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S016_3-class\\I03_011"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S016___3-class\\I01___take9",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S016_3-class\\I01_009"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\X1___5-calibration\\take14",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\X1_5-calibration\\014"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S015___2-dance\\I01___take5",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S015_2-dance\\I01_005"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S015___2-dance\\I04___take8",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S015_2-dance\\I04_008"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S015___2-dance\\I03___take7",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S015_2-dance\\I03_007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S015___2-dance\\I02___take6",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S015_2-dance\\I02_006"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\X2___6-additional-noFace-noEye-noMicrophone\\take15",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\X2_6-additional-noFace-noEye-noMicrophone\\015"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\X2___6-additional-noFace-noEye-noMicrophone\\take16",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\X2_6-additional-noFace-noEye-noMicrophone\\016"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\X___5-calibration\\take12",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\X_5-calibration\\012"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\X___5-calibration\\take13",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\X_5-calibration\\013"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I01___take1",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I01_001"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I02___take2",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I02_002"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I03___take3",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I03_003"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I04___take4",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I04_004"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1\\I01___take6",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S006_3-bus-station-1\\I01_006"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I04_010"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I02___take8",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I02_008"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I03_009"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I01___take7",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I01_007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I05___take11",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I05_011"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel\\I01___take5",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S005_2-hotel\\I01_005"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\X___4-calibration\\take12",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\X_4-calibration\\012"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S013___3-club\\I01___take11",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S013_3-club\\I01_011"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I06___take8",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I06_008"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I01___take3",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I01_003"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I04___take6",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I04_006"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I03___take5",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I03_005"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I02___take4",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I02_004"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I05___take7",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I05_007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S011_1-street\\I02_002"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I01___take1",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S011_1-street\\I01_001"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I01___take7",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S002_2-restourant\\I01_007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I02___take8",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S002_2-restourant\\I02_008"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I02___take10",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I02_010"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I03___take11",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I03_011"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I04___take12",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I04_012"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I06___take14",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I06_014"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I05___take13",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I05_013"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I01___take9",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I01_009"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I02_002"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I03_003"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I01_001"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I06___take6",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I06_006"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I04___take4",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I04_004"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I05___take5",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I05_005"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S029___co-living-space\\take5",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S029_co-living-space\\005"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S029___co-living-space\\take4",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S029_co-living-space\\004"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S029___co-living-space\\take6",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S029_co-living-space\\006"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S029___co-living-space\\take7",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S029_co-living-space\\007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S029___co-living-space\\take3",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S029_co-living-space\\003"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S029___co-living-space\\take2",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S029_co-living-space\\002"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S029___co-living-space\\take9",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S029_co-living-space\\009"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S029___co-living-space\\take8",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S029_co-living-space\\008"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S029___co-living-space\\take10",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S029_co-living-space\\010"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\X1___other_takes\\take1",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\X1_other_takes\\001"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S030___restourant\\I01___take11",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S030_restourant\\I01_011"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S029-2030___mocap 19-12-2025\\S030___restourant\\I02___take12",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-19_S029-2030\\S030_restourant\\I02_012"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S028___mocap 18-12-2025\\S028___restourant\\I01___take1",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-18_S028\\S028_restourant\\I01_001"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S028___mocap 18-12-2025\\S028___restourant\\I02___take2",
+      "target": "G:\\My Drive\\submission-mocaps\\2025-12-18_S028\\S028_restourant\\I02_002"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take1-coffe\\aligner._data\\take1-coffe.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\001-coffe\\aligner._data\\001-coffe.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take1-coffe\\aligner._data\\take1-coffe.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\001-coffe\\aligner._data\\001-coffe.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take1-coffe\\aligner._data\\take1-coffe.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-07-08\\001-coffe\\aligner._data\\001-coffe.slim.export.yaml"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\X___5-calibration\\take13\\jessica-calibration-s004-s007-2026-02-17",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\X_5-calibration\\013\\2026-02-17_jessica-calibration-s004-s007"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\X___5-calibration\\take13\\james-calibration-s004-s007-2026-02-17",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\X_5-calibration\\013\\2026-02-17_james-calibration-s004-s007"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\take2.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S011_1-street\\I02_002\\002.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\take2.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S011_1-street\\I02_002\\002.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I01___take1\\take1.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S011_1-street\\I01_001\\001.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I01___take1\\take1.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S011_1-street\\I01_001\\001.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I01___take3\\take3.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I01_003\\003.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I01___take3\\take3.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I01_003\\003.state.yaml"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\eye-jam\\jam-calibration-s001-s003-2026-02-16",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\X_4-eye-tracker-calibration\\eye-jam\\2026-02-16_jam-calibration-s001-s003"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\aligner._data\\X___4-eye-tracker-calibration.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\X_4-eye-tracker-calibration\\aligner._data\\X_4-eye-tracker-calibration.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\aligner._data\\X___4-eye-tracker-calibration.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\X_4-eye-tracker-calibration\\aligner._data\\X_4-eye-tracker-calibration.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\aligner._data\\X___4-eye-tracker-calibration.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\X_4-eye-tracker-calibration\\aligner._data\\X_4-eye-tracker-calibration.slim.export.yaml"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\eye-tom\\tom-calibration-s001-s003-2026-02-16",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\X_4-eye-tracker-calibration\\eye-tom\\2026-02-16_tom-calibration-s001-s003"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 9\\aligner._data\\take 9.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert\\009\\aligner._data\\009.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 9\\aligner._data\\take 9.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert\\009\\aligner._data\\009.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 9\\aligner._data\\take 9.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert\\009\\aligner._data\\009.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 11\\aligner._data\\take 11.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert\\011\\aligner._data\\011.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 11\\aligner._data\\take 11.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert\\011\\aligner._data\\011.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 11\\aligner._data\\take 11.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert\\011\\aligner._data\\011.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 10\\aligner._data\\take 10.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert\\010\\aligner._data\\010.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 10\\aligner._data\\take 10.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert\\010\\aligner._data\\010.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 10\\aligner._data\\take 10.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\6-concert\\010\\aligner._data\\010.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting\\take 8\\aligner._data\\take 8.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\5-professional-meeting\\008\\aligner._data\\008.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting\\take 8\\aligner._data\\take 8.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\5-professional-meeting\\008\\aligner._data\\008.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting\\take 8\\aligner._data\\take 8.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\5-professional-meeting\\008\\aligner._data\\008.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories\\take 7\\aligner._data\\take 7.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\4-vacation-memories\\007\\aligner._data\\007.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories\\take 7\\aligner._data\\take 7.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\4-vacation-memories\\007\\aligner._data\\007.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories\\take 7\\aligner._data\\take 7.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\4-vacation-memories\\007\\aligner._data\\007.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 6\\aligner._data\\take 6.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\3-gift\\006\\aligner._data\\006.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 6\\aligner._data\\take 6.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\3-gift\\006\\aligner._data\\006.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 6\\aligner._data\\take 6.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\3-gift\\006\\aligner._data\\006.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 5\\aligner._data\\take 5.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\3-gift\\005\\aligner._data\\005.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 5\\aligner._data\\take 5.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\3-gift\\005\\aligner._data\\005.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 5\\aligner._data\\take 5.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\3-gift\\005\\aligner._data\\005.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe\\take 4\\aligner._data\\take 4.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\2-coffe\\004\\aligner._data\\004.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe\\take 4\\aligner._data\\take 4.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\2-coffe\\004\\aligner._data\\004.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe\\take 4\\aligner._data\\take 4.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\2-coffe\\004\\aligner._data\\004.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 3\\aligner._data\\take 3.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop\\003\\aligner._data\\003.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 3\\aligner._data\\take 3.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop\\003\\aligner._data\\003.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 3\\aligner._data\\take 3.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop\\003\\aligner._data\\003.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 2\\aligner._data\\take 2.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop\\002\\aligner._data\\002.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 2\\aligner._data\\take 2.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop\\002\\aligner._data\\002.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 2\\aligner._data\\take 2.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop\\002\\aligner._data\\002.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 1\\aligner._data\\take 1.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop\\001\\aligner._data\\001.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 1\\aligner._data\\take 1.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop\\001\\aligner._data\\001.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 1\\aligner._data\\take 1.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-06-17\\1-bus-stop\\001\\aligner._data\\001.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I01___take1\\aligner._data\\I01___take1.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S023_1-sydney\\I01_001\\aligner._data\\I01_001.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I01___take1\\aligner._data\\I01___take1.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S023_1-sydney\\I01_001\\aligner._data\\I01_001.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I01___take1\\aligner._data\\I01___take1.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S023_1-sydney\\I01_001\\aligner._data\\I01_001.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I02___take9\\aligner._data\\take9.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S025_3-theater-production-company\\I02_009\\aligner._data\\009.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I02___take9\\aligner._data\\take9.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S025_3-theater-production-company\\I02_009\\aligner._data\\009.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I03___take10\\aligner._data\\take10.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S025_3-theater-production-company\\I03_010\\aligner._data\\010.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I03___take10\\aligner._data\\take10.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S025_3-theater-production-company\\I03_010\\aligner._data\\010.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I01___take8\\aligner._data\\take8.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S025_3-theater-production-company\\I01_008\\aligner._data\\008.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I01___take8\\aligner._data\\take8.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-20_S023-2027\\S025_3-theater-production-company\\I01_008\\aligner._data\\008.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I02___take2\\aligner._data\\I02___take2.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S008_1-restaurant\\I02_002\\aligner._data\\I02_002.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I02___take2\\aligner._data\\I02___take2.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S008_1-restaurant\\I02_002\\aligner._data\\I02_002.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I02___take2\\aligner._data\\I02___take2.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S008_1-restaurant\\I02_002\\aligner._data\\I02_002.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I01___take1\\aligner._data\\I01___take1.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S008_1-restaurant\\I01_001\\aligner._data\\I01_001.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I01___take1\\aligner._data\\I01___take1.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S008_1-restaurant\\I01_001\\aligner._data\\I01_001.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I01___take1\\aligner._data\\I01___take1.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-20_S008-S010\\S008_1-restaurant\\I01_001\\aligner._data\\I01_001.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I02___take10\\aligner._data\\take10.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S022_5-club\\I02_010\\aligner._data\\010.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I02___take10\\aligner._data\\take10.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S022_5-club\\I02_010\\aligner._data\\010.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I01___take9\\aligner._data\\take9.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S022_5-club\\I01_009\\aligner._data\\009.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I01___take9\\aligner._data\\take9.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-19_S018-S022\\S022_5-club\\I01_009\\aligner._data\\009.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S014___1-tea\\I01___take1\\aligner._data\\take1.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S014_1-tea\\I01_001\\aligner._data\\001.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S014___1-tea\\I01___take1\\aligner._data\\take1.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-17_S014-S017\\S014_1-tea\\I01_001\\aligner._data\\001.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel\\I01___take5\\aligner._data\\I01___take5.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S005_2-hotel\\I01_005\\aligner._data\\I01_005.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel\\I01___take5\\aligner._data\\I01___take5.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S005_2-hotel\\I01_005\\aligner._data\\I01_005.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel\\I01___take5\\aligner._data\\I01___take5.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S005_2-hotel\\I01_005\\aligner._data\\I01_005.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I05___take11\\aligner._data\\I05___take11.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I05_011\\aligner._data\\I05_011.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I05___take11\\aligner._data\\I05___take11.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I05_011\\aligner._data\\I05_011.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I01___take7\\aligner._data\\I01___take7.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I01_007\\aligner._data\\I01_007.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I01___take7\\aligner._data\\I01___take7.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I01_007\\aligner._data\\I01_007.export.yaml"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9\\metahuman-faces\\IPS_2026-02-17.12.39.15.8300_1_23CA3782497F31CF80ABB8839BF4E5C8",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I03_009\\metahuman-faces\\2026-02-17_IPS_.12.39.15.8300_1_23CA3782497F31CF80ABB8839BF4E5C8"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9\\aligner._data\\I03___take9.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I03_009\\aligner._data\\I03_009.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9\\aligner._data\\I03___take9.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I03_009\\aligner._data\\I03_009.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9\\aligner._data\\I03___take9.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I03_009\\aligner._data\\I03_009.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I02___take8\\aligner._data\\I02___take8.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I02_008\\aligner._data\\I02_008.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I02___take8\\aligner._data\\I02___take8.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I02_008\\aligner._data\\I02_008.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I02___take8\\aligner._data\\I02___take8.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I02_008\\aligner._data\\I02_008.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10\\aligner._data\\I04___take10.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I04_010\\aligner._data\\I04_010.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10\\aligner._data\\I04___take10.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S007_4-improvisation\\I04_010\\aligner._data\\I04_010.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1\\I01___take6\\aligner._data\\I01___take6.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S006_3-bus-station-1\\I01_006\\aligner._data\\I01_006.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1\\I01___take6\\aligner._data\\I01___take6.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S006_3-bus-station-1\\I01_006\\aligner._data\\I01_006.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1\\I01___take6\\aligner._data\\I01___take6.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S006_3-bus-station-1\\I01_006\\aligner._data\\I01_006.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I04___take4\\aligner._data\\I04___take4.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I04_004\\aligner._data\\I04_004.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I04___take4\\aligner._data\\I04___take4.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I04_004\\aligner._data\\I04_004.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I04___take4\\aligner._data\\I04___take4.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I04_004\\aligner._data\\I04_004.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I03___take3\\aligner._data\\I03___take3.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I03_003\\aligner._data\\I03_003.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I03___take3\\aligner._data\\I03___take3.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I03_003\\aligner._data\\I03_003.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I03___take3\\aligner._data\\I03___take3.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I03_003\\aligner._data\\I03_003.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I02___take2\\aligner._data\\I02___take2.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I02_002\\aligner._data\\I02_002.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I02___take2\\aligner._data\\I02___take2.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I02_002\\aligner._data\\I02_002.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I02___take2\\aligner._data\\I02___take2.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I02_002\\aligner._data\\I02_002.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I01___take1\\aligner._data\\I01___take1.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I01_001\\aligner._data\\I01_001.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I01___take1\\aligner._data\\I01___take1.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I01_001\\aligner._data\\I01_001.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I01___take1\\aligner._data\\I01___take1.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\S004_1-airport\\I01_001\\aligner._data\\I01_001.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\X___5-calibration\\take13\\aligner._data\\take13.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\X_5-calibration\\013\\aligner._data\\013.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\X___5-calibration\\take13\\aligner._data\\take13.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\X_5-calibration\\013\\aligner._data\\013.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\X___5-calibration\\take13\\aligner._data\\take13.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-17_S004-S007\\X_5-calibration\\013\\aligner._data\\013.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\aligner._data\\take2.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S011_1-street\\I02_002\\aligner._data\\002.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\aligner._data\\take2.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S011_1-street\\I02_002\\aligner._data\\002.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I05___take7\\aligner._data\\take7.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I05_007\\aligner._data\\007.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I05___take7\\aligner._data\\take7.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I05_007\\aligner._data\\007.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I02___take4\\aligner._data\\take4.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I02_004\\aligner._data\\004.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I02___take4\\aligner._data\\take4.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I02_004\\aligner._data\\004.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I03___take5\\aligner._data\\take5.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I03_005\\aligner._data\\005.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I03___take5\\aligner._data\\take5.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I03_005\\aligner._data\\005.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I04___take6\\aligner._data\\take6.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I04_006\\aligner._data\\006.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I04___take6\\aligner._data\\take6.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I04_006\\aligner._data\\006.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I01___take3\\aligner._data\\take3.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I01_003\\aligner._data\\003.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I01___take3\\aligner._data\\take3.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I01_003\\aligner._data\\003.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I06___take8\\aligner._data\\take8.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I06_008\\aligner._data\\008.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I06___take8\\aligner._data\\take8.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S012_2-coffe\\I06_008\\aligner._data\\008.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S013___3-club\\I01___take11\\aligner._data\\take11.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S013_3-club\\I01_011\\aligner._data\\011.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S013___3-club\\I01___take11\\aligner._data\\take11.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S013_3-club\\I01_011\\aligner._data\\011.export.yaml"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\eye-tom\\tom-calibration-s001-s003-2026-02-16\\callibration_2026-02-16_17-14-38-cc21913a",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\X_4-eye-tracker-calibration\\eye-tom\\2026-02-16_tom-calibration-s001-s003\\2026-02-16_callibration_17-14-38-cc21913a"
+    },
+    {
+      "kind": "directory",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\eye-jam\\jam-calibration-s001-s003-2026-02-16\\callibration_2026-02-16_17-14-40-c5afb7d8",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\X_4-eye-tracker-calibration\\eye-jam\\2026-02-16_jam-calibration-s001-s003\\2026-02-16_callibration_17-14-40-c5afb7d8"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I05___take5\\aligner._data\\I05___take5.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I05_005\\aligner._data\\I05_005.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I05___take5\\aligner._data\\I05___take5.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I05_005\\aligner._data\\I05_005.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I04___take4\\aligner._data\\I04___take4.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I04_004\\aligner._data\\I04_004.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I04___take4\\aligner._data\\I04___take4.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I04_004\\aligner._data\\I04_004.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I06___take6\\aligner._data\\I06___take6.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I06_006\\aligner._data\\I06_006.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I06___take6\\aligner._data\\I06___take6.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I06_006\\aligner._data\\I06_006.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\take1.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I01_001\\aligner._data\\001.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\take1.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I01_001\\aligner._data\\001.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\I01___take1.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I01_001\\aligner._data\\I01_001.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\I01___take1.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I01_001\\aligner._data\\I01_001.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\I01___take1.slim.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I01_001\\aligner._data\\I01_001.slim.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3\\aligner._data\\take3.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I03_003\\aligner._data\\003.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3\\aligner._data\\take3.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I03_003\\aligner._data\\003.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3\\aligner._data\\I03___take3.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I03_003\\aligner._data\\I03_003.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3\\aligner._data\\I03___take3.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I03_003\\aligner._data\\I03_003.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2\\aligner._data\\take2.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I02_002\\aligner._data\\002.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2\\aligner._data\\take2.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I02_002\\aligner._data\\002.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2\\aligner._data\\I02___take2.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I02_002\\aligner._data\\I02_002.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2\\aligner._data\\I02___take2.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S001_1-living-room\\I02_002\\aligner._data\\I02_002.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I01___take9\\aligner._data\\I01___take9.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I01_009\\aligner._data\\I01_009.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I01___take9\\aligner._data\\I01___take9.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I01_009\\aligner._data\\I01_009.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I05___take13\\aligner._data\\I05___take13.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I05_013\\aligner._data\\I05_013.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I05___take13\\aligner._data\\I05___take13.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I05_013\\aligner._data\\I05_013.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I06___take14\\aligner._data\\I06___take14.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I06_014\\aligner._data\\I06_014.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I06___take14\\aligner._data\\I06___take14.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I06_014\\aligner._data\\I06_014.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I04___take12\\aligner._data\\I04___take12.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I04_012\\aligner._data\\I04_012.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I04___take12\\aligner._data\\I04___take12.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I04_012\\aligner._data\\I04_012.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I03___take11\\aligner._data\\I03___take11.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I03_011\\aligner._data\\I03_011.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I03___take11\\aligner._data\\I03___take11.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I03_011\\aligner._data\\I03_011.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I02___take10\\aligner._data\\I02___take10.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I02_010\\aligner._data\\I02_010.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I02___take10\\aligner._data\\I02___take10.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S003_3-back-home\\I02_010\\aligner._data\\I02_010.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I02___take8\\aligner._data\\I02___take8.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S002_2-restourant\\I02_008\\aligner._data\\I02_008.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I02___take8\\aligner._data\\I02___take8.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S002_2-restourant\\I02_008\\aligner._data\\I02_008.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I01___take7\\aligner._data\\I01___take7.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S002_2-restourant\\I01_007\\aligner._data\\I01_007.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I01___take7\\aligner._data\\I01___take7.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-02-16_S001-S003\\S002_2-restourant\\I01_007\\aligner._data\\I01_007.export.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\aligner._data\\backup\\take2.state.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S011_1-street\\I02_002\\aligner._data\\backup\\002.state.yaml"
+    },
+    {
+      "kind": "file",
+      "source": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\aligner._data\\backup\\take2.export.yaml",
+      "target": "G:\\My Drive\\submission-mocaps\\2026-03-16_S011-S013\\S011_1-street\\I02_002\\aligner._data\\backup\\002.export.yaml"
+    }
+  ],
+  "yaml_rewrites": [
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take1-coffe\\aligner._data\\take1-coffe.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take1-coffe\\aligner._data\\take1-coffe.export.yaml.before-normalize.bak",
+      "replacements": 96
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take1-coffe\\aligner._data\\take1-coffe.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\08-07-2026\\take1-coffe\\aligner._data\\take1-coffe.state.yaml.before-normalize.bak",
+      "replacements": 32
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 1\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 1\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 25
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 1\\aligner._data\\take 1.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 1\\aligner._data\\take 1.export.yaml.before-normalize.bak",
+      "replacements": 89
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 1\\aligner._data\\take 1.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 1\\aligner._data\\take 1.slim.export.yaml.before-normalize.bak",
+      "replacements": 3
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 1\\aligner._data\\take 1.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 1\\aligner._data\\take 1.state.yaml.before-normalize.bak",
+      "replacements": 33
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 2\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 2\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 25
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 2\\aligner._data\\take 2.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 2\\aligner._data\\take 2.export.yaml.before-normalize.bak",
+      "replacements": 104
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 2\\aligner._data\\take 2.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 2\\aligner._data\\take 2.slim.export.yaml.before-normalize.bak",
+      "replacements": 4
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 2\\aligner._data\\take 2.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 2\\aligner._data\\take 2.state.yaml.before-normalize.bak",
+      "replacements": 39
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 3\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 3\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 25
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 3\\aligner._data\\take 3.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 3\\aligner._data\\take 3.export.yaml.before-normalize.bak",
+      "replacements": 124
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 3\\aligner._data\\take 3.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 3\\aligner._data\\take 3.slim.export.yaml.before-normalize.bak",
+      "replacements": 4
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 3\\aligner._data\\take 3.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\1 bus stop\\take 3\\aligner._data\\take 3.state.yaml.before-normalize.bak",
+      "replacements": 49
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe\\take 4\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe\\take 4\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 25
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe\\take 4\\aligner._data\\take 4.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe\\take 4\\aligner._data\\take 4.export.yaml.before-normalize.bak",
+      "replacements": 114
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe\\take 4\\aligner._data\\take 4.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe\\take 4\\aligner._data\\take 4.slim.export.yaml.before-normalize.bak",
+      "replacements": 4
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe\\take 4\\aligner._data\\take 4.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\2 coffe\\take 4\\aligner._data\\take 4.state.yaml.before-normalize.bak",
+      "replacements": 44
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 5\\aligner._data\\take 5.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 5\\aligner._data\\take 5.export.yaml.before-normalize.bak",
+      "replacements": 60
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 5\\aligner._data\\take 5.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 5\\aligner._data\\take 5.slim.export.yaml.before-normalize.bak",
+      "replacements": 2
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 5\\aligner._data\\take 5.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 5\\aligner._data\\take 5.state.yaml.before-normalize.bak",
+      "replacements": 27
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 6\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 6\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 25
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 6\\aligner._data\\take 6.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 6\\aligner._data\\take 6.export.yaml.before-normalize.bak",
+      "replacements": 74
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 6\\aligner._data\\take 6.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 6\\aligner._data\\take 6.slim.export.yaml.before-normalize.bak",
+      "replacements": 2
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 6\\aligner._data\\take 6.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\3 gift\\take 6\\aligner._data\\take 6.state.yaml.before-normalize.bak",
+      "replacements": 27
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories\\take 7\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories\\take 7\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 21
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories\\take 7\\aligner._data\\take 7.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories\\take 7\\aligner._data\\take 7.export.yaml.before-normalize.bak",
+      "replacements": 72
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories\\take 7\\aligner._data\\take 7.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories\\take 7\\aligner._data\\take 7.slim.export.yaml.before-normalize.bak",
+      "replacements": 2
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories\\take 7\\aligner._data\\take 7.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\4 vacation memories\\take 7\\aligner._data\\take 7.state.yaml.before-normalize.bak",
+      "replacements": 32
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting\\take 8\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting\\take 8\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 17
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting\\take 8\\aligner._data\\take 8.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting\\take 8\\aligner._data\\take 8.export.yaml.before-normalize.bak",
+      "replacements": 79
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting\\take 8\\aligner._data\\take 8.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting\\take 8\\aligner._data\\take 8.slim.export.yaml.before-normalize.bak",
+      "replacements": 2
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting\\take 8\\aligner._data\\take 8.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\5 professional meeting\\take 8\\aligner._data\\take 8.state.yaml.before-normalize.bak",
+      "replacements": 20
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 10\\aligner._data\\take 10.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 10\\aligner._data\\take 10.export.yaml.before-normalize.bak",
+      "replacements": 214
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 10\\aligner._data\\take 10.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 10\\aligner._data\\take 10.slim.export.yaml.before-normalize.bak",
+      "replacements": 10
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 10\\aligner._data\\take 10.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 10\\aligner._data\\take 10.state.yaml.before-normalize.bak",
+      "replacements": 70
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 11\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 11\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 30
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 11\\aligner._data\\take 11.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 11\\aligner._data\\take 11.export.yaml.before-normalize.bak",
+      "replacements": 144
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 11\\aligner._data\\take 11.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 11\\aligner._data\\take 11.slim.export.yaml.before-normalize.bak",
+      "replacements": 8
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 11\\aligner._data\\take 11.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 11\\aligner._data\\take 11.state.yaml.before-normalize.bak",
+      "replacements": 50
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 9\\aligner._data\\take 9.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 9\\aligner._data\\take 9.export.yaml.before-normalize.bak",
+      "replacements": 134
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 9\\aligner._data\\take 9.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 9\\aligner._data\\take 9.slim.export.yaml.before-normalize.bak",
+      "replacements": 2
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 9\\aligner._data\\take 9.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\17-06-2026\\6 concert\\take 9\\aligner._data\\take 9.state.yaml.before-normalize.bak",
+      "replacements": 37
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\I01___take1.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\I01___take1.export.yaml.before-normalize.bak",
+      "replacements": 264
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\I01___take1.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\I01___take1.slim.export.yaml.before-normalize.bak",
+      "replacements": 4
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\I01___take1.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\I01___take1.state.yaml.before-normalize.bak",
+      "replacements": 94
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\take1.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\take1.export.yaml.before-normalize.bak",
+      "replacements": 40
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\take1.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I01___take1\\aligner._data\\take1.state.yaml.before-normalize.bak",
+      "replacements": 11
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2\\aligner._data\\I02___take2.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2\\aligner._data\\I02___take2.export.yaml.before-normalize.bak",
+      "replacements": 168
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2\\aligner._data\\I02___take2.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2\\aligner._data\\I02___take2.state.yaml.before-normalize.bak",
+      "replacements": 70
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2\\aligner._data\\take2.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2\\aligner._data\\take2.export.yaml.before-normalize.bak",
+      "replacements": 26
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2\\aligner._data\\take2.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I02___take2\\aligner._data\\take2.state.yaml.before-normalize.bak",
+      "replacements": 7
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3\\aligner._data\\I03___take3.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3\\aligner._data\\I03___take3.export.yaml.before-normalize.bak",
+      "replacements": 120
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3\\aligner._data\\I03___take3.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3\\aligner._data\\I03___take3.state.yaml.before-normalize.bak",
+      "replacements": 46
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3\\aligner._data\\take3.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3\\aligner._data\\take3.export.yaml.before-normalize.bak",
+      "replacements": 26
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3\\aligner._data\\take3.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I03___take3\\aligner._data\\take3.state.yaml.before-normalize.bak",
+      "replacements": 7
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I04___take4\\aligner._data\\I04___take4.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I04___take4\\aligner._data\\I04___take4.export.yaml.before-normalize.bak",
+      "replacements": 70
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I04___take4\\aligner._data\\I04___take4.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I04___take4\\aligner._data\\I04___take4.state.yaml.before-normalize.bak",
+      "replacements": 32
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I05___take5\\aligner._data\\I05___take5.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I05___take5\\aligner._data\\I05___take5.export.yaml.before-normalize.bak",
+      "replacements": 70
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I05___take5\\aligner._data\\I05___take5.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I05___take5\\aligner._data\\I05___take5.state.yaml.before-normalize.bak",
+      "replacements": 32
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I06___take6\\aligner._data\\I06___take6.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I06___take6\\aligner._data\\I06___take6.export.yaml.before-normalize.bak",
+      "replacements": 70
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I06___take6\\aligner._data\\I06___take6.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S001___1-living-room\\I06___take6\\aligner._data\\I06___take6.state.yaml.before-normalize.bak",
+      "replacements": 32
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I01___take7\\aligner._data\\I01___take7.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I01___take7\\aligner._data\\I01___take7.export.yaml.before-normalize.bak",
+      "replacements": 70
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I01___take7\\aligner._data\\I01___take7.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I01___take7\\aligner._data\\I01___take7.state.yaml.before-normalize.bak",
+      "replacements": 32
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I02___take8\\aligner._data\\I02___take8.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I02___take8\\aligner._data\\I02___take8.export.yaml.before-normalize.bak",
+      "replacements": 70
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I02___take8\\aligner._data\\I02___take8.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S002___2-restourant\\I02___take8\\aligner._data\\I02___take8.state.yaml.before-normalize.bak",
+      "replacements": 32
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I01___take9\\aligner._data\\I01___take9.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I01___take9\\aligner._data\\I01___take9.export.yaml.before-normalize.bak",
+      "replacements": 70
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I01___take9\\aligner._data\\I01___take9.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I01___take9\\aligner._data\\I01___take9.state.yaml.before-normalize.bak",
+      "replacements": 32
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I02___take10\\aligner._data\\I02___take10.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I02___take10\\aligner._data\\I02___take10.export.yaml.before-normalize.bak",
+      "replacements": 90
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I02___take10\\aligner._data\\I02___take10.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I02___take10\\aligner._data\\I02___take10.state.yaml.before-normalize.bak",
+      "replacements": 39
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I03___take11\\aligner._data\\I03___take11.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I03___take11\\aligner._data\\I03___take11.export.yaml.before-normalize.bak",
+      "replacements": 90
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I03___take11\\aligner._data\\I03___take11.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I03___take11\\aligner._data\\I03___take11.state.yaml.before-normalize.bak",
+      "replacements": 39
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I04___take12\\aligner._data\\I04___take12.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I04___take12\\aligner._data\\I04___take12.export.yaml.before-normalize.bak",
+      "replacements": 90
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I04___take12\\aligner._data\\I04___take12.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I04___take12\\aligner._data\\I04___take12.state.yaml.before-normalize.bak",
+      "replacements": 39
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I05___take13\\aligner._data\\I05___take13.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I05___take13\\aligner._data\\I05___take13.export.yaml.before-normalize.bak",
+      "replacements": 90
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I05___take13\\aligner._data\\I05___take13.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I05___take13\\aligner._data\\I05___take13.state.yaml.before-normalize.bak",
+      "replacements": 39
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I06___take14\\aligner._data\\I06___take14.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I06___take14\\aligner._data\\I06___take14.export.yaml.before-normalize.bak",
+      "replacements": 90
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I06___take14\\aligner._data\\I06___take14.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\S003___3-back-home\\I06___take14\\aligner._data\\I06___take14.state.yaml.before-normalize.bak",
+      "replacements": 39
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\aligner._data\\X___4-eye-tracker-calibration.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\aligner._data\\X___4-eye-tracker-calibration.export.yaml.before-normalize.bak",
+      "replacements": 122
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\aligner._data\\X___4-eye-tracker-calibration.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\aligner._data\\X___4-eye-tracker-calibration.state.yaml.before-normalize.bak",
+      "replacements": 54
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\eye-jam\\jam-calibration-s001-s003-2026-02-16\\wearer-calibration.calibration.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\eye-jam\\jam-calibration-s001-s003-2026-02-16\\wearer-calibration.calibration.yaml.before-normalize.bak",
+      "replacements": 20
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\eye-tom\\tom-calibration-s001-s003-2026-02-16\\wearer-calibration.calibration.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S001-S003___mocap 16-02-2026\\X___4-eye-tracker-calibration\\eye-tom\\tom-calibration-s001-s003-2026-02-16\\wearer-calibration.calibration.yaml.before-normalize.bak",
+      "replacements": 20
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I01___take1\\aligner._data\\I01___take1.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I01___take1\\aligner._data\\I01___take1.export.yaml.before-normalize.bak",
+      "replacements": 158
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I01___take1\\aligner._data\\I01___take1.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I01___take1\\aligner._data\\I01___take1.slim.export.yaml.before-normalize.bak",
+      "replacements": 2
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I01___take1\\aligner._data\\I01___take1.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I01___take1\\aligner._data\\I01___take1.state.yaml.before-normalize.bak",
+      "replacements": 44
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I02___take2\\aligner._data\\I02___take2.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I02___take2\\aligner._data\\I02___take2.export.yaml.before-normalize.bak",
+      "replacements": 216
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I02___take2\\aligner._data\\I02___take2.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I02___take2\\aligner._data\\I02___take2.slim.export.yaml.before-normalize.bak",
+      "replacements": 4
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I02___take2\\aligner._data\\I02___take2.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I02___take2\\aligner._data\\I02___take2.state.yaml.before-normalize.bak",
+      "replacements": 70
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I03___take3\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I03___take3\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 35
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I03___take3\\aligner._data\\I03___take3.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I03___take3\\aligner._data\\I03___take3.export.yaml.before-normalize.bak",
+      "replacements": 86
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I03___take3\\aligner._data\\I03___take3.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I03___take3\\aligner._data\\I03___take3.slim.export.yaml.before-normalize.bak",
+      "replacements": 2
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I03___take3\\aligner._data\\I03___take3.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I03___take3\\aligner._data\\I03___take3.state.yaml.before-normalize.bak",
+      "replacements": 32
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I04___take4\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I04___take4\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 35
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I04___take4\\aligner._data\\I04___take4.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I04___take4\\aligner._data\\I04___take4.export.yaml.before-normalize.bak",
+      "replacements": 103
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I04___take4\\aligner._data\\I04___take4.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I04___take4\\aligner._data\\I04___take4.slim.export.yaml.before-normalize.bak",
+      "replacements": 3
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I04___take4\\aligner._data\\I04___take4.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S004___1-airport\\I04___take4\\aligner._data\\I04___take4.state.yaml.before-normalize.bak",
+      "replacements": 39
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel\\I01___take5\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel\\I01___take5\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 35
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel\\I01___take5\\aligner._data\\I01___take5.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel\\I01___take5\\aligner._data\\I01___take5.export.yaml.before-normalize.bak",
+      "replacements": 86
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel\\I01___take5\\aligner._data\\I01___take5.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel\\I01___take5\\aligner._data\\I01___take5.slim.export.yaml.before-normalize.bak",
+      "replacements": 2
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel\\I01___take5\\aligner._data\\I01___take5.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S005___2-hotel\\I01___take5\\aligner._data\\I01___take5.state.yaml.before-normalize.bak",
+      "replacements": 32
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1\\I01___take6\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1\\I01___take6\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 35
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1\\I01___take6\\aligner._data\\I01___take6.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1\\I01___take6\\aligner._data\\I01___take6.export.yaml.before-normalize.bak",
+      "replacements": 180
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1\\I01___take6\\aligner._data\\I01___take6.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1\\I01___take6\\aligner._data\\I01___take6.slim.export.yaml.before-normalize.bak",
+      "replacements": 4
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1\\I01___take6\\aligner._data\\I01___take6.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S006___3-bus-station-1\\I01___take6\\aligner._data\\I01___take6.state.yaml.before-normalize.bak",
+      "replacements": 82
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I01___take7\\aligner._data\\I01___take7.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I01___take7\\aligner._data\\I01___take7.export.yaml.before-normalize.bak",
+      "replacements": 137
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I01___take7\\aligner._data\\I01___take7.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I01___take7\\aligner._data\\I01___take7.state.yaml.before-normalize.bak",
+      "replacements": 53
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I02___take8\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I02___take8\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 35
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I02___take8\\aligner._data\\I02___take8.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I02___take8\\aligner._data\\I02___take8.export.yaml.before-normalize.bak",
+      "replacements": 161
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I02___take8\\aligner._data\\I02___take8.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I02___take8\\aligner._data\\I02___take8.slim.export.yaml.before-normalize.bak",
+      "replacements": 5
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I02___take8\\aligner._data\\I02___take8.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I02___take8\\aligner._data\\I02___take8.state.yaml.before-normalize.bak",
+      "replacements": 65
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 35
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9\\aligner._data\\I03___take9.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9\\aligner._data\\I03___take9.export.yaml.before-normalize.bak",
+      "replacements": 201
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9\\aligner._data\\I03___take9.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9\\aligner._data\\I03___take9.slim.export.yaml.before-normalize.bak",
+      "replacements": 5
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9\\aligner._data\\I03___take9.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I03___take9\\aligner._data\\I03___take9.state.yaml.before-normalize.bak",
+      "replacements": 85
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10\\aligned_exports\\aligner._data\\aligned_exports.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10\\aligned_exports\\aligner._data\\aligned_exports.export.yaml.before-normalize.bak",
+      "replacements": 28
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10\\aligned_exports\\aligner._data\\aligned_exports.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10\\aligned_exports\\aligner._data\\aligned_exports.state.yaml.before-normalize.bak",
+      "replacements": 14
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 41
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10\\aligner._data\\I04___take10.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10\\aligner._data\\I04___take10.export.yaml.before-normalize.bak",
+      "replacements": 188
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10\\aligner._data\\I04___take10.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I04___take10\\aligner._data\\I04___take10.state.yaml.before-normalize.bak",
+      "replacements": 71
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I05___take11\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I05___take11\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 41
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I05___take11\\aligner._data\\I05___take11.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I05___take11\\aligner._data\\I05___take11.export.yaml.before-normalize.bak",
+      "replacements": 188
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I05___take11\\aligner._data\\I05___take11.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\S007___4-improvisation\\I05___take11\\aligner._data\\I05___take11.state.yaml.before-normalize.bak",
+      "replacements": 71
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\X___5-calibration\\take13\\aligner._data\\take13.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\X___5-calibration\\take13\\aligner._data\\take13.export.yaml.before-normalize.bak",
+      "replacements": 244
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\X___5-calibration\\take13\\aligner._data\\take13.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S004-S007___mocap 17-02-2026\\X___5-calibration\\take13\\aligner._data\\take13.state.yaml.before-normalize.bak",
+      "replacements": 90
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I01___take1\\aligner._data\\I01___take1.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I01___take1\\aligner._data\\I01___take1.export.yaml.before-normalize.bak",
+      "replacements": 120
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I01___take1\\aligner._data\\I01___take1.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I01___take1\\aligner._data\\I01___take1.slim.export.yaml.before-normalize.bak",
+      "replacements": 4
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I01___take1\\aligner._data\\I01___take1.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I01___take1\\aligner._data\\I01___take1.state.yaml.before-normalize.bak",
+      "replacements": 46
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I02___take2\\aligner._data\\I02___take2.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I02___take2\\aligner._data\\I02___take2.export.yaml.before-normalize.bak",
+      "replacements": 158
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I02___take2\\aligner._data\\I02___take2.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I02___take2\\aligner._data\\I02___take2.slim.export.yaml.before-normalize.bak",
+      "replacements": 2
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I02___take2\\aligner._data\\I02___take2.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S008-S010___mocap 20-02-2026\\S008___1-restaurant\\I02___take2\\aligner._data\\I02___take2.state.yaml.before-normalize.bak",
+      "replacements": 44
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I01___take1\\take1.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I01___take1\\take1.state.yaml.before-normalize.bak",
+      "replacements": 12
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\aligner._data\\backup\\take2.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\aligner._data\\backup\\take2.state.yaml.before-normalize.bak",
+      "replacements": 14
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\aligner._data\\take2.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\aligner._data\\take2.export.yaml.before-normalize.bak",
+      "replacements": 47
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\aligner._data\\take2.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\aligner._data\\take2.state.yaml.before-normalize.bak",
+      "replacements": 13
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\take2.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S011___1-street\\I02___take2\\take2.state.yaml.before-normalize.bak",
+      "replacements": 12
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I01___take3\\aligner._data\\take3.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I01___take3\\aligner._data\\take3.export.yaml.before-normalize.bak",
+      "replacements": 40
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I01___take3\\aligner._data\\take3.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I01___take3\\aligner._data\\take3.state.yaml.before-normalize.bak",
+      "replacements": 11
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I01___take3\\take3.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I01___take3\\take3.state.yaml.before-normalize.bak",
+      "replacements": 8
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I02___take4\\aligner._data\\take4.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I02___take4\\aligner._data\\take4.export.yaml.before-normalize.bak",
+      "replacements": 40
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I02___take4\\aligner._data\\take4.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I02___take4\\aligner._data\\take4.state.yaml.before-normalize.bak",
+      "replacements": 11
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I03___take5\\aligner._data\\take5.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I03___take5\\aligner._data\\take5.export.yaml.before-normalize.bak",
+      "replacements": 30
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I03___take5\\aligner._data\\take5.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I03___take5\\aligner._data\\take5.state.yaml.before-normalize.bak",
+      "replacements": 9
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I04___take6\\aligner._data\\take6.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I04___take6\\aligner._data\\take6.export.yaml.before-normalize.bak",
+      "replacements": 20
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I04___take6\\aligner._data\\take6.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I04___take6\\aligner._data\\take6.state.yaml.before-normalize.bak",
+      "replacements": 7
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I05___take7\\aligner._data\\take7.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I05___take7\\aligner._data\\take7.export.yaml.before-normalize.bak",
+      "replacements": 20
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I05___take7\\aligner._data\\take7.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I05___take7\\aligner._data\\take7.state.yaml.before-normalize.bak",
+      "replacements": 7
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I06___take8\\aligner._data\\take8.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I06___take8\\aligner._data\\take8.export.yaml.before-normalize.bak",
+      "replacements": 20
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I06___take8\\aligner._data\\take8.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S012___2-coffe\\I06___take8\\aligner._data\\take8.state.yaml.before-normalize.bak",
+      "replacements": 7
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S013___3-club\\I01___take11\\aligner._data\\take11.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S013___3-club\\I01___take11\\aligner._data\\take11.export.yaml.before-normalize.bak",
+      "replacements": 52
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S013___3-club\\I01___take11\\aligner._data\\take11.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S011-S013___mocap 16-03-2026\\S013___3-club\\I01___take11\\aligner._data\\take11.state.yaml.before-normalize.bak",
+      "replacements": 14
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S014___1-tea\\I01___take1\\aligner._data\\take1.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S014___1-tea\\I01___take1\\aligner._data\\take1.export.yaml.before-normalize.bak",
+      "replacements": 26
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S014___1-tea\\I01___take1\\aligner._data\\take1.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S014-S017___mocap 17-03-2026\\S014___1-tea\\I01___take1\\aligner._data\\take1.state.yaml.before-normalize.bak",
+      "replacements": 7
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I01___take9\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I01___take9\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 9
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I01___take9\\aligner._data\\take9.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I01___take9\\aligner._data\\take9.export.yaml.before-normalize.bak",
+      "replacements": 36
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I01___take9\\aligner._data\\take9.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I01___take9\\aligner._data\\take9.state.yaml.before-normalize.bak",
+      "replacements": 11
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I02___take10\\aligner._data\\take10.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I02___take10\\aligner._data\\take10.export.yaml.before-normalize.bak",
+      "replacements": 44
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I02___take10\\aligner._data\\take10.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S018-S022___mocap 19-03-2026\\S022___5-club\\I02___take10\\aligner._data\\take10.state.yaml.before-normalize.bak",
+      "replacements": 16
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I01___take1\\aligner._data\\I01___take1.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I01___take1\\aligner._data\\I01___take1.export.yaml.before-normalize.bak",
+      "replacements": 167
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I01___take1\\aligner._data\\I01___take1.slim.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I01___take1\\aligner._data\\I01___take1.slim.export.yaml.before-normalize.bak",
+      "replacements": 3
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I01___take1\\aligner._data\\I01___take1.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S023___1-sydney\\I01___take1\\aligner._data\\I01___take1.state.yaml.before-normalize.bak",
+      "replacements": 51
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I01___take8\\aligner._data\\take8.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I01___take8\\aligner._data\\take8.export.yaml.before-normalize.bak",
+      "replacements": 41
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I01___take8\\aligner._data\\take8.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I01___take8\\aligner._data\\take8.state.yaml.before-normalize.bak",
+      "replacements": 14
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I02___take9\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I02___take9\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 7
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I02___take9\\aligner._data\\take9.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I02___take9\\aligner._data\\take9.export.yaml.before-normalize.bak",
+      "replacements": 28
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I02___take9\\aligner._data\\take9.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I02___take9\\aligner._data\\take9.state.yaml.before-normalize.bak",
+      "replacements": 10
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I03___take10\\aligned_exports\\reports\\aligned_export_summary.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I03___take10\\aligned_exports\\reports\\aligned_export_summary.yaml.before-normalize.bak",
+      "replacements": 13
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I03___take10\\aligner._data\\take10.export.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I03___take10\\aligner._data\\take10.export.yaml.before-normalize.bak",
+      "replacements": 48
+    },
+    {
+      "path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I03___take10\\aligner._data\\take10.state.yaml",
+      "backup_path": "G:\\My Drive\\submission-mocaps\\S023-2027___mocap 20-03-2026\\S025___3-theater-production-company\\I03___take10\\aligner._data\\take10.state.yaml.before-normalize.bak",
+      "replacements": 18
+    }
+  ],
+  "conflicts": []
+}

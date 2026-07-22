@@ -44,12 +44,20 @@ take/
   exported/
     markers_world.c3d
     clapperboard.c3d
+    eye_tracker_1.c3d
+    eye_tracker_2.c3d
+    calibration_markers.c3d  # only for takes inside a calibration folder
     actors/
       <actor>_.c3d
       <actor>_.fbx
       <actor>_.bvh
       <actor>_.mcp
 ```
+
+The eye tracker and calibration free-marker exports are enabled with the
+`Include eye tracker + calibration free markers` menu option. If an exported
+take is missing only one eye tracker file, rerunning the export with this option
+generates just the missing extra file.
 
 The aLigner-compatible exporter writes to a separate folder:
 
@@ -97,6 +105,47 @@ playRange <start_frame> <end_frame>;
 ```
 
 It then exports the pure aligned actor files and runs the aligned mannequin-compatible MetaHuman output and Geeno retargets.
+
+## Data Tree Normalization
+
+Use `utils/normalize_data_tree.py` when an exported data folder needs safer,
+more uniform names. The script is dry-run first: it writes a CSV/JSON plan and
+an undo PowerShell script, checks for name collisions, and only renames files or
+folders when `--apply` is passed.
+
+The default rules are intentionally conservative:
+
+- `DD-MM-YYYY` becomes `YYYY-MM-DD`.
+- If a folder has both a date and a session label, the date moves first.
+- `mocap` is removed from names.
+- repeated underscores are collapsed to one underscore.
+- `take1`, `take 1`, and `take_1` become `001`.
+- official IDs such as `S021`, `S001-S003`, and `I04` are preserved.
+- YAML file names are included by default, but non-YAML file names are left alone.
+
+First produce and review the plan:
+
+```powershell
+uv run python utils/normalize_data_tree.py "D:\path\to\data"
+```
+
+If the plan looks correct, apply only the path renames:
+
+```powershell
+uv run python utils/normalize_data_tree.py "D:\path\to\data" --apply
+```
+
+To also update exact old names and relative paths inside `.yaml`/`.yml` files,
+add `--rewrite-yaml`. YAML files are copied to `*.before-normalize.bak` before
+their contents are changed.
+
+```powershell
+uv run python utils/normalize_data_tree.py "D:\path\to\data" --apply --rewrite-yaml
+```
+
+Only use `--include-files` after reviewing a dry-run plan carefully. It extends
+the same naming rules to non-YAML file names, which can break external tools if
+those files are referenced by generated metadata.
 
 ## Retarget Types
 
