@@ -77,9 +77,9 @@ take/
     reports/
       aligned_export_summary.yaml
     scripts/
-      aligned_export_<actor>.hsl
-      aligned_retarget_metahuman_<actor>_aligned.hsl
-      aligned_retarget_geeno_<actor>_aligned.hsl
+      aligned_export_all_actors.hsl
+      aligned_retarget_metahuman.hsl
+      aligned_retarget_geeno.hsl
 ```
 
 Rerunning the aligned exporter overwrites the previous aligned outputs. This keeps the existing `exported/` folder untouched. The `aligner._data/exports/` folder is also left untouched because it belongs to aLigner.
@@ -170,9 +170,9 @@ The app writes aligned workflow HSL files into the aligned export folder so they
 take/
   aligned_exports/
     scripts/
-      aligned_export_<actor>.hsl
-      aligned_retarget_metahuman_<actor>_aligned.hsl
-      aligned_retarget_geeno_<actor>_aligned.hsl
+      aligned_export_all_actors.hsl
+      aligned_retarget_metahuman.hsl
+      aligned_retarget_geeno.hsl
 ```
 
 Shogun Post CL does not always surface detailed script context, so these generated files are the best place to inspect exact line numbers after an error.

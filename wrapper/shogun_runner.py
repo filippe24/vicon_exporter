@@ -44,7 +44,7 @@ def run_shogun(mcp_file: Path, hsl_file: Path, out_file: Path, shogun_path: Path
     process = subprocess.Popen(
         cmd,
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
         text=True,
         bufsize=1,
         universal_newlines=True,
@@ -54,10 +54,6 @@ def run_shogun(mcp_file: Path, hsl_file: Path, out_file: Path, shogun_path: Path
     if process.stdout is not None:
         for line in process.stdout:
             print("      " + line.rstrip())
-
-    if process.stderr is not None:
-        for line in process.stderr:
-            print("      [ERR] " + line.rstrip())
 
     process.wait()
 

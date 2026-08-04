@@ -1,7 +1,6 @@
 import re
 from pathlib import Path
 
-
 TAKE_NUMBER_RE = re.compile(
     r"(?:^|[_\-\s])(?:take[_\-\s]*)?(\d+)(?:$|[_\-\s])",
     re.IGNORECASE,
@@ -71,7 +70,10 @@ def find_face_video_take_folders(root_take_dir: Path) -> list[Path]:
         for path in candidates
         if path.is_dir()
         and find_take_number(path.name) is not None
-        and any(child.is_dir() and child.name.lower().startswith("face") for child in path.iterdir())
+        and any(
+            child.is_dir() and child.name.lower().startswith("face")
+            for child in path.iterdir()
+        )
     ]
 
 

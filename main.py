@@ -2,8 +2,8 @@
 
 import argparse
 import shutil
+import sys
 from pathlib import Path
-from tempfile import template
 from tkinter import Tk, filedialog
 
 from bvh.converter import convert
@@ -18,6 +18,7 @@ from configuration.types import RETARGET_CONFIGS, RetargetType
 from exporter.aligned_export_pipeline import (
     create_aligned_export_dirs,
     generate_aligned_actor_export_hsl,
+    generate_aligned_retarget_hsl,
     load_aligned_export_plan,
     write_aligned_export_summary,
 )
@@ -442,19 +443,34 @@ def process_aligned_export_and_retargeting(take_dir: Path, shogun_path: Path):
     if plan is None:
         return
 
+    mcp_file = _find_retarget_source_mcp(take_dir)
+    if mcp_file is None:
+        print("   warning: no MCP file found, skipping.")
+        return
+
     create_aligned_export_dirs(plan)
 
+    print(f"   using MCP: {mcp_file.name}")
     print(f"   using aLigner YAML: {plan.export_yaml_path.name}")
     print(f"   aligned frame range: {plan.start_frame} -> {plan.end_frame}")
     print(f"   output: {plan.output_root}")
 
-    aligned_actor_mcps = _export_aligned_actor_mcps(
-        plan=plan,
-        take_dir=take_dir,
+    actor_hsl = plan.scripts_dir / "aligned_export_all_actors.hsl"
+    actor_hsl.write_text(generate_aligned_actor_export_hsl(plan))
+    actor_output_mcp = plan.output_root / "aligned_actor_export_output.mcp"
+
+    print("   exporting cropped aligned actor files...")
+    run_shogun(
+        mcp_file=mcp_file,
+        hsl_file=actor_hsl,
+        out_file=actor_output_mcp,
         shogun_path=shogun_path,
     )
+    aligned_actor_mcps = sorted(plan.actors_dir.glob("*_aligned.mcp"))
     if not aligned_actor_mcps:
-        print("   warning: no aligned actor MCP files were exported, skipping retargets.")
+        print(
+            "   warning: no aligned actor MCP files were exported, skipping retargets."
+        )
         return
 
     for retarget_type, folder_name, prefix in [
@@ -472,35 +488,29 @@ def process_aligned_export_and_retargeting(take_dir: Path, shogun_path: Path):
             )
             continue
 
-        print(f"   running {configuration.name} aligned retarget...")
-        for actor_mcp in aligned_actor_mcps:
-            hsl_file = plan.scripts_dir / f"aligned_retarget_{folder_name}_{actor_mcp.stem}.hsl"
-            hsl_file.write_text(
-                generate_general_retarget_hsl(
-                    template_path=template_path,
-                    output_path=plan.retargeted_dir,
-                    retarget_vsr_file_path=retarget_vsr,
-                    actors_output_folder=folder_name,
-                    file_name_prefix=prefix,
-                )
+        hsl_file = plan.scripts_dir / f"aligned_retarget_{folder_name}.hsl"
+        hsl_file.write_text(
+            generate_aligned_retarget_hsl(
+                template_path=template_path,
+                plan=plan,
+                retarget_vsr_file_path=retarget_vsr,
+                retarget_folder_name=folder_name,
+                file_name_prefix=prefix,
             )
+        )
 
-            dummy_output_mcp = (
-                plan.output_root / f"temp_{folder_name}_{actor_mcp.stem}_output.mcp"
+        dummy_output_mcp = plan.output_root / f"temp_{folder_name}_aligned_output.mcp"
+        print(f"   running {configuration.name} aligned retarget...")
+        try:
+            run_shogun(
+                mcp_file=mcp_file,
+                hsl_file=hsl_file,
+                out_file=dummy_output_mcp,
+                shogun_path=shogun_path,
             )
-            try:
-                run_shogun(
-                    mcp_file=actor_mcp,
-                    hsl_file=hsl_file,
-                    out_file=dummy_output_mcp,
-                    shogun_path=shogun_path,
-                )
-            except RuntimeError as error:
-                print(
-                    f"   warning: {configuration.name} retarget failed for "
-                    f"{actor_mcp.name}: {error}"
-                )
-                print(f"   inspect generated HSL: {hsl_file}")
+        except RuntimeError as error:
+            print(f"   warning: {configuration.name} aligned retarget failed: {error}")
+            print(f"   inspect generated HSL: {hsl_file}")
 
     summary_path = write_aligned_export_summary(plan)
     print(f"   aligned export summary: {summary_path}")
@@ -526,7 +536,9 @@ def _export_aligned_actor_mcps(
 
         hsl_file = plan.scripts_dir / f"aligned_export_{actor_entry.actor_prefix}.hsl"
         hsl_file.write_text(generate_aligned_actor_export_hsl(plan, actor_entry))
-        actor_output_mcp = plan.output_root / f"temp_{actor_entry.actor_prefix}_aligned_output.mcp"
+        actor_output_mcp = (
+            plan.output_root / f"temp_{actor_entry.actor_prefix}_aligned_output.mcp"
+        )
 
         print(
             f"   exporting {actor_entry.actor_prefix}: "
@@ -640,7 +652,15 @@ if __name__ == "__main__":
 
     if not selection.folder:
         print("❌ No folder selected.")
-        exit(1)
+        sys.exit(1)
+
+    if not selection.folder.exists():
+        print(f"Selected folder does not exist: {selection.folder}")
+        sys.exit(1)
+
+    if not selection.folder.is_dir():
+        print(f"Selected path is not a folder: {selection.folder}")
+        sys.exit(1)
 
     take_folders = find_take_folders(selection.folder)
 

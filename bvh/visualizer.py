@@ -11,7 +11,7 @@ def visualize_frame(root_h, frame_idx=0):
     edges = []
     index_map = {}
 
-    for idx, (joint, depth, parent) in enumerate(root_h.layout()):
+    for idx, (joint, _depth, parent) in enumerate(root_h.layout()):
         index_map[joint] = idx
         positions.append(
             [joint.PositionWorld.x, joint.PositionWorld.y, joint.PositionWorld.z]

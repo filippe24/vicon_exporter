@@ -49,7 +49,9 @@ class AlignedExportPlan:
 def load_aligned_export_plan(take_dir: Path) -> AlignedExportPlan | None:
     export_yaml_path = _find_aligner_export_yaml(take_dir)
     if export_yaml_path is None:
-        print(f"   warning: no aligner export YAML found in {take_dir / 'aligner._data'}")
+        print(
+            f"   warning: no aligner export YAML found in {take_dir / 'aligner._data'}"
+        )
         return None
 
     raw_data = yaml.safe_load(export_yaml_path.read_text()) or {}
@@ -62,7 +64,9 @@ def load_aligned_export_plan(take_dir: Path) -> AlignedExportPlan | None:
 
     ranges = {(entry.start_frame, entry.end_frame) for entry in actor_entries}
     if len(ranges) != 1:
-        print("   warning: actor mocap ranges differ; using the earliest start and latest end.")
+        print(
+            "   warning: actor mocap ranges differ; using the earliest start and latest end."
+        )
 
     start_frame = min(entry.start_frame for entry in actor_entries)
     end_frame = max(entry.end_frame for entry in actor_entries)
@@ -93,7 +97,9 @@ def generate_aligned_actor_export_hsl(
     plan: AlignedExportPlan,
     actor_entry: AlignedMocapEntry | None = None,
 ) -> str:
-    start_frame = actor_entry.start_frame if actor_entry is not None else plan.start_frame
+    start_frame = (
+        actor_entry.start_frame if actor_entry is not None else plan.start_frame
+    )
     end_frame = actor_entry.end_frame if actor_entry is not None else plan.end_frame
     actor_label = actor_entry.actor_prefix if actor_entry is not None else "all actors"
 
@@ -185,8 +191,12 @@ def write_aligned_export_summary(plan: AlignedExportPlan) -> Path:
 
 def _find_aligner_export_yaml(take_dir: Path) -> Path | None:
     data_dirs = [
+        take_dir / ".aligner",
+        take_dir / ".aligner" / "exports",
         take_dir / "aligner._data",
         take_dir / "aligner._data" / "exports",
+        take_dir / ALIGNED_EXPORT_FOLDER_NAME / ".aligner",
+        take_dir / ALIGNED_EXPORT_FOLDER_NAME / ".aligner" / "exports",
         take_dir / ALIGNED_EXPORT_FOLDER_NAME / "aligner._data",
         take_dir / ALIGNED_EXPORT_FOLDER_NAME / "aligner._data" / "exports",
     ]
@@ -203,7 +213,7 @@ def _find_aligner_export_yaml(take_dir: Path) -> Path | None:
     if not matches:
         return None
 
-    return sorted(matches, key=_export_yaml_sort_key)[0]
+    return min(matches, key=_export_yaml_sort_key)
 
 
 def _export_yaml_sort_key(path: Path) -> tuple[int, str]:
@@ -238,7 +248,7 @@ def _collapse_actor_mocap_entries(
         entries_by_stem.setdefault(entry.stem.lower(), []).append(entry)
 
     return [
-        sorted(entries, key=_actor_entry_sort_key)[0]
+        min(entries, key=_actor_entry_sort_key)
         for _, entries in sorted(entries_by_stem.items())
     ]
 
@@ -259,6 +269,10 @@ def _actor_entry_sort_key(entry: AlignedMocapEntry) -> tuple[int, str]:
 
 
 def _iter_export_track_entries(raw_data: dict[str, Any]) -> list[Any]:
+    if "timebases" in raw_data:
+        # Version 2 structure
+        return raw_data["timebases"]
+
     groups = raw_data.get("groups")
     if isinstance(groups, list):
         tracks: list[Any] = []
@@ -290,7 +304,12 @@ def _read_mocap_entry(entry_data: dict[str, Any]) -> AlignedMocapEntry | None:
 
     stem = entry_data.get("stem") or Path(str(name)).stem
 
-    if start_frame is None or end_frame is None or sample_rate is None or source_path is None:
+    if (
+        start_frame is None
+        or end_frame is None
+        or sample_rate is None
+        or source_path is None
+    ):
         return None
 
     return AlignedMocapEntry(
@@ -314,7 +333,11 @@ def _first_mocap_derived_track(entry_data: dict[str, Any]) -> dict[str, Any] | N
         if str(derived_track.get("track_type", "")).lower() == "mocap":
             return derived_track
 
-    return derived_tracks[0] if derived_tracks and isinstance(derived_tracks[0], dict) else None
+    return (
+        derived_tracks[0]
+        if derived_tracks and isinstance(derived_tracks[0], dict)
+        else None
+    )
 
 
 def _hsl_path(path: Path) -> str:

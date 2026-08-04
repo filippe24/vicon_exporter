@@ -10,7 +10,6 @@ from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 
-
 DATE_DMY_RE = re.compile(r"(?<!\d)(\d{2})-(\d{2})-(\d{4})(?!\d)")
 DATE_ISO_RE = re.compile(r"(?<!\d)(\d{4})-(\d{2})-(\d{2})(?!\d)")
 TAKE_RE = re.compile(
@@ -242,7 +241,7 @@ def count_yaml_rewrites(
         except UnicodeDecodeError:
             continue
         replacement_count = 0
-        for old, new in replacements:
+        for old, _new in replacements:
             replacement_count += text.count(old)
         if replacement_count:
             rewrites.append(
@@ -261,7 +260,9 @@ def apply_renames(operations: list[RenameOperation]) -> None:
         current_source = final_path_for(operation.source, applied)
         current_target = current_source.with_name(operation.target.name)
         current_source.rename(current_target)
-        applied.append(RenameOperation(operation.kind, operation.source, current_target))
+        applied.append(
+            RenameOperation(operation.kind, operation.source, current_target)
+        )
 
 
 def rewrite_yaml_files(
@@ -296,7 +297,9 @@ def rewrite_yaml_files(
         shutil.copy2(path, backup_path)
         path.write_text(updated, encoding="utf-8")
         rewrites.append(
-            TextRewrite(path=path, backup_path=backup_path, replacements=replacement_count)
+            TextRewrite(
+                path=path, backup_path=backup_path, replacements=replacement_count
+            )
         )
 
     return rewrites
@@ -455,7 +458,9 @@ def main() -> int:
         return 1
 
     if not args.apply:
-        print("\nDry run complete. Review normalization_plan.csv before running --apply.")
+        print(
+            "\nDry run complete. Review normalization_plan.csv before running --apply."
+        )
         return 0
 
     apply_renames(operations)

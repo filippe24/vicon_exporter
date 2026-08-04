@@ -1,7 +1,8 @@
 # exporter/export_pipeline.py
 
+from collections.abc import Sequence
 from pathlib import Path
-from typing import NamedTuple, Sequence
+from typing import NamedTuple
 
 from configuration.settings import EXPORTER_TEMPLATE
 
@@ -70,9 +71,9 @@ def generate_extra_exports_hsl(
         calibration_marker_export = _generate_calibration_marker_export_hsl()
 
     return (
-        f"{additional_prop_exports}\n{calibration_marker_export}"
-        .replace("{EXPORT_DIR}", str(output_path).replace("\\", "/"))
-        .strip()
+        f"{additional_prop_exports}\n{calibration_marker_export}".replace(
+            "{EXPORT_DIR}", str(output_path).replace("\\", "/")
+        ).strip()
         + "\n"
     )
 
