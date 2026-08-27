@@ -25,6 +25,8 @@ def generate_hsl(
     include_tracking_props: bool = False,
     include_calibration_markers: bool = False,
     tracking_prop_exports: Sequence[TrackingPropExport] | None = None,
+    include_bvh: bool = True,
+    static_hand_bvh: bool = False,
 ):
     """code to generate dynamic hls file to run in shogun post."""
     if output_path:
@@ -45,7 +47,8 @@ def generate_hsl(
 
         # print(str(output_path).replace("\\", "/"))
         return (
-            template.replace("{ACTORS_FOLDER}", actors_output_folder)
+            _set_bvh_export_mode(template, include_bvh, static_hand_bvh)
+            .replace("{ACTORS_FOLDER}", actors_output_folder)
             .replace("{CLAPPERBOARD_NAME}", clapperboard_base_name)
             .replace("{ADDITIONAL_PROP_EXPORTS}", additional_prop_exports)
             .replace("{CALIBRATION_MARKER_EXPORT}", calibration_marker_export)
@@ -142,3 +145,37 @@ if( `getCount $calibration_free_markers` > 0 )
 }
 select ; // deselect.
 """
+
+
+def _set_bvh_export_mode(
+    template: str,
+    include_bvh: bool,
+    static_hand_bvh: bool,
+) -> str:
+    if include_bvh and not static_hand_bvh:
+        return template
+
+    normal_bvh_save = "    saveFile -s $filename_bvh;"
+
+    if not include_bvh:
+        return template.replace(
+            normal_bvh_save,
+            "    // BVH export skipped after Shogun rejected this skeleton.",
+        )
+
+    return template.replace(normal_bvh_save, _static_hand_bvh_export_hsl())
+
+
+def _static_hand_bvh_export_hsl() -> str:
+    return """    // BVH fallback: make hand/finger placeholders writable as static joints.
+    select ;
+    selectByName "*Hand*" -type SolvingBone -childOf $sel[$i];
+    if( `getNumModules -sel` > 0 )
+    {
+        setProperty "DOF" "Rx" true;
+        setProperty "DOF" "Ry" true;
+        setProperty "DOF" "Rz" true;
+    }
+    selectChildren -recursive $sel[$i];
+    bvhExportOptions -writeDofs true;
+    saveFile -s $filename_bvh;"""

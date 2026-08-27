@@ -59,6 +59,13 @@ The eye tracker and calibration free-marker exports are enabled with the
 take is missing only one eye tracker file, rerunning the export with this option
 generates just the missing extra file.
 
+BVH export is still attempted by default. If Shogun rejects a classical
+no-fingers character with the known `multiple zero dof end bones` BVH error, the
+exporter first retries with a static-hand BVH fallback that enables hand/finger
+rotation DOFs before saving BVH. If Shogun still rejects the skeleton, it retries
+without only the BVH save step, leaving C3D, FBX, and MCP exports intact.
+Production 10-finger characters should keep producing BVH as before.
+
 The aLigner-compatible exporter writes to a separate folder:
 
 ```text

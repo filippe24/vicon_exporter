@@ -34,7 +34,7 @@ from exporter.mannequin_retarget_pipeline import generate_mannequin_retarget_hsl
 from ui.menu import open_menu
 from utils.file_search import find_take_folders
 from utils.rename_face_videos import rename_face_videos
-from wrapper.shogun_runner import run_shogun
+from wrapper.shogun_runner import ShogunError, run_shogun
 
 
 def parse_args():
@@ -81,6 +81,79 @@ def choose_folder() -> Path | None:
     folder = filedialog.askdirectory(title="select take folder.")
     root.destroy()
     return Path(folder) if folder else None
+
+
+def _run_shogun_with_bvh_fallback(
+    *,
+    mcp_file: Path,
+    hsl_file: Path,
+    out_file: Path,
+    shogun_path: Path,
+    static_bvh_hsl_file: Path,
+    static_bvh_hsl_content: str,
+    fallback_hsl_file: Path,
+    fallback_hsl_content: str,
+) -> bool:
+    try:
+        run_shogun(
+            mcp_file=mcp_file,
+            hsl_file=hsl_file,
+            out_file=out_file,
+            shogun_path=shogun_path,
+        )
+        return True
+    except ShogunError as error:
+        if not _is_unsupported_bvh_export_error(error):
+            raise
+
+        print("   warning: Shogun could not export BVH for this skeleton.")
+        print("   trying static-hand BVH fallback.")
+        static_bvh_hsl_file.write_text(static_bvh_hsl_content)
+        print(f"   hsl created {static_bvh_hsl_file.name}.")
+
+        try:
+            run_shogun(
+                mcp_file=mcp_file,
+                hsl_file=static_bvh_hsl_file,
+                out_file=out_file,
+                shogun_path=shogun_path,
+            )
+        except ShogunError as static_bvh_error:
+            print(
+                "   warning: static-hand BVH fallback failed: "
+                f"{static_bvh_error}"
+            )
+        else:
+            print("   warning: BVH exported with static hand/finger fallback.")
+            return True
+
+        print("   retrying this take without BVH so C3D, FBX, and MCP still export.")
+        fallback_hsl_file.write_text(fallback_hsl_content)
+        print(f"   hsl created {fallback_hsl_file.name}.")
+
+        run_shogun(
+            mcp_file=mcp_file,
+            hsl_file=fallback_hsl_file,
+            out_file=out_file,
+            shogun_path=shogun_path,
+        )
+        print(
+            "   warning: BVH skipped. Use a BVH-friendly character, or retarget/"
+            "convert from FBX if BVH is required for this take."
+        )
+        return False
+
+
+def _is_unsupported_bvh_export_error(error: ShogunError) -> bool:
+    output = error.output.lower()
+    return (
+        ".bvh" in output
+        and "failed to save file" in output
+        and (
+            "multiple zero dof end bones" in output
+            or "not supported by the bvh format" in output
+        )
+    )
 
 
 def _process_take_legacy(
@@ -134,9 +207,34 @@ def _process_take_legacy(
     out_file = take_dir / PROCESSED_MCP_NAME
 
     print("running shogun processing.")
-    run_shogun(
-        mcp_file=mcp, hsl_file=hsl_file, out_file=out_file, shogun_path=shogun_path
+    exported_bvh = _run_shogun_with_bvh_fallback(
+        mcp_file=mcp,
+        hsl_file=hsl_file,
+        out_file=out_file,
+        shogun_path=shogun_path,
+        static_bvh_hsl_file=take_dir / "exporter_static_hands_bvh.hsl",
+        static_bvh_hsl_content=generate_hsl(
+            export_dir,
+            actors_folder,
+            include_tracking_props=include_tracking_props,
+            include_calibration_markers=(
+                include_tracking_props and _is_calibration_take(take_dir)
+            ),
+            static_hand_bvh=True,
+        ),
+        fallback_hsl_file=take_dir / "exporter_without_bvh.hsl",
+        fallback_hsl_content=generate_hsl(
+            export_dir,
+            actors_folder,
+            include_tracking_props=include_tracking_props,
+            include_calibration_markers=(
+                include_tracking_props and _is_calibration_take(take_dir)
+            ),
+            include_bvh=False,
+        ),
     )
+    if not exported_bvh:
+        print("     complete Output saved without BVH.")
     print(f"     complete Output saved to: {out_file}\n")
 
 
@@ -241,9 +339,36 @@ def process_take(
     out_file = take_dir / PROCESSED_MCP_NAME
 
     print("running shogun processing.")
-    run_shogun(
-        mcp_file=mcp, hsl_file=hsl_file, out_file=out_file, shogun_path=shogun_path
+    exported_bvh = _run_shogun_with_bvh_fallback(
+        mcp_file=mcp,
+        hsl_file=hsl_file,
+        out_file=out_file,
+        shogun_path=shogun_path,
+        static_bvh_hsl_file=take_dir / "exporter_static_hands_bvh.hsl",
+        static_bvh_hsl_content=generate_hsl(
+            export_dir,
+            actors_folder,
+            include_tracking_props=include_tracking_props,
+            include_calibration_markers=(
+                include_tracking_props and _is_calibration_take(take_dir)
+            ),
+            tracking_prop_exports=missing_tracking_prop_exports,
+            static_hand_bvh=True,
+        ),
+        fallback_hsl_file=take_dir / "exporter_without_bvh.hsl",
+        fallback_hsl_content=generate_hsl(
+            export_dir,
+            actors_folder,
+            include_tracking_props=include_tracking_props,
+            include_calibration_markers=(
+                include_tracking_props and _is_calibration_take(take_dir)
+            ),
+            tracking_prop_exports=missing_tracking_prop_exports,
+            include_bvh=False,
+        ),
     )
+    if not exported_bvh:
+        print("     complete Output saved without BVH.")
     print(f"     complete Output saved to: {out_file}\n")
 
 
@@ -460,11 +585,23 @@ def process_aligned_export_and_retargeting(take_dir: Path, shogun_path: Path):
     actor_output_mcp = plan.output_root / "aligned_actor_export_output.mcp"
 
     print("   exporting cropped aligned actor files...")
-    run_shogun(
+    _run_shogun_with_bvh_fallback(
         mcp_file=mcp_file,
         hsl_file=actor_hsl,
         out_file=actor_output_mcp,
         shogun_path=shogun_path,
+        static_bvh_hsl_file=(
+            plan.scripts_dir / "aligned_export_all_actors_static_hands_bvh.hsl"
+        ),
+        static_bvh_hsl_content=generate_aligned_actor_export_hsl(
+            plan,
+            static_hand_bvh=True,
+        ),
+        fallback_hsl_file=plan.scripts_dir / "aligned_export_all_actors_without_bvh.hsl",
+        fallback_hsl_content=generate_aligned_actor_export_hsl(
+            plan,
+            include_bvh=False,
+        ),
     )
     aligned_actor_mcps = sorted(plan.actors_dir.glob("*_aligned.mcp"))
     if not aligned_actor_mcps:
@@ -544,11 +681,29 @@ def _export_aligned_actor_mcps(
             f"   exporting {actor_entry.actor_prefix}: "
             f"{actor_entry.start_frame} -> {actor_entry.end_frame}"
         )
-        run_shogun(
+        _run_shogun_with_bvh_fallback(
             mcp_file=actor_source_mcp,
             hsl_file=hsl_file,
             out_file=actor_output_mcp,
             shogun_path=shogun_path,
+            static_bvh_hsl_file=(
+                plan.scripts_dir
+                / f"aligned_export_{actor_entry.actor_prefix}_static_hands_bvh.hsl"
+            ),
+            static_bvh_hsl_content=generate_aligned_actor_export_hsl(
+                plan,
+                actor_entry,
+                static_hand_bvh=True,
+            ),
+            fallback_hsl_file=(
+                plan.scripts_dir
+                / f"aligned_export_{actor_entry.actor_prefix}_without_bvh.hsl"
+            ),
+            fallback_hsl_content=generate_aligned_actor_export_hsl(
+                plan,
+                actor_entry,
+                include_bvh=False,
+            ),
         )
 
         aligned_actor_mcp = plan.actors_dir / f"{actor_entry.actor_prefix}_aligned.mcp"
@@ -581,11 +736,23 @@ def _export_aligned_actor_mcps(
     hsl_file = plan.scripts_dir / "aligned_export_all_actors.hsl"
     hsl_file.write_text(generate_aligned_actor_export_hsl(plan))
     actor_output_mcp = plan.output_root / "aligned_actor_export_output.mcp"
-    run_shogun(
+    _run_shogun_with_bvh_fallback(
         mcp_file=fallback_mcp,
         hsl_file=hsl_file,
         out_file=actor_output_mcp,
         shogun_path=shogun_path,
+        static_bvh_hsl_file=(
+            plan.scripts_dir / "aligned_export_all_actors_static_hands_bvh.hsl"
+        ),
+        static_bvh_hsl_content=generate_aligned_actor_export_hsl(
+            plan,
+            static_hand_bvh=True,
+        ),
+        fallback_hsl_file=plan.scripts_dir / "aligned_export_all_actors_without_bvh.hsl",
+        fallback_hsl_content=generate_aligned_actor_export_hsl(
+            plan,
+            include_bvh=False,
+        ),
     )
     return sorted(plan.actors_dir.glob("*_aligned.mcp"))
 

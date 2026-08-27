@@ -96,12 +96,15 @@ def create_aligned_export_dirs(plan: AlignedExportPlan) -> None:
 def generate_aligned_actor_export_hsl(
     plan: AlignedExportPlan,
     actor_entry: AlignedMocapEntry | None = None,
+    include_bvh: bool = True,
+    static_hand_bvh: bool = False,
 ) -> str:
     start_frame = (
         actor_entry.start_frame if actor_entry is not None else plan.start_frame
     )
     end_frame = actor_entry.end_frame if actor_entry is not None else plan.end_frame
     actor_label = actor_entry.actor_prefix if actor_entry is not None else "all actors"
+    bvh_export_line = _bvh_export_hsl(include_bvh, static_hand_bvh)
 
     return f"""// Export aligned actor motion from the aLigner frame window.
 // Source: {actor_label}
@@ -136,10 +139,31 @@ for ($i = 0; $i < $numsel; $i+= 1)
 
     saveFile -s $filename_c3d;
     saveFile -s $filename_fbx;
-    saveFile -s $filename_bvh;
+{bvh_export_line}
     saveFile -s $filename_mcp;
 }}
 """
+
+
+def _bvh_export_hsl(include_bvh: bool, static_hand_bvh: bool) -> str:
+    if not include_bvh:
+        return "    // BVH export skipped after Shogun rejected this skeleton."
+
+    if not static_hand_bvh:
+        return "    saveFile -s $filename_bvh;"
+
+    return """    // BVH fallback: make hand/finger placeholders writable as static joints.
+    select ;
+    selectByName "*Hand*" -type SolvingBone -childOf $sel[$i];
+    if( `getNumModules -sel` > 0 )
+    {
+        setProperty "DOF" "Rx" true;
+        setProperty "DOF" "Ry" true;
+        setProperty "DOF" "Rz" true;
+    }
+    selectChildren -recursive $sel[$i];
+    bvhExportOptions -writeDofs true;
+    saveFile -s $filename_bvh;"""
 
 
 def generate_aligned_retarget_hsl(

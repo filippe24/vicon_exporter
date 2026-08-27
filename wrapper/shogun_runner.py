@@ -2,6 +2,13 @@ import subprocess
 from pathlib import Path
 
 
+class ShogunError(RuntimeError):
+    def __init__(self, message: str, returncode: int, output: str):
+        super().__init__(message)
+        self.returncode = returncode
+        self.output = output
+
+
 def resolve_shogun_path(shogun_path: Path) -> Path:
     """Return an existing ShogunPostCL executable path."""
 
@@ -50,15 +57,23 @@ def run_shogun(mcp_file: Path, hsl_file: Path, out_file: Path, shogun_path: Path
         universal_newlines=True,
     )
 
+    output_lines: list[str] = []
+
     print("   shogun output:")
     if process.stdout is not None:
         for line in process.stdout:
-            print("      " + line.rstrip())
+            clean_line = line.rstrip()
+            output_lines.append(clean_line)
+            print("      " + clean_line)
 
     process.wait()
 
     if process.returncode != 0:
-        raise RuntimeError("shogun failed")
+        raise ShogunError(
+            "shogun failed",
+            returncode=process.returncode,
+            output="\n".join(output_lines),
+        )
 
 
 def _discover_shogun_post_cl_paths() -> list[Path]:
