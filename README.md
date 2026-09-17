@@ -202,7 +202,20 @@ supplied-script method in the Shogun Post 1.21 documentation:
    requires the aLigner export YAML and its referenced actor MCPs.
 4. Choose Keep or Overwrite and run.
 
-Each actor is loaded in a separate Shogun CL process. The generated HSL imports
+Each actor is loaded in a separate Shogun CL process. Actor MCP selected saves
+can still contain multiple subjects, so the generated HSL first isolates the
+subject matching the actor filename prefix (for example `Jam` matches `James`).
+Ambiguous or missing matches abort instead of exporting another actor. Other
+subjects are removed only from the in-memory scene; source MCPs are not modified.
+When an actor MCP is unavailable, the exporter can use `processed.mcp` or the
+original take MCP and isolate the same actor. Actor names can be discovered from
+the existing standard BVH, C3D, or FBX files.
+
+Aligned YAML source paths are resolved against the selected take's
+`exported/actors/` directory, allowing exports to move between PCs, drive letters,
+and operating systems without editing the YAML.
+
+The generated HSL imports
 the target into the current subject's Retargeting setup, registers the installed
 `Scripts/Retargeting` directory, calls `SetupRetargetToUE5Mannequin`, retargets,
 and saves only the target hierarchy to FBX. The installed main script handles
@@ -216,6 +229,20 @@ New outputs are isolated from the existing exporters:
 take/exported/retargeted/metahuman_vicon/<actor>_metahuman_vicon.fbx
 take/aligned_exports/retargeted/metahuman_vicon/<actor>_metahuman_vicon_aligned.fbx
 ```
+
+Standalone saved-VSR retargets now also have separate output folders:
+
+```text
+take/exported/retargeted/metahuman_legacy/  # adjusted, older tutorial method
+take/exported/retargeted/metahuman_vsr/     # basic mannequin VSR method
+take/exported/retargeted/metahuman_vicon/   # new official automatic setup method
+take/exported/retargeted/geeno/
+```
+
+Existing exports in `exported/actors/` are left in place. Rerun a selected
+retarget to populate its new directory. Aligned outputs keep the existing
+`aligned_exports/retargeted/metahuman/` and `geeno/` folders alongside the new
+`metahuman_vicon/` folder.
 
 Generated scripts are saved in `exported/scripts/` or `aligned_exports/scripts/`.
 For these new exports, Keep skips individual existing actor FBXs, so missing

@@ -504,18 +504,21 @@ def process_general_retargeting(
     print(f"   • using MCP: {mcp_file.name}")
 
     # -------------------------------------------
-    # 2. output folder is ALWAYS exported/actors
+    # 2. Keep each retarget method in its own output folder.
     # -------------------------------------------
     export_root = take_dir / EXPORT_FOLDER_NAME
-    actors_dir = export_root / ACTORS_FOLDER_NAME
+    folder_name = {
+        RetargetType.MANNEQUIN: "metahuman_vsr",
+        RetargetType.MANNEQUIN_ADJUSTED: "metahuman_legacy",
+        RetargetType.GEENO: "geeno",
+    }[retarget_type]
+    actors_dir = export_root / "retargeted" / folder_name
 
     if not overwrite and any(actors_dir.glob(f"*_{configuration.output_name}_*.fbx")):
         print("   keeping existing retarget exports, skipping this output group.")
         return
 
-    if not actors_dir.exists():
-        print(f"   ⚠ Actors folder missing: {actors_dir}")
-        return
+    actors_dir.mkdir(parents=True, exist_ok=True)
 
     # ------------------------------------------------
     # 3. load the VSR retarget file from project root.
@@ -536,7 +539,7 @@ def process_general_retargeting(
         template_path=configuration.hsl_source_path,
         output_path=export_root,
         retarget_vsr_file_path=retarget_vsr,
-        actors_output_folder=ACTORS_FOLDER_NAME,
+        actors_output_folder=f"retargeted/{folder_name}",
         file_name_prefix=f"{configuration.output_name}_",
     )
     print(hsl_content)
@@ -546,7 +549,7 @@ def process_general_retargeting(
     # ---------------------------------------------------------
     # 5. Run Shogun retargeting
     #    NOTE: Output MCP is NOT needed; Shogun will generate
-    #    FBX/BVH directly into exported/actors/
+    #    FBX directly into this method's output folder.
     # ---------------------------------------------------------
     dummy_output_mcp = take_dir / f"temp_{configuration.output_name}_output.mcp"
 
@@ -571,7 +574,8 @@ def process_metahuman_vicon_retargeting(
     aligned: bool = False,
     overwrite: bool = False,
 ):
-    print(f"\nVicon automatic MetaHuman retarget: {take_dir}")
+    mode = "aligned" if aligned else "full take"
+    print(f"\nVicon automatic MetaHuman retarget ({mode}): {take_dir}")
     if aligned:
         plan = load_aligned_export_plan(take_dir)
         if plan is None:
@@ -588,9 +592,21 @@ def process_metahuman_vicon_retargeting(
         scripts_dir = plan.scripts_dir
     else:
         export_root = take_dir / EXPORT_FOLDER_NAME
+        actor_sources = {
+            path.stem: path.with_suffix(".mcp")
+            for extension in ("fbx", "c3d", "bvh")
+            for path in sorted(
+                (export_root / ACTORS_FOLDER_NAME).glob(f"*_.{extension}")
+            )
+        }
+        actor_sources.update(
+            {
+                path.stem: path
+                for path in sorted((export_root / ACTORS_FOLDER_NAME).glob("*_.mcp"))
+            }
+        )
         actors = [
-            (path, path.stem.removesuffix("_"), None)
-            for path in sorted((export_root / ACTORS_FOLDER_NAME).glob("*.mcp"))
+            (path, path.stem.removesuffix("_"), None) for path in actor_sources.values()
         ]
         output_dir = export_root / "retargeted" / "metahuman_vicon"
         scripts_dir = export_root / "scripts"
@@ -598,6 +614,13 @@ def process_metahuman_vicon_retargeting(
         print("   no actor MCP sources found; run classic export first.")
         return
     for actor_mcp, actor_name, frame_range in actors:
+        if not actor_mcp.is_file():
+            fallback = _find_retarget_source_mcp(take_dir)
+            if fallback is not None:
+                print(
+                    f"   actor MCP missing; isolating {actor_name} from {fallback.name}"
+                )
+                actor_mcp = fallback
         try:
             export_metahuman_vicon_actor(
                 actor_mcp=actor_mcp,

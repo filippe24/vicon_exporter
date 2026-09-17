@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any
 
@@ -57,6 +57,17 @@ def load_aligned_export_plan(take_dir: Path) -> AlignedExportPlan | None:
     raw_data = yaml.safe_load(export_yaml_path.read_text()) or {}
     mocap_entries = _read_mocap_entries(raw_data)
     actor_entries = _collapse_actor_mocap_entries(mocap_entries)
+    # Export YAML can travel between drive letters and operating systems.
+    actor_entries = [
+        replace(
+            entry,
+            source_path=take_dir
+            / EXPORT_FOLDER_NAME
+            / ACTORS_FOLDER_NAME
+            / str(entry.source_path).replace("\\", "/").split("/")[-1],
+        )
+        for entry in actor_entries
+    ]
 
     if not actor_entries:
         print(f"   warning: no actor mocap entries found in {export_yaml_path}")

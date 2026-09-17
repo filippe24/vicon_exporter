@@ -22,15 +22,46 @@ def generate_metahuman_vicon_hsl(
     scripts_dir: Path,
     output_fbx: Path,
     frame_range: tuple[int, int] | None = None,
+    actor_name: str | None = None,
 ) -> str:
     if frame_range is not None and frame_range[1] < frame_range[0]:
         raise ValueError("Aligned end frame precedes start frame")
     play_range = (
         "" if frame_range is None else f"playRange {frame_range[0]} {frame_range[1]};\n"
     )
+    isolation = ""
+    if actor_name is not None:
+        if not actor_name or any(
+            char in actor_name for char in ('"', "\\", "\n", "\r", "*", "?")
+        ):
+            raise ValueError("Invalid actor name for HSL selection")
+        isolation = f'''// MCP selected saves may still contain the entire scene.
+select;
+selectByType Character;
+string $vicon_all_characters[] = `getModules -sel`;
+select;
+selectByName "{actor_name}*" -type Character;
+if( `getNumModules -sel` != 1 )
+{{
+    print "Cannot uniquely identify actor {actor_name} in the MCP." -error;
+    print $vicon_all_characters;
+    return;
+}}
+string $vicon_keep_character = `getModule`;
+int $vicon_actor_index;
+for ($vicon_actor_index = 0; $vicon_actor_index < `getCount $vicon_all_characters`; $vicon_actor_index += 1)
+{{
+    if ($vicon_all_characters[$vicon_actor_index] != $vicon_keep_character)
+    {{
+        select $vicon_all_characters[$vicon_actor_index];
+        SelectChildren_Add_All;
+        delete;
+    }}
+}}
+'''
     return f'''// Vicon Shogun Post 1.21 documented MetaHuman/UE5 setup workflow.
 // Input must contain one solved standard Shogun VSS subject.
-select;
+{isolation}select;
 selectByType Character;
 if( `getNumModules -sel` != 1 )
 {{
@@ -139,6 +170,7 @@ def export_metahuman_vicon_actor(
                 scripts_dir=scripts_dir,
                 output_fbx=staged_fbx,
                 frame_range=frame_range,
+                actor_name=actor_name,
             )
         )
         try:
@@ -161,6 +193,7 @@ def export_metahuman_vicon_actor(
                     scripts_dir=scripts_dir,
                     output_fbx=output_fbx,
                     frame_range=frame_range,
+                    actor_name=actor_name,
                 )
             )
     return output_fbx
