@@ -1,7 +1,9 @@
 # gui_menu.py
 
 from pathlib import Path
-from tkinter import Button, Checkbutton, IntVar, Label, Tk, filedialog
+from tkinter import Button, Checkbutton, IntVar, Label, Radiobutton, Tk, filedialog
+
+from configuration.settings import METAHUMAN_VICON_TARGET_FBX
 
 
 class UserSelection:
@@ -13,6 +15,12 @@ class UserSelection:
         self.run_mannequin_adjusted_retarget: bool = False
         self.run_geeno_retarget: bool = False
         self.run_aligned_export: bool = False
+        self.run_aligned_metahuman: bool = False
+        self.run_aligned_metahuman_vicon: bool = False
+        self.run_metahuman_vicon: bool = False
+        self.metahuman_vicon_target_fbx: Path = METAHUMAN_VICON_TARGET_FBX
+        self.run_aligned_geeno: bool = False
+        self.overwrite: bool = False
         self.run_convert_bvh: bool = False
         self.run_rename_face_videos: bool = False
 
@@ -33,6 +41,11 @@ def open_menu():
     mannequin_adjusted_var = IntVar()
     geeno_var = IntVar()
     aligned_var = IntVar()
+    aligned_metahuman_var = IntVar()
+    aligned_metahuman_vicon_var = IntVar()
+    metahuman_vicon_var = IntVar()
+    aligned_geeno_var = IntVar()
+    overwrite_var = IntVar(value=0)
     convert_var = IntVar()
     rename_var = IntVar()
 
@@ -49,8 +62,58 @@ def open_menu():
     )
     Checkbutton(
         root,
-        text="Run Aligned Export + MetaHuman + Geeno Retargets",
+        text="Standard aligned export (C3D, FBX, BVH, MCP)",
         variable=aligned_var,
+    ).pack(anchor="w")
+    Checkbutton(
+        root,
+        text="Aligned MetaHuman retarget (existing VSR)",
+        variable=aligned_metahuman_var,
+    ).pack(anchor="w")
+    Checkbutton(
+        root,
+        text="Aligned MetaHuman retarget (Vicon automatic setup)",
+        variable=aligned_metahuman_vicon_var,
+    ).pack(anchor="w")
+    Checkbutton(root, text="Aligned Geeno retarget", variable=aligned_geeno_var).pack(
+        anchor="w"
+    )
+
+    Label(
+        root, text="Vicon automatic MetaHuman setup", font=("Arial", 10, "bold")
+    ).pack(anchor="w", pady=(10, 0))
+    Checkbutton(
+        root,
+        text="Full-take MetaHuman retarget (Vicon automatic setup)",
+        variable=metahuman_vicon_var,
+    ).pack(anchor="w")
+    target_label = Label(
+        root, text=f"UE5 target FBX: {selection.metahuman_vicon_target_fbx}"
+    )
+    target_label.pack(anchor="w")
+
+    def choose_target():
+        target = filedialog.askopenfilename(
+            title="Select UE5 Mannequin or MetaHuman target",
+            filetypes=[("FBX skeleton", "*.fbx")],
+        )
+        if target:
+            selection.metahuman_vicon_target_fbx = Path(target)
+            target_label.config(text=f"UE5 target FBX: {target}")
+
+    Button(root, text="Choose UE5 Target FBX", command=choose_target).pack(anchor="w")
+
+    Label(root, text="Existing exports", font=("Arial", 10, "bold")).pack(
+        anchor="w", pady=(10, 0)
+    )
+    Radiobutton(
+        root,
+        text="Keep existing exports (skip existing output groups)",
+        variable=overwrite_var,
+        value=0,
+    ).pack(anchor="w")
+    Radiobutton(
+        root, text="Overwrite selected exports", variable=overwrite_var, value=1
     ).pack(anchor="w")
 
     Label(root, text="Legacy standalone retargets", font=("Arial", 10, "bold")).pack(
@@ -60,7 +123,9 @@ def open_menu():
         anchor="w"
     )
     Checkbutton(
-        root, text="Run Mannequin Adjusted Retarget", variable=mannequin_adjusted_var
+        root,
+        text="Run MetaHuman Adjusted Retarget (legacy tutorial)",
+        variable=mannequin_adjusted_var,
     ).pack(anchor="w")
     Checkbutton(root, text="Run Geeno Retarget", variable=geeno_var).pack(anchor="w")
 
@@ -89,6 +154,11 @@ def open_menu():
         selection.run_mannequin_adjusted_retarget = bool(mannequin_adjusted_var.get())
         selection.run_geeno_retarget = bool(geeno_var.get())
         selection.run_aligned_export = bool(aligned_var.get())
+        selection.run_aligned_metahuman = bool(aligned_metahuman_var.get())
+        selection.run_aligned_metahuman_vicon = bool(aligned_metahuman_vicon_var.get())
+        selection.run_metahuman_vicon = bool(metahuman_vicon_var.get())
+        selection.run_aligned_geeno = bool(aligned_geeno_var.get())
+        selection.overwrite = bool(overwrite_var.get())
         selection.run_convert_bvh = bool(convert_var.get())
         selection.run_rename_face_videos = bool(rename_var.get())
         root.destroy()

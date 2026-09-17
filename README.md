@@ -11,7 +11,7 @@ Important: this code requires Vicon Shogun Post with `ShogunPostCL.exe`. Set the
 - Runs Shogun Post CL with live streaming output.
 - Generates HSL scripts for each take.
 - Exports actor `.fbx`, `.bvh`, `.c3d`, and `.mcp` files.
-- Runs mannequin, MetaHuman-adjusted, and Geeno retarget exports.
+- Runs mannequin, legacy MetaHuman-adjusted, Vicon automatic MetaHuman, and Geeno retarget exports.
 - Can read aLigner `*.export.yaml` files and export an aligned frame range without overwriting the classic output.
 - Finds take folders recursively from a selected root folder.
 
@@ -89,7 +89,15 @@ take/
       aligned_retarget_geeno.hsl
 ```
 
-Rerunning the aligned exporter overwrites the previous aligned outputs. This keeps the existing `exported/` folder untouched. The `aligner._data/exports/` folder is also left untouched because it belongs to aLigner.
+Choose **Keep existing exports** (the default) or **Overwrite selected exports**
+in the menu. Keep skips an aligned output group if its directory already contains
+files: standard actors, MetaHuman, and Geeno are separate groups. It does not fill
+partial groups; choose Overwrite to regenerate them. Standalone retargets also
+skip existing exports for their selected target in Keep mode. Classic export
+keeps its existing skip behavior and can still add missing tracking props.
+Overwrite reruns selected exports without deleting the classic export folder or
+unrelated retargets. The aligned workflow writes only to `aligned_exports/`;
+the `exported/` and aLigner metadata folders are left untouched by that workflow.
 
 ## aLigner Workflow
 
@@ -106,7 +114,9 @@ take/
 Use the menu option:
 
 ```text
-Run Aligned Export + MetaHuman + Geeno
+Standard aligned export (C3D, FBX, BVH, MCP)
+Aligned MetaHuman retarget
+Aligned Geeno retarget
 ```
 
 That pass reads the aLigner `*.export.yaml`, finds the MOCAP actor entries under `exported/actors`, and uses the exported local start/end frame values to generate HSL with:
@@ -115,7 +125,9 @@ That pass reads the aLigner `*.export.yaml`, finds the MOCAP actor entries under
 playRange <start_frame> <end_frame>;
 ```
 
-It then exports cropped aligned actor files and runs the aligned mannequin-compatible MetaHuman output and Geeno retargets from the generated `*_aligned.mcp` files.
+Select any combination. Standard export produces cropped actor files without
+retargeting. MetaHuman and Geeno each retarget the take MCP over the aligned frame
+range, so either can run independently of standard aligned export.
 
 ## Data Tree Normalization
 
@@ -166,6 +178,58 @@ There are two mannequin-style retarget modes:
 - `mannequin adjusted`: uses `models/adjusted_mannequin.vsr` with `hsl/retarget_mannequin_template_adjusted_for_metahuman.hsl`. It retargets once, moves forearm `Rz` twist from the forearm to the hand on both arms, runs `solve`, then retargets again. This is intended for the MetaHuman-adjusted setup, but because it touches the solve skeleton it is more fragile in Shogun.
 
 Geeno retargeting uses `models/geeno.vsr` with the general retarget template.
+
+Vicon's [automated MetaHuman setup documentation](https://vicon-help.atlassian.net/wiki/spaces/ShogunPost121/pages/1253738008/Automate+retargeting+to+MetaHuman)
+describes preparing a retarget setup using `SetupRetargetToUE5Mannequin.hsl`.
+It requires one solved standard Shogun VSS subject and a UE5 MetaHuman or
+Mannequin FBX with the `Character/Retargeting/[Locator]/root/pelvis` hierarchy
+(Mannequin from UE 5.0.3 or later). Prepare and validate that setup in Shogun
+before saving the VSR used for the existing batch exporters. The separate
+Vicon automatic exporter below imports the FBX and creates a fresh setup itself.
+
+## Vicon Automatic MetaHuman Export
+
+The existing tutorial-based adjusted exporter and existing aligned VSR exporter
+remain available. The new **Full-take MetaHuman retarget (Vicon automatic setup)**
+and **Aligned MetaHuman retarget (Vicon automatic setup)** options follow the
+supplied-script method in the Shogun Post 1.21 documentation:
+
+1. Run Classic Export to produce one solved actor MCP per subject.
+2. Use **Choose UE5 Target FBX** to select a MetaHuman or UE5.0.3+ Mannequin FBX.
+   The default is `models/retarget_original_mannequin.fbx`; verify that your chosen
+   FBX meets the documented hierarchy and scale requirements before batch use.
+3. Select the new full-take and/or aligned Vicon option. Aligned export also
+   requires the aLigner export YAML and its referenced actor MCPs.
+4. Choose Keep or Overwrite and run.
+
+Each actor is loaded in a separate Shogun CL process. The generated HSL imports
+the target into the current subject's Retargeting setup, registers the installed
+`Scripts/Retargeting` directory, calls `SetupRetargetToUE5Mannequin`, retargets,
+and saves only the target hierarchy to FBX. The installed main script handles
+the DOFs, poses, MetaHuman extra bones, and finger setup. The legacy tutorial's
+forearm/hand DOF edits and additional solve pass are not added to this workflow.
+Aligned output uses each actor's own start/end frames from aLigner.
+
+New outputs are isolated from the existing exporters:
+
+```text
+take/exported/retargeted/metahuman_vicon/<actor>_metahuman_vicon.fbx
+take/aligned_exports/retargeted/metahuman_vicon/<actor>_metahuman_vicon_aligned.fbx
+```
+
+Generated scripts are saved in `exported/scripts/` or `aligned_exports/scripts/`.
+For these new exports, Keep skips individual existing actor FBXs, so missing
+actors can still be exported. Overwrite replaces an actor's FBX only after a new
+FBX is produced successfully.
+
+`METAHUMAN_VICON_TARGET_FBX` sets the default target in
+`configuration/settings.py`. `METAHUMAN_VICON_SCRIPTS_DIR = None` locates Vicon's
+scripts beside the resolved Shogun executable; set it explicitly for a custom
+installation. Use the scripts supplied with your current Shogun version,
+including their helper scripts. The exporter does not automatically rescale the
+FBX: prepare an appropriately scaled target and validate motion on one take
+in Shogun before exporting a batch. Actual Shogun/animation validation is still
+required; the automated tests cover HSL generation and batch behavior.
 
 The aligned `metahuman` output intentionally uses the basic mannequin retarget path because it is less invasive and has been the more reliable Shogun CL path. The adjusted MetaHuman template is still available from the separate menu option, but it touches the solve skeleton and may fail with Shogun script errors around `setProperty -onMod`.
 

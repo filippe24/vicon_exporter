@@ -41,3 +41,9 @@ RETARGET_MANNEQUIN_TEMPLATE_ADJUSTED = Path(
 MANNEQUIN_VICON_RETARGET_BASIC = Path(r"models/basic_mannequin.vsr")
 MANNEQUIN_VICON_RETARGET_ADJUSTED = Path(r"models/adjusted_mannequin.vsr")
 GEENO_VICON_RETARGET = Path(r"models/geeno.vsr")
+
+# UE5.0.3+ Mannequin or MetaHuman FBX for Vicon's automatic setup workflow.
+# Set this to a target with root/pelvis and an appropriate scale for the subject.
+METAHUMAN_VICON_TARGET_FBX = LOCAL_PATH_TO_MODEL
+# None uses Scripts/Retargeting beside the resolved ShogunPostCL executable.
+METAHUMAN_VICON_SCRIPTS_DIR: Path | None = None

@@ -11,6 +11,8 @@ from configuration.settings import (
     ACTORS_FOLDER_NAME,
     EXPORT_FOLDER_NAME,
     GEENO_VICON_RETARGET,
+    METAHUMAN_VICON_SCRIPTS_DIR,
+    METAHUMAN_VICON_TARGET_FBX,
     PROCESSED_MCP_NAME,
     SHOGUN_PATH,
 )
@@ -31,6 +33,7 @@ from exporter.export_pipeline import (
 from exporter.geeno_retarget_pipeline import generate_geeno_retarget_hsl
 from exporter.general_retarget_pipeline import generate_general_retarget_hsl
 from exporter.mannequin_retarget_pipeline import generate_mannequin_retarget_hsl
+from exporter.metahuman_vicon_pipeline import export_metahuman_vicon_actor
 from ui.menu import open_menu
 from utils.file_search import find_take_folders
 from utils.rename_face_videos import rename_face_videos
@@ -119,10 +122,7 @@ def _run_shogun_with_bvh_fallback(
                 shogun_path=shogun_path,
             )
         except ShogunError as static_bvh_error:
-            print(
-                "   warning: static-hand BVH fallback failed: "
-                f"{static_bvh_error}"
-            )
+            print(f"   warning: static-hand BVH fallback failed: {static_bvh_error}")
         else:
             print("   warning: BVH exported with static hand/finger fallback.")
             return True
@@ -256,7 +256,9 @@ def process_take(
             and not (export_dir / "calibration_markers.c3d").exists()
         )
 
-    has_existing_export = processed_file.exists() and export_dir.exists()
+    has_existing_export = processed_file.exists() or (
+        export_dir.exists() and any(path.is_file() for path in export_dir.rglob("*"))
+    )
     has_missing_extra_exports = bool(
         missing_tracking_prop_exports or missing_calibration_markers
     )
@@ -299,14 +301,9 @@ def process_take(
         print(f"     complete extra exports saved under: {export_dir}\n")
         return
 
-    if force:
-        if processed_file.exists():
-            processed_file.unlink()
-        if export_dir.exists():
-            shutil.rmtree(export_dir)
-        if include_tracking_props:
-            missing_tracking_prop_exports = list(DEFAULT_TRACKING_PROP_EXPORTS)
-            missing_calibration_markers = _is_calibration_take(take_dir)
+    if force and include_tracking_props:
+        missing_tracking_prop_exports = list(DEFAULT_TRACKING_PROP_EXPORTS)
+        missing_calibration_markers = _is_calibration_take(take_dir)
 
     print(f"\nselected folder: {take_dir}.")
     print("looking for original .mcp file.")
@@ -416,12 +413,12 @@ def process_geeno_retargeting(take_dir: Path, shogun_path: Path, force: bool):
     # 1. Determine which MCP to use (processed > original)
     # ---------------------------------------------------------
     processed_mcp = take_dir / PROCESSED_MCP_NAME
-    original_mcps = list(take_dir.glob("*.mcp"))
+    original_mcp = _find_original_take_mcp(take_dir)
 
     if processed_mcp.exists():
         mcp_file = processed_mcp
-    elif original_mcps:
-        mcp_file = original_mcps[0]
+    elif original_mcp is not None:
+        mcp_file = original_mcp
     else:
         print("   ⚠ No MCP file found, skipping.")
         return
@@ -484,6 +481,7 @@ def process_general_retargeting(
     take_dir: Path,
     shogun_path: Path,
     retarget_type: RetargetType,
+    overwrite: bool = False,
 ):
     configuration = RETARGET_CONFIGS[retarget_type]
 
@@ -493,12 +491,12 @@ def process_general_retargeting(
     # 1.determine which MCP to use (processed > original).
     # -----------------------------------------------------
     processed_mcp = take_dir / PROCESSED_MCP_NAME
-    original_mcps = list(take_dir.glob("*.mcp"))
+    original_mcp = _find_original_take_mcp(take_dir)
 
     if processed_mcp.exists():
         mcp_file = processed_mcp
-    elif original_mcps:
-        mcp_file = original_mcps[0]
+    elif original_mcp is not None:
+        mcp_file = original_mcp
     else:
         print("   ⚠ no MCP file found, skipping.")
         return
@@ -510,6 +508,10 @@ def process_general_retargeting(
     # -------------------------------------------
     export_root = take_dir / EXPORT_FOLDER_NAME
     actors_dir = export_root / ACTORS_FOLDER_NAME
+
+    if not overwrite and any(actors_dir.glob(f"*_{configuration.output_name}_*.fbx")):
+        print("   keeping existing retarget exports, skipping this output group.")
+        return
 
     if not actors_dir.exists():
         print(f"   ⚠ Actors folder missing: {actors_dir}")
@@ -561,7 +563,68 @@ def process_general_retargeting(
     )
 
 
-def process_aligned_export_and_retargeting(take_dir: Path, shogun_path: Path):
+def process_metahuman_vicon_retargeting(
+    take_dir: Path,
+    shogun_path: Path,
+    *,
+    target_fbx: Path = METAHUMAN_VICON_TARGET_FBX,
+    aligned: bool = False,
+    overwrite: bool = False,
+):
+    print(f"\nVicon automatic MetaHuman retarget: {take_dir}")
+    if aligned:
+        plan = load_aligned_export_plan(take_dir)
+        if plan is None:
+            return
+        actors = [
+            (
+                entry.source_mcp_path,
+                entry.actor_prefix,
+                (entry.start_frame, entry.end_frame),
+            )
+            for entry in plan.mocap_entries
+        ]
+        output_dir = plan.retargeted_dir / "metahuman_vicon"
+        scripts_dir = plan.scripts_dir
+    else:
+        export_root = take_dir / EXPORT_FOLDER_NAME
+        actors = [
+            (path, path.stem.removesuffix("_"), None)
+            for path in sorted((export_root / ACTORS_FOLDER_NAME).glob("*.mcp"))
+        ]
+        output_dir = export_root / "retargeted" / "metahuman_vicon"
+        scripts_dir = export_root / "scripts"
+    if not actors:
+        print("   no actor MCP sources found; run classic export first.")
+        return
+    for actor_mcp, actor_name, frame_range in actors:
+        try:
+            export_metahuman_vicon_actor(
+                actor_mcp=actor_mcp,
+                actor_name=actor_name,
+                target_fbx=target_fbx,
+                scripts_dir=METAHUMAN_VICON_SCRIPTS_DIR,
+                output_dir=output_dir,
+                generated_scripts_dir=scripts_dir,
+                shogun_path=shogun_path,
+                frame_range=frame_range,
+                overwrite=overwrite,
+            )
+        except (OSError, RuntimeError, ValueError) as error:
+            print(
+                f"   warning: Vicon MetaHuman export failed for {actor_name}: {error}"
+            )
+
+
+def process_aligned_export_and_retargeting(
+    take_dir: Path,
+    shogun_path: Path,
+    *,
+    export_standard: bool = True,
+    retarget_metahuman: bool = True,
+    retarget_geeno: bool = True,
+    overwrite: bool = False,
+):
     print(f"\nAligned export + MetaHuman + Geeno retargeting: {take_dir}")
 
     plan = load_aligned_export_plan(take_dir)
@@ -580,6 +643,58 @@ def process_aligned_export_and_retargeting(take_dir: Path, shogun_path: Path):
     print(f"   aligned frame range: {plan.start_frame} -> {plan.end_frame}")
     print(f"   output: {plan.output_root}")
 
+    keep_actors = not overwrite and any(plan.actors_dir.iterdir())
+    if export_standard and not keep_actors:
+        _export_aligned_standard(plan, mcp_file, shogun_path)
+    elif export_standard:
+        print("   keeping existing standard aligned exports.")
+
+    for retarget_type, folder_name, prefix in [
+        (RetargetType.MANNEQUIN, "metahuman", "metahuman_aligned"),
+        (RetargetType.GEENO, "geeno", "geeno_aligned"),
+    ]:
+        enabled = retarget_metahuman if folder_name == "metahuman" else retarget_geeno
+        if not enabled:
+            continue
+        output_dir = plan.retargeted_dir / folder_name
+        if not overwrite and output_dir.exists() and any(output_dir.iterdir()):
+            print(f"   keeping existing aligned {folder_name} exports.")
+            continue
+        configuration = RETARGET_CONFIGS[retarget_type]
+        project_root = Path(__file__).resolve().parent
+        retarget_vsr = project_root / configuration.vsr_source_path
+        template_path = project_root / configuration.hsl_source_path
+        if not retarget_vsr.exists():
+            print(f"   warning: retarget VSR missing: {retarget_vsr}")
+            continue
+        hsl_file = plan.scripts_dir / f"aligned_retarget_{folder_name}.hsl"
+        hsl_file.write_text(
+            generate_aligned_retarget_hsl(
+                template_path=template_path,
+                plan=plan,
+                retarget_vsr_file_path=retarget_vsr,
+                retarget_folder_name=folder_name,
+                file_name_prefix=prefix,
+            )
+        )
+        try:
+            run_shogun(
+                mcp_file=mcp_file,
+                hsl_file=hsl_file,
+                out_file=plan.output_root / f"temp_{folder_name}_aligned_output.mcp",
+                shogun_path=shogun_path,
+            )
+        except RuntimeError as error:
+            print(f"   warning: {folder_name} aligned retarget failed: {error}")
+            print(f"   inspect generated HSL: {hsl_file}")
+
+    summary_path = plan.reports_dir / "aligned_export_summary.yaml"
+    if overwrite or not summary_path.exists():
+        write_aligned_export_summary(plan)
+    print(f"   aligned export summary: {summary_path}")
+
+
+def _export_aligned_standard(plan, mcp_file: Path, shogun_path: Path):
     actor_hsl = plan.scripts_dir / "aligned_export_all_actors.hsl"
     actor_hsl.write_text(generate_aligned_actor_export_hsl(plan))
     actor_output_mcp = plan.output_root / "aligned_actor_export_output.mcp"
@@ -597,60 +712,13 @@ def process_aligned_export_and_retargeting(take_dir: Path, shogun_path: Path):
             plan,
             static_hand_bvh=True,
         ),
-        fallback_hsl_file=plan.scripts_dir / "aligned_export_all_actors_without_bvh.hsl",
+        fallback_hsl_file=plan.scripts_dir
+        / "aligned_export_all_actors_without_bvh.hsl",
         fallback_hsl_content=generate_aligned_actor_export_hsl(
             plan,
             include_bvh=False,
         ),
     )
-    aligned_actor_mcps = sorted(plan.actors_dir.glob("*_aligned.mcp"))
-    if not aligned_actor_mcps:
-        print(
-            "   warning: no aligned actor MCP files were exported, skipping retargets."
-        )
-        return
-
-    for retarget_type, folder_name, prefix in [
-        (RetargetType.MANNEQUIN, "metahuman", "metahuman_aligned"),
-        (RetargetType.GEENO, "geeno", "geeno_aligned"),
-    ]:
-        configuration = RETARGET_CONFIGS[retarget_type]
-        project_root = Path(__file__).resolve().parent
-        retarget_vsr = project_root / configuration.vsr_source_path
-        template_path = project_root / configuration.hsl_source_path
-
-        if not retarget_vsr.exists():
-            print(
-                f"   warning: retarget VSR missing, skipping {configuration.name}: {retarget_vsr}"
-            )
-            continue
-
-        hsl_file = plan.scripts_dir / f"aligned_retarget_{folder_name}.hsl"
-        hsl_file.write_text(
-            generate_aligned_retarget_hsl(
-                template_path=template_path,
-                plan=plan,
-                retarget_vsr_file_path=retarget_vsr,
-                retarget_folder_name=folder_name,
-                file_name_prefix=prefix,
-            )
-        )
-
-        dummy_output_mcp = plan.output_root / f"temp_{folder_name}_aligned_output.mcp"
-        print(f"   running {configuration.name} aligned retarget...")
-        try:
-            run_shogun(
-                mcp_file=mcp_file,
-                hsl_file=hsl_file,
-                out_file=dummy_output_mcp,
-                shogun_path=shogun_path,
-            )
-        except RuntimeError as error:
-            print(f"   warning: {configuration.name} aligned retarget failed: {error}")
-            print(f"   inspect generated HSL: {hsl_file}")
-
-    summary_path = write_aligned_export_summary(plan)
-    print(f"   aligned export summary: {summary_path}")
 
 
 def _export_aligned_actor_mcps(
@@ -748,7 +816,8 @@ def _export_aligned_actor_mcps(
             plan,
             static_hand_bvh=True,
         ),
-        fallback_hsl_file=plan.scripts_dir / "aligned_export_all_actors_without_bvh.hsl",
+        fallback_hsl_file=plan.scripts_dir
+        / "aligned_export_all_actors_without_bvh.hsl",
         fallback_hsl_content=generate_aligned_actor_export_hsl(
             plan,
             include_bvh=False,
@@ -762,17 +831,19 @@ def _find_retarget_source_mcp(take_dir: Path) -> Path | None:
     if processed_mcp.exists():
         return processed_mcp
 
-    original_mcps = [
-        path for path in take_dir.glob("*.mcp") if path.name != PROCESSED_MCP_NAME
-    ]
-    return original_mcps[0] if original_mcps else None
+    return _find_original_take_mcp(take_dir)
 
 
 def _find_original_take_mcp(take_dir: Path) -> Path | None:
+    generated_names = {
+        PROCESSED_MCP_NAME,
+        "extra_exports_output.mcp",
+        "geeno_dummy_output.mcp",
+    }
     original_mcps = [
         path
         for path in sorted(take_dir.glob("*.mcp"))
-        if path.name != PROCESSED_MCP_NAME
+        if path.name not in generated_names and not path.name.startswith("temp_")
     ]
     return original_mcps[0] if original_mcps else None
 
@@ -841,7 +912,7 @@ if __name__ == "__main__":
             process_take(
                 take_dir=curr_take_directry,
                 shogun_path=SHOGUN_PATH,
-                force=False,
+                force=selection.overwrite,
                 include_tracking_props=selection.include_tracking_props,
             )
 
@@ -852,6 +923,7 @@ if __name__ == "__main__":
                 take_dir=curr_take_directry,
                 shogun_path=SHOGUN_PATH,
                 retarget_type=RetargetType.MANNEQUIN,
+                overwrite=selection.overwrite,
             )
             # process_mannequin_retargeting(take_dir=t, shogun_path=SHOGUN_PATH)
 
@@ -862,6 +934,7 @@ if __name__ == "__main__":
                 take_dir=curr_take_directry,
                 shogun_path=SHOGUN_PATH,
                 retarget_type=RetargetType.MANNEQUIN_ADJUSTED,
+                overwrite=selection.overwrite,
             )
 
     if selection.run_geeno_retarget:
@@ -871,16 +944,43 @@ if __name__ == "__main__":
                 take_dir=curr_take_directry,
                 shogun_path=SHOGUN_PATH,
                 retarget_type=RetargetType.GEENO,
+                overwrite=selection.overwrite,
             )
             # process_geeno_retargeting(take_dir=t, shogun_path=SHOGUN_PATH, force=True)
 
-    if selection.run_aligned_export:
+    if (
+        selection.run_aligned_export
+        or selection.run_aligned_metahuman
+        or selection.run_aligned_geeno
+    ):
         print("\nRunning aligned export + MetaHuman + Geeno pass...")
         for curr_take_directry in take_folders:
             process_aligned_export_and_retargeting(
                 take_dir=curr_take_directry,
                 shogun_path=SHOGUN_PATH,
+                export_standard=selection.run_aligned_export,
+                retarget_metahuman=selection.run_aligned_metahuman,
+                retarget_geeno=selection.run_aligned_geeno,
+                overwrite=selection.overwrite,
             )
+
+    # Run BVH conversion
+    if selection.run_metahuman_vicon or selection.run_aligned_metahuman_vicon:
+        for curr_take_directry in take_folders:
+            for aligned in (False, True):
+                enabled = (
+                    selection.run_aligned_metahuman_vicon
+                    if aligned
+                    else selection.run_metahuman_vicon
+                )
+                if enabled:
+                    process_metahuman_vicon_retargeting(
+                        take_dir=curr_take_directry,
+                        shogun_path=SHOGUN_PATH,
+                        target_fbx=selection.metahuman_vicon_target_fbx,
+                        aligned=aligned,
+                        overwrite=selection.overwrite,
+                    )
 
     # Run BVH conversion
     if selection.run_convert_bvh:
