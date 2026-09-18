@@ -29,6 +29,15 @@ Then run:
 uv run main.py
 ```
 
+The menu follows three steps: choose a take or batch folder, select outputs,
+and choose Keep or Overwrite. The **Exports** tab groups **Full take** and
+**Aligned take** outputs side by side. The Vicon MetaHuman options share the
+UE5 FBX picker. Eye-tracker extras belong to Standard export; selecting them
+also selects Standard export. Existing takes in Keep mode receive only missing
+extras. The **Legacy methods** tab contains the older tutorial and saved-VSR
+MetaHuman workflows; its tab shows a count when any are selected. BVH conversion
+and face-video renaming are under **Utilities**.
+
 If you do not use uv, install the dependencies from `pyproject.toml` into a Python environment and run:
 
 ```powershell
