@@ -5,8 +5,10 @@ select -invert;
 string $sel[] = `getModules -sel -type Character`;
 int $numsel = `getCount $sel`;
 int $i;
+int $j;
 
 string $first;
+string $actor_file_stem;
 string $filename;
 
 string $actors_export_directory;
@@ -36,10 +38,18 @@ for ($i = 0; $i < $numsel; $i+= 1)
 
 	// get first letter
 	$first = `strLeft $sel[$i] 3`;
+	$actor_file_stem = $first;
+	for ($j = 0; $j < $numsel; $j += 1)
+	{
+		if ($j != $i && `strLeft $sel[$j] 3` == $first)
+		{
+			$actor_file_stem = $sel[$i];
+		}
+	}
 
 	// build path.
 	string $filename_fbx;
-	$filename_fbx = ($actors_export_directory + $first + "_{NEW_FILE_NAME}.fbx");
+	$filename_fbx = ($actors_export_directory + $actor_file_stem + "_{NEW_FILE_NAME}.fbx");
 
 	// export.
 	saveFile -s $filename_fbx;

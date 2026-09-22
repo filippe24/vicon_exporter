@@ -68,6 +68,13 @@ The eye tracker and calibration free-marker exports are enabled with the
 take is missing only one eye tracker file, rerunning the export with this option
 generates just the missing extra file.
 
+Actor filenames normally retain the historical three-letter stem, such as
+`Jam_.c3d`. If two character names in the same scene share that stem, the
+exporter uses their full character names for the whole colliding group instead,
+for example `James_.c3d` and `Jamie_.c3d`. The same rule is used for C3D, FBX,
+BVH, MCP, aligned exports, and saved-VSR retarget exports, preventing one actor
+from overwriting the other.
+
 BVH export is still attempted by default. If Shogun rejects a classical
 no-fingers character with the known `multiple zero dof end bones` BVH error, the
 exporter first retries with a static-hand BVH fallback that enables hand/finger

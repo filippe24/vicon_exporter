@@ -127,7 +127,9 @@ select -invert;
 string $sel[] = `getModules -sel -type Character`;
 int $numsel = `getCount $sel`;
 int $i;
+int $j;
 string $first;
+string $actor_file_stem;
 string $actors_export_directory;
 $actors_export_directory = ("{_hsl_path(plan.actors_dir)}/");
 
@@ -137,16 +139,24 @@ for ($i = 0; $i < $numsel; $i+= 1)
 
     selectChildren -recursive $sel[$i];
     $first = `strLeft $sel[$i] 3`;
+    $actor_file_stem = $first;
+    for ($j = 0; $j < $numsel; $j += 1)
+    {{
+        if ($j != $i && `strLeft $sel[$j] 3` == $first)
+        {{
+            $actor_file_stem = $sel[$i];
+        }}
+    }}
 
     string $filename_c3d;
     string $filename_fbx;
     string $filename_bvh;
     string $filename_mcp;
 
-    $filename_c3d = ($actors_export_directory + $first + "_aligned.c3d");
-    $filename_fbx = ($actors_export_directory + $first + "_aligned.fbx");
-    $filename_bvh = ($actors_export_directory + $first + "_aligned.bvh");
-    $filename_mcp = ($actors_export_directory + $first + "_aligned.mcp");
+    $filename_c3d = ($actors_export_directory + $actor_file_stem + "_aligned.c3d");
+    $filename_fbx = ($actors_export_directory + $actor_file_stem + "_aligned.fbx");
+    $filename_bvh = ($actors_export_directory + $actor_file_stem + "_aligned.bvh");
+    $filename_mcp = ($actors_export_directory + $actor_file_stem + "_aligned.mcp");
 
     saveFile -s $filename_c3d;
     saveFile -s $filename_fbx;
