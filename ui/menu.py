@@ -13,6 +13,8 @@ class UserSelection:
         self.run_mannequin_adjusted_retarget: bool = False
         self.run_geeno_retarget: bool = False
         self.run_aligned_export: bool = False
+        self.run_aligned_props: bool = False
+        self.prop_crop_policy: str = "first"
         self.run_aligned_metahuman: bool = False
         self.run_aligned_metahuman_vicon: bool = False
         self.run_metahuman_vicon: bool = False
@@ -68,6 +70,7 @@ def open_menu():
         "run_mannequin_adjusted_retarget",
         "run_geeno_retarget",
         "run_aligned_export",
+        "run_aligned_props",
         "run_aligned_metahuman",
         "run_aligned_metahuman_vicon",
         "run_metahuman_vicon",
@@ -149,6 +152,16 @@ def open_menu():
     )
     check(aligned, "Standard actor export", "run_aligned_export")
     hint(aligned, "C3D, FBX, BVH and MCP → aligned_exports/actors/")
+    check(aligned, "Visible props · C3D", "run_aligned_props")
+    hint(aligned, "Props with marker data in the crop → aligned_exports/props/")
+    prop_crop = StringVar(root, value="First C3D")
+    ttk.Label(aligned, text="Prop crop range").pack(anchor="w")
+    ttk.Combobox(
+        aligned,
+        textvariable=prop_crop,
+        state="readonly",
+        values=("First C3D", "Earliest start / latest end"),
+    ).pack(anchor="w", fill="x")
     check(aligned, "MetaHuman · Vicon automatic setup", "run_aligned_metahuman_vicon")
     check(aligned, "Geeno retarget", "run_aligned_geeno")
     hint(
@@ -285,6 +298,9 @@ def open_menu():
         for key, variable in variables.items():
             setattr(selection, key, variable.get())
         selection.overwrite = overwrite.get()
+        selection.prop_crop_policy = (
+            "first" if prop_crop.get() == "First C3D" else "extremes"
+        )
         root.destroy()
 
     footer = ttk.Frame(body)

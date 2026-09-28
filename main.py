@@ -24,6 +24,7 @@ from exporter.aligned_export_pipeline import (
     load_aligned_export_plan,
     write_aligned_export_summary,
 )
+from exporter.aligned_props_pipeline import export_aligned_props
 from exporter.export_pipeline import (
     DEFAULT_TRACKING_PROP_EXPORTS,
     TrackingPropExport,
@@ -987,6 +988,25 @@ if __name__ == "__main__":
                 overwrite=selection.overwrite,
             )
 
+    prop_warnings = []
+    if selection.run_aligned_props:
+        for take_dir in take_folders:
+            try:
+                source = _find_retarget_source_mcp(take_dir)
+                if source is None:
+                    raise ValueError(f"No source MCP found in {take_dir}")
+                warning = export_aligned_props(
+                    take_dir,
+                    source,
+                    SHOGUN_PATH,
+                    policy=selection.prop_crop_policy,
+                    overwrite=selection.overwrite,
+                )
+                if warning:
+                    prop_warnings.append(warning)
+            except (OSError, RuntimeError, ValueError) as error:
+                prop_warnings.append(f"{take_dir}: aligned prop export failed: {error}")
+
     # Run BVH conversion
     if selection.run_metahuman_vicon or selection.run_aligned_metahuman_vicon:
         for curr_take_directry in take_folders:
@@ -1014,6 +1034,10 @@ if __name__ == "__main__":
     if selection.run_rename_face_videos:
         process_face_videos(take_folders)
 
+    if prop_warnings:
+        print("\nAligned prop export warnings:")
+        for warning in prop_warnings:
+            print(f"   warning: {warning}")
     print("\n✨ Done!")
 
     # for take_directory in main_folder.iterdir():
