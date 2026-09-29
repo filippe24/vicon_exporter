@@ -46,33 +46,47 @@ def read_prop_crop(take_dir: Path, policy: str = "first"):
 def generate_aligned_props_hsl(output_dir: Path, start: int, end: int) -> str:
     return f'''// Keep props with at least one marker sample inside the inclusive crop.
 playRange {start} {end};
-c3dExportOptions -preserveGaps true -filterMin false -filterMax false -writeUnlabeled false -overrideHeaderRate false;
 select ;
 selectProps;
-string $props[] = `getModules -selected -type Character`;
+// selectProps already selects the prop roots. Props are not necessarily
+// Character modules, so do not filter this list by module type.
+string $props[] = `getModules -selected`;
 int $p;
 int $m;
-int $frame;
+int $k;
 boolean $visible;
 string $markers[];
+int $keys[];
 string $filename;
 for ($p = 0; $p < `getCount $props`; $p += 1)
 {{
     select ;
-    selectChildren -recursive $props[$p];
+    // Match the established clapperboard / eye-tracker export sequence:
+    // select the prop root, then add its whole hierarchy to the selection.
+    select $props[$p];
+    selectChildren -recursive -a $props[$p];
     $markers = `getModules -selected -type Marker`;
     $visible = false;
-    for ($m = 0; $m < `getCount $markers` && !$visible; $m += 1)
+    for ($m = 0; $m < `getCount $markers`; $m += 1)
     {{
-        for ($frame = {start}; $frame <= {end} && !$visible; $frame += 1)
+        if (!$visible)
         {{
-            $visible = `hasKey $markers[$m] Translation -frame $frame`;
+            // getKeys Translation returns the marker's translation-key frames.
+            // Do not use hasKey here: it requires a single channel such as
+            // TranslationX and rejects the aggregate Translation property.
+            $keys = `getKeys Translation -onMod $markers[$m]`;
+            for ($k = 0; $k < `getCount $keys`; $k += 1)
+            {{
+                if ($keys[$k] >= {start} && $keys[$k] <= {end})
+                {{
+                    $visible = true;
+                }}
+            }}
         }}
     }}
     if ($visible)
     {{
-        select ;
-        select $markers;
+        // Keep the root and all children selected for the C3D export.
         $filename = ("{output_dir.as_posix()}/" + $props[$p] + ".c3d");
         saveFile -s $filename;
         print ("Exported prop: " + $props[$p]);

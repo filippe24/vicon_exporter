@@ -5,7 +5,11 @@ from unittest.mock import patch
 
 import yaml
 
-from exporter.aligned_props_pipeline import export_aligned_props, read_prop_crop
+from exporter.aligned_props_pipeline import (
+    export_aligned_props,
+    generate_aligned_props_hsl,
+    read_prop_crop,
+)
 
 
 class AlignedPropsTests(unittest.TestCase):
@@ -19,19 +23,19 @@ class AlignedPropsTests(unittest.TestCase):
 
     def write_ranges(self, rows, grouped=False):
         tracks = [
-            dict(
-                name=name,
-                track_type="MOCAP",
-                source_path=f"exported/actors/{name}",
-                derived_tracks=[
-                    dict(
-                        track_type="mocap",
-                        local_start_frame=start,
-                        local_end_frame=end,
-                        sample_rate=120,
-                    )
+            {
+                "name": name,
+                "track_type": "MOCAP",
+                "source_path": f"exported/actors/{name}",
+                "derived_tracks": [
+                    {
+                        "track_type": "mocap",
+                        "local_start_frame": start,
+                        "local_end_frame": end,
+                        "sample_rate": 120,
+                    }
                 ],
-            )
+            }
             for name, start, end in rows
         ]
         payload = {"groups": [{"tracks": tracks}]} if grouped else {"timebases": tracks}
@@ -61,6 +65,16 @@ class AlignedPropsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Invalid"):
             read_prop_crop(self.take)
 
+    def test_hsl_uses_prop_roots_and_translation_keys(self):
+        hsl = generate_aligned_props_hsl(self.output, 20, 30)
+        self.assertIn("getModules -selected`;", hsl)
+        self.assertNotIn("-type Character", hsl)
+        self.assertIn("getKeys Translation -onMod $markers[$m]", hsl)
+        self.assertNotIn("`hasKey", hsl)
+        self.assertIn("select $props[$p];", hsl)
+        self.assertIn("selectChildren -recursive -a $props[$p];", hsl)
+        self.assertNotIn("select $markers;", hsl)
+
     def prepare_existing(self):
         self.write_ranges([("a.c3d", 20, 30)])
         self.output.mkdir(parents=True)
@@ -80,18 +94,20 @@ class AlignedPropsTests(unittest.TestCase):
 
     def test_failed_overwrite_preserves_previous_exports(self):
         self.prepare_existing()
-        with patch(
-            "exporter.aligned_props_pipeline.run_shogun",
-            side_effect=RuntimeError("failed"),
+        with (
+            patch(
+                "exporter.aligned_props_pipeline.run_shogun",
+                side_effect=RuntimeError("failed"),
+            ),
+            self.assertRaises(RuntimeError),
         ):
-            with self.assertRaises(RuntimeError):
-                self.export(overwrite=True)
+            self.export(overwrite=True)
         self.assertEqual((self.output / "unused.c3d").read_text(), "old")
 
     def test_successful_overwrite_removes_unused_props(self):
         self.prepare_existing()
 
-        def fake_run(source, script, output, executable):
+        def fake_run(_source, _script, output, _executable):
             (output.parent / "Coffee cup.c3d").write_text("cropped")
 
         with patch("exporter.aligned_props_pipeline.run_shogun", side_effect=fake_run):
