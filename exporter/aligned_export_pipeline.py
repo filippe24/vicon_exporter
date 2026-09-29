@@ -248,12 +248,8 @@ def _find_aligner_export_yaml(take_dir: Path) -> Path | None:
 
     matches: list[Path] = []
     for data_dir in data_dirs:
-        expected_path = data_dir / f"{take_dir.name}.export.yaml"
-        if expected_path.exists():
-            return expected_path
-
         if data_dir.exists():
-            matches.extend(data_dir.glob("*.export.yaml"))
+            matches.extend(path for path in data_dir.glob("*.export.yaml") if path.is_file())
 
     if not matches:
         return None
@@ -261,9 +257,11 @@ def _find_aligner_export_yaml(take_dir: Path) -> Path | None:
     return min(matches, key=_export_yaml_sort_key)
 
 
-def _export_yaml_sort_key(path: Path) -> tuple[int, str]:
+def _export_yaml_sort_key(path: Path) -> tuple[int, int, str]:
+    # Folder renames can leave older exports alongside the current metadata.
+    # Prefer full exports, then modification time, regardless of the take name.
     is_slim_export = ".slim." in path.name.lower()
-    return (1 if is_slim_export else 0, path.name.lower())
+    return (1 if is_slim_export else 0, -path.stat().st_mtime_ns, path.as_posix().lower())
 
 
 def _read_mocap_entries(raw_data: dict[str, Any]) -> list[AlignedMocapEntry]:

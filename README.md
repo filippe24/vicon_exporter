@@ -52,6 +52,9 @@ marker translation sample within the inclusive crop interval; props with no
 samples there are skipped. Existing gap-filled samples count as data.
 
 The crop comes from C3D entries in the aLigner export YAML (not BVH entries).
+Both aligned exporters select the most recently modified full export YAML
+across the supported metadata folders, regardless of the take folder's name.
+Slim exports are considered only when no full export YAML is present.
 The default uses the first C3D in YAML order; the optional **Earliest start /
 latest end** policy covers all C3D ranges. Differing ranges produce a warning
 at the end of the batch and are recorded in `reports/aligned_props_summary.yaml`.
