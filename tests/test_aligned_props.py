@@ -71,6 +71,8 @@ class AlignedPropsTests(unittest.TestCase):
         self.assertNotIn("-type Character", hsl)
         self.assertIn("getKeys Translation -onMod $markers[$m]", hsl)
         self.assertNotIn("`hasKey", hsl)
+        self.assertNotIn("!$visible", hsl)
+        self.assertIn("if ($visible == 0)", hsl)
         self.assertIn("select $props[$p];", hsl)
         self.assertIn("selectChildren -recursive -a $props[$p];", hsl)
         self.assertNotIn("select $markers;", hsl)

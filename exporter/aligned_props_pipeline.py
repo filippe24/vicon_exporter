@@ -54,7 +54,7 @@ string $props[] = `getModules -selected`;
 int $p;
 int $m;
 int $k;
-boolean $visible;
+int $visible;
 string $markers[];
 int $keys[];
 string $filename;
@@ -66,10 +66,10 @@ for ($p = 0; $p < `getCount $props`; $p += 1)
     select $props[$p];
     selectChildren -recursive -a $props[$p];
     $markers = `getModules -selected -type Marker`;
-    $visible = false;
+    $visible = 0;
     for ($m = 0; $m < `getCount $markers`; $m += 1)
     {{
-        if (!$visible)
+        if ($visible == 0)
         {{
             // getKeys Translation returns the marker's translation-key frames.
             // Do not use hasKey here: it requires a single channel such as
@@ -79,12 +79,12 @@ for ($p = 0; $p < `getCount $props`; $p += 1)
             {{
                 if ($keys[$k] >= {start} && $keys[$k] <= {end})
                 {{
-                    $visible = true;
+                    $visible = 1;
                 }}
             }}
         }}
     }}
-    if ($visible)
+    if ($visible == 1)
     {{
         // Keep the root and all children selected for the C3D export.
         $filename = ("{output_dir.as_posix()}/" + $props[$p] + ".c3d");
