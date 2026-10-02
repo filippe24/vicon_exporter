@@ -43,14 +43,21 @@ def read_prop_crop(take_dir: Path, policy: str = "first"):
     return source, entries, start, end, warning
 
 
-def generate_aligned_props_hsl(output_dir: Path, start: int, end: int) -> str:
-    return f'''// Keep props with at least one marker sample inside the inclusive crop.
+def generate_aligned_props_hsl(
+    output_dir: Path,
+    start: int,
+    end: int,
+    *,
+    combined_path: Path | None = None,
+) -> str:
+    hsl = f'''// Keep props with at least one marker sample inside the inclusive crop.
 playRange {start} {end};
 select ;
 selectProps;
 // selectProps already selects the prop roots. Props are not necessarily
 // Character modules, so do not filter this list by module type.
 string $props[] = `getModules -selected`;
+int $included[];
 int $p;
 int $m;
 int $k;
@@ -95,9 +102,30 @@ for ($p = 0; $p < `getCount $props`; $p += 1)
     {{
         print ("Skipped prop (no marker samples in crop): " + $props[$p]);
     }}
+    $included[$p] = $visible;
 }}
 select ;
 '''
+    if combined_path is not None:
+        hsl += f'''// Collect exactly the props accepted by the visibility filter.
+int $combined_count = 0;
+for ($p = 0; $p < `getCount $props`; $p += 1)
+{{
+    if ($included[$p] == 1)
+    {{
+        select -a $props[$p];
+        selectChildren -recursive -a $props[$p];
+        $combined_count += 1;
+    }}
+}}
+if ($combined_count > 0)
+{{
+    c3dExportOptions -collapseSubjects true -preserveGaps true -writeUnlabeled false;
+    saveFile -s "{combined_path.as_posix()}";
+}}
+select ;
+'''
+    return hsl
 
 
 def export_aligned_props(
@@ -126,8 +154,14 @@ def export_aligned_props(
         staging_dir = Path(staging)
         script.write_text(generate_aligned_props_hsl(staging_dir, start, end))
         run_shogun(source_mcp, script, staging_dir / "output.mcp", shogun_path)
+        from exporter.aligned_scene_extras import protect_extra_names
+
+        extra_names = protect_extra_names(
+            root, {p.name.casefold() for p in staging_dir.glob("*.c3d")}
+        )
         for old_file in output_dir.glob("*.c3d"):
-            old_file.unlink()
+            if old_file.name.casefold() not in extra_names:
+                old_file.unlink()
         for new_file in staging_dir.glob("*.c3d"):
             new_file.replace(output_dir / new_file.name)
     script.write_text(generate_aligned_props_hsl(output_dir, start, end))

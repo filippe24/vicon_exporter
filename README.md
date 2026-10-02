@@ -46,6 +46,22 @@ python main.py
 
 ## Main Outputs
 
+Aligned take also provides independent **All visible props in one C3D** and
+**Unlabeled markers · calibration only** options. Both use the same C3D crop
+policy and original take MCP as the individual prop export. The calibration
+option runs only if a folder in the take's path contains `calibration`
+(case-insensitive). It uses Vicon's documented `_*` marker selector for unlabeled
+trajectories and keeps only markers with translation samples in the crop.
+
+Additional C3Ds live in `aligned_exports/props/`, normally named
+`__vicon_exporter_all_props__.c3d` and
+`__vicon_exporter_calibration_markers__.c3d`. A numbered suffix is added when a
+name conflicts with a prop file. Actual names are recorded in
+`aligned_exports/reports/aligned_scene_extras.yaml`. Keep can add missing extras
+without replacing individual props; Overwrite updates only the selected groups.
+The combined file includes only visible props and retains subject-qualified
+marker labels to avoid collisions between different props' marker names.
+
 **Aligned take → Visible props · C3D** independently exports Vicon's Props
 category to `aligned_exports/props/<prop name>.c3d`. Props need at least one
 marker translation sample within the inclusive crop interval; props with no

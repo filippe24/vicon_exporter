@@ -25,6 +25,7 @@ from exporter.aligned_export_pipeline import (
     write_aligned_export_summary,
 )
 from exporter.aligned_props_pipeline import export_aligned_props
+from exporter.aligned_scene_extras import export_aligned_scene_extras
 from exporter.export_pipeline import (
     DEFAULT_TRACKING_PROP_EXPORTS,
     TrackingPropExport,
@@ -989,21 +990,39 @@ if __name__ == "__main__":
             )
 
     prop_warnings = []
-    if selection.run_aligned_props:
+    if (
+        selection.run_aligned_props
+        or selection.run_aligned_combined_props
+        or selection.run_aligned_calibration_markers
+    ):
         for take_dir in take_folders:
             try:
-                source = _find_retarget_source_mcp(take_dir)
+                source = _find_original_take_mcp(take_dir)
                 if source is None:
                     raise ValueError(f"No source MCP found in {take_dir}")
-                warning = export_aligned_props(
-                    take_dir,
-                    source,
-                    SHOGUN_PATH,
-                    policy=selection.prop_crop_policy,
-                    overwrite=selection.overwrite,
-                )
-                if warning:
-                    prop_warnings.append(warning)
+                for exporter, options, enabled in (
+                    (export_aligned_props, {}, selection.run_aligned_props),
+                    (
+                        export_aligned_scene_extras,
+                        {
+                            "combined": selection.run_aligned_combined_props,
+                            "calibration_markers": selection.run_aligned_calibration_markers,
+                        },
+                        selection.run_aligned_combined_props
+                        or selection.run_aligned_calibration_markers,
+                    ),
+                ):
+                    if enabled:
+                        warning = exporter(
+                            take_dir,
+                            source,
+                            SHOGUN_PATH,
+                            policy=selection.prop_crop_policy,
+                            overwrite=selection.overwrite,
+                            **options,
+                        )
+                        if warning and warning not in prop_warnings:
+                            prop_warnings.append(warning)
             except (OSError, RuntimeError, ValueError) as error:
                 prop_warnings.append(f"{take_dir}: aligned prop export failed: {error}")
 

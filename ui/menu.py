@@ -14,6 +14,8 @@ class UserSelection:
         self.run_geeno_retarget: bool = False
         self.run_aligned_export: bool = False
         self.run_aligned_props: bool = False
+        self.run_aligned_combined_props: bool = False
+        self.run_aligned_calibration_markers: bool = False
         self.prop_crop_policy: str = "first"
         self.run_aligned_metahuman: bool = False
         self.run_aligned_metahuman_vicon: bool = False
@@ -29,7 +31,7 @@ def open_menu():
     selection = UserSelection()
     root = Tk()
     root.title("Vicon Exporter")
-    root.minsize(820, 650)
+    root.minsize(820, 760)
     style = ttk.Style(root)
     style.configure("Title.TLabel", font=("Segoe UI", 16, "bold"))
     style.configure("Section.TLabel", font=("Segoe UI", 10, "bold"))
@@ -71,6 +73,8 @@ def open_menu():
         "run_geeno_retarget",
         "run_aligned_export",
         "run_aligned_props",
+        "run_aligned_combined_props",
+        "run_aligned_calibration_markers",
         "run_aligned_metahuman",
         "run_aligned_metahuman_vicon",
         "run_metahuman_vicon",
@@ -154,6 +158,16 @@ def open_menu():
     hint(aligned, "C3D, FBX, BVH and MCP → aligned_exports/actors/")
     check(aligned, "Visible props · C3D", "run_aligned_props")
     hint(aligned, "Props with marker data in the crop → aligned_exports/props/")
+    check(aligned, "All visible props in one C3D", "run_aligned_combined_props")
+    check(
+        aligned,
+        "Unlabeled markers · calibration only",
+        "run_aligned_calibration_markers",
+    )
+    hint(
+        aligned,
+        "Independent outputs; markers run only under folders containing ‘calibration’.",
+    )
     prop_crop = StringVar(root, value="First C3D")
     ttk.Label(aligned, text="Prop crop range").pack(anchor="w")
     ttk.Combobox(
