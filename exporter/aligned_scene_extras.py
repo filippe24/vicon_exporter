@@ -40,15 +40,25 @@ int $j;
 int $free_keys[];
 int $free_visible;
 int $free_count = 0;
-for ($i = 0; $i < `getCount $free`; $i += 1)
+int $num_free = `getCount $free`;
+int $num_free_keys;
+int $free_start;
+int $free_end;
+for ($i = 0; $i < $num_free; $i += 1)
 {{
     $free_visible = 0;
-    $free_keys = `getKeys Translation -onMod $free[$i]`;
-    for ($j = 0; $j < `getCount $free_keys`; $j += 1)
+    $free_keys = `getTrajectories $free[$i]`;
+    $num_free_keys = `getCount $free_keys`;
+    for ($j = 0; $j < $num_free_keys; $j += 2)
     {{
-        if ($free_keys[$j] >= {start} && $free_keys[$j] <= {end})
+        if ($j + 1 < $num_free_keys)
         {{
-            $free_visible = 1;
+            $free_start = $free_keys[$j];
+            $free_end = $free_keys[$j + 1];
+            if ($free_start <= {end} && $free_end >= {start})
+            {{
+                $free_visible = 1;
+            }}
         }}
     }}
     if ($free_visible == 1)

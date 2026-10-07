@@ -926,6 +926,35 @@ if __name__ == "__main__":
         sys.exit(1)
 
     take_folders = find_take_folders(selection.folder)
+    from utils.batch_report import BatchReport
+
+    batch = BatchReport(selection.folder)
+    process_take = batch.track(process_take, "Full actor export")
+    process_general_retargeting = batch.track(
+        process_general_retargeting, lambda kw: f"Retarget {kw.get('retarget_type')}"
+    )
+    process_aligned_export_and_retargeting = batch.track(
+        process_aligned_export_and_retargeting,
+        lambda kw: (
+            "Aligned actors"
+            if kw.get("export_standard")
+            else "Aligned MetaHuman"
+            if kw.get("retarget_metahuman")
+            else "Aligned Geeno"
+        ),
+    )
+    export_aligned_props = batch.track(export_aligned_props, "Aligned individual props")
+    export_aligned_scene_extras = batch.track(
+        export_aligned_scene_extras, "Aligned scene extras"
+    )
+    process_metahuman_vicon_retargeting = batch.track(
+        process_metahuman_vicon_retargeting,
+        lambda kw: (
+            "Aligned Vicon MetaHuman" if kw.get("aligned") else "Full Vicon MetaHuman"
+        ),
+    )
+    process_bvh = batch.track(process_bvh, "BVH conversion")
+    process_face_videos = batch.track(process_face_videos, "Face video renaming")
 
     for curr_take_directry in take_folders:
         print(" •", curr_take_directry)
@@ -980,14 +1009,20 @@ if __name__ == "__main__":
     ):
         print("\nRunning aligned export + MetaHuman + Geeno pass...")
         for curr_take_directry in take_folders:
-            process_aligned_export_and_retargeting(
-                take_dir=curr_take_directry,
-                shogun_path=SHOGUN_PATH,
-                export_standard=selection.run_aligned_export,
-                retarget_metahuman=selection.run_aligned_metahuman,
-                retarget_geeno=selection.run_aligned_geeno,
-                overwrite=selection.overwrite,
-            )
+            for standard, metahuman, geeno in (
+                (selection.run_aligned_export, False, False),
+                (False, selection.run_aligned_metahuman, False),
+                (False, False, selection.run_aligned_geeno),
+            ):
+                if standard or metahuman or geeno:
+                    process_aligned_export_and_retargeting(
+                        take_dir=curr_take_directry,
+                        shogun_path=SHOGUN_PATH,
+                        export_standard=standard,
+                        retarget_metahuman=metahuman,
+                        retarget_geeno=geeno,
+                        overwrite=selection.overwrite,
+                    )
 
     prop_warnings = []
     if (
@@ -1025,6 +1060,7 @@ if __name__ == "__main__":
                             prop_warnings.append(warning)
             except (OSError, RuntimeError, ValueError) as error:
                 prop_warnings.append(f"{take_dir}: aligned prop export failed: {error}")
+                batch.record_failure(take_dir, "Aligned props setup", error)
 
     # Run BVH conversion
     if selection.run_metahuman_vicon or selection.run_aligned_metahuman_vicon:
@@ -1057,7 +1093,8 @@ if __name__ == "__main__":
         print("\nAligned prop export warnings:")
         for warning in prop_warnings:
             print(f"   warning: {warning}")
-    print("\n✨ Done!")
+    batch.finish()
+    print("\nBatch finished.")
 
     # for take_directory in main_folder.iterdir():
     #     if take_directory.is_dir():

@@ -1,7 +1,9 @@
 """Export Vicon props using the C3D crop windows saved by aLigner."""
 
+import os
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from uuid import uuid4
 
 import yaml
 
@@ -49,44 +51,75 @@ def generate_aligned_props_hsl(
     end: int,
     *,
     combined_path: Path | None = None,
+    diagnostics: bool | None = None,
 ) -> str:
+    if diagnostics is None:
+        diagnostics = os.environ.get("VICON_EXPORTER_DIAGNOSTICS", "").lower() in {
+            "1",
+            "true",
+            "yes",
+            "on",
+        }
+    prop_trace = 'print ("DIAG prop: " + $props[$p]);' if diagnostics else ""
+    marker_trace = 'print ("DIAG marker: " + $markers[$m]);' if diagnostics else ""
+    count_trace = (
+        'print "DIAG trajectory boundary count:"; print $num_keys;'
+        if diagnostics
+        else ""
+    )
+    selection_name = f"exporter_props_{uuid4().hex}"
+    setup = f'selectionSet "{selection_name}";\n' if combined_path else ""
+    collect = f'selectionSet "{selection_name}" -add;' if combined_path else ""
     hsl = f'''// Keep props with at least one marker sample inside the inclusive crop.
 playRange {start} {end};
 select ;
+{setup}
 selectProps;
 // selectProps already selects the prop roots. Props are not necessarily
 // Character modules, so do not filter this list by module type.
 string $props[] = `getModules -selected`;
-int $included[];
+int $num_props = `getCount $props`;
 int $p;
 int $m;
 int $k;
 int $visible;
+int $num_markers;
+int $num_keys;
+int $range_start;
+int $range_end;
 string $markers[];
 int $keys[];
 string $filename;
-for ($p = 0; $p < `getCount $props`; $p += 1)
+for ($p = 0; $p < $num_props; $p += 1)
 {{
+    {prop_trace}
     select ;
     // Match the established clapperboard / eye-tracker export sequence:
     // select the prop root, then add its whole hierarchy to the selection.
     select $props[$p];
     selectChildren -recursive -a $props[$p];
     $markers = `getModules -selected -type Marker`;
+    $num_markers = `getCount $markers`;
     $visible = 0;
-    for ($m = 0; $m < `getCount $markers`; $m += 1)
+    for ($m = 0; $m < $num_markers; $m += 1)
     {{
         if ($visible == 0)
         {{
-            // getKeys Translation returns the marker's translation-key frames.
-            // Do not use hasKey here: it requires a single channel such as
-            // TranslationX and rejects the aggregate Translation property.
-            $keys = `getKeys Translation -onMod $markers[$m]`;
-            for ($k = 0; $k < `getCount $keys`; $k += 1)
+            {marker_trace}
+            // Trajectory intervals avoid materializing every frame of a long take.
+            $keys = `getTrajectories $markers[$m]`;
+            $num_keys = `getCount $keys`;
+            {count_trace}
+            for ($k = 0; $k < $num_keys; $k += 2)
             {{
-                if ($keys[$k] >= {start} && $keys[$k] <= {end})
+                if ($k + 1 < $num_keys)
                 {{
-                    $visible = 1;
+                    $range_start = $keys[$k];
+                    $range_end = $keys[$k + 1];
+                    if ($range_start <= {end} && $range_end >= {start})
+                    {{
+                        $visible = 1;
+                    }}
                 }}
             }}
         }}
@@ -97,33 +130,25 @@ for ($p = 0; $p < `getCount $props`; $p += 1)
         $filename = ("{output_dir.as_posix()}/" + $props[$p] + ".c3d");
         saveFile -s $filename;
         print ("Exported prop: " + $props[$p]);
+        {collect}
     }}
     else
     {{
         print ("Skipped prop (no marker samples in crop): " + $props[$p]);
     }}
-    $included[$p] = $visible;
 }}
 select ;
 '''
     if combined_path is not None:
-        hsl += f'''// Collect exactly the props accepted by the visibility filter.
-int $combined_count = 0;
-for ($p = 0; $p < `getCount $props`; $p += 1)
-{{
-    if ($included[$p] == 1)
-    {{
-        select -a $props[$p];
-        selectChildren -recursive -a $props[$p];
-        $combined_count += 1;
-    }}
-}}
-if ($combined_count > 0)
+        hsl += f'''// Collect exactly the hierarchies accepted by the filter.
+selectSet "{selection_name}";
+if (`getNumModules -sel` > 0)
 {{
     c3dExportOptions -collapseSubjects true -preserveGaps true -writeUnlabeled false;
     saveFile -s "{combined_path.as_posix()}";
 }}
 select ;
+selectionSet "{selection_name}" -delete;
 '''
     return hsl
 
@@ -154,6 +179,11 @@ def export_aligned_props(
         staging_dir = Path(staging)
         script.write_text(generate_aligned_props_hsl(staging_dir, start, end))
         run_shogun(source_mcp, script, staging_dir / "output.mcp", shogun_path)
+        exported_count = len(list(staging_dir.glob("*.c3d")))
+        if exported_count:
+            print(f"   Exported {exported_count} aligned prop C3D files.")
+        else:
+            print("   no visible data: no props had marker samples in the crop.")
         from exporter.aligned_scene_extras import protect_extra_names
 
         extra_names = protect_extra_names(

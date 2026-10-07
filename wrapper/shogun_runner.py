@@ -4,7 +4,8 @@ from pathlib import Path
 
 class ShogunError(RuntimeError):
     def __init__(self, message: str, returncode: int, output: str):
-        super().__init__(message)
+        errors = [line.strip() for line in output.splitlines() if "ERROR:" in line]
+        super().__init__(f"{message}: {errors[0]}" if errors else message)
         self.returncode = returncode
         self.output = output
 
@@ -58,15 +59,24 @@ def run_shogun(mcp_file: Path, hsl_file: Path, out_file: Path, shogun_path: Path
     )
 
     output_lines: list[str] = []
+    counts: dict[str, int] = {}
+    log_path = hsl_file.with_suffix(".shogun.log")
 
     print("   shogun output:")
     if process.stdout is not None:
         for line in process.stdout:
             clean_line = line.rstrip()
             output_lines.append(clean_line)
-            print("      " + clean_line)
+            counts[clean_line] = counts.get(clean_line, 0) + 1
+            if counts[clean_line] == 1:
+                print("      " + clean_line)
 
     process.wait()
+    log_path.write_text("\n".join(output_lines), encoding="utf-8")
+    repeats = sum(count - 1 for count in counts.values())
+    if repeats:
+        print(f"   condensed {repeats} repeated log lines")
+    print(f"   full Shogun log: {log_path}")
 
     if process.returncode != 0:
         raise ShogunError(

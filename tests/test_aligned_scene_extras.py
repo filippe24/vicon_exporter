@@ -67,7 +67,7 @@ class SceneExtrasTests(unittest.TestCase):
         def run(_source, script, output, _exe):
             hsl = script.read_text()
             self.assertIn('selectByName "_*" -type Marker;', hsl)
-            self.assertIn("getKeys Translation", hsl)
+            self.assertIn("getTrajectories", hsl)
             self.assertIn("-writeUnlabeled true", hsl)
             (output.parent / "calibration_markers.c3d").write_text("free")
 
