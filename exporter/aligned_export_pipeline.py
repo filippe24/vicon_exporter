@@ -264,11 +264,38 @@ def _export_yaml_sort_key(path: Path) -> tuple[int, int, str]:
     return (1 if is_slim_export else 0, -path.stat().st_mtime_ns, path.as_posix().lower())
 
 
-def _read_mocap_entries(raw_data: dict[str, Any]) -> list[AlignedMocapEntry]:
-    entries: list[AlignedMocapEntry] = []
+def _normalize_mocap_sample_rate(sample_rate: float) -> float:
+    if sample_rate <= 0.0:
+        return sample_rate
+    frame_time = 1.0 / sample_rate
+    nearest_rate = round(sample_rate)
+    if nearest_rate > 0 and abs(frame_time - (1.0 / nearest_rate)) <= 5e-7:
+        return float(nearest_rate)
+    return float(sample_rate)
 
-    for entry_data in _iter_export_track_entries(raw_data):
+
+def _read_mocap_entries(raw_data: dict[str, Any] | list[Any]) -> list[AlignedMocapEntry]:
+    entries: list[AlignedMocapEntry] = []
+    track_entries = _iter_export_track_entries(raw_data)
+
+    slim_actor_stems: set[str] = set()
+    for item in track_entries:
+        if not isinstance(item, dict) or "file" not in item:
+            continue
+        file_name = str(item.get("file", "")).removesuffix(" (*)").strip()
+        suffix = Path(file_name).suffix.lower()
+        stem = Path(file_name).stem
+        if suffix in {".bvh", ".mcp", ".fbx"} or stem.endswith("_"):
+            slim_actor_stems.add(stem.lower())
+
+    for entry_data in track_entries:
         if not isinstance(entry_data, dict):
+            continue
+
+        if "file" in entry_data and "track_type" not in entry_data:
+            entry = _read_slim_mocap_entry(entry_data, slim_actor_stems)
+            if entry is not None:
+                entries.append(entry)
             continue
 
         if str(entry_data.get("track_type", "")).upper() != "MOCAP":
@@ -290,10 +317,27 @@ def _collapse_actor_mocap_entries(
             continue
         entries_by_stem.setdefault(entry.stem.lower(), []).append(entry)
 
-    return [
-        min(entries, key=_actor_entry_sort_key)
-        for _, entries in sorted(entries_by_stem.items())
-    ]
+    collapsed: list[AlignedMocapEntry] = []
+    for _, entries in sorted(entries_by_stem.items()):
+        chosen = min(entries, key=_actor_entry_sort_key)
+        c3d_match = next(
+            (e for e in entries if e.source_path.suffix.lower() == ".c3d"),
+            None,
+        )
+        if (
+            c3d_match is not None
+            and chosen.source_path.suffix.lower() == ".bvh"
+            and chosen.sample_rate == c3d_match.sample_rate
+            and (chosen.start_frame, chosen.end_frame)
+            != (c3d_match.start_frame, c3d_match.end_frame)
+        ):
+            chosen = replace(
+                chosen,
+                start_frame=c3d_match.start_frame,
+                end_frame=c3d_match.end_frame,
+            )
+        collapsed.append(chosen)
+    return collapsed
 
 
 def _is_actor_mocap_entry(entry: AlignedMocapEntry) -> bool:
@@ -311,7 +355,13 @@ def _actor_entry_sort_key(entry: AlignedMocapEntry) -> tuple[int, str]:
     return (suffix_priority.get(suffix, 99), entry.name.lower())
 
 
-def _iter_export_track_entries(raw_data: dict[str, Any]) -> list[Any]:
+def _iter_export_track_entries(raw_data: dict[str, Any] | list[Any]) -> list[Any]:
+    if isinstance(raw_data, list):
+        return raw_data
+
+    if not isinstance(raw_data, dict):
+        return []
+
     if "timebases" in raw_data:
         # Version 2 structure
         return raw_data["timebases"]
@@ -327,6 +377,53 @@ def _iter_export_track_entries(raw_data: dict[str, Any]) -> list[Any]:
         return tracks
 
     return list(raw_data.values())
+
+
+def _read_slim_mocap_entry(
+    entry_data: dict[str, Any],
+    actor_stems: set[str],
+) -> AlignedMocapEntry | None:
+    raw_file = str(entry_data.get("file", "")).removesuffix(" (*)").strip()
+    if not raw_file:
+        return None
+    file_path = Path(raw_file)
+    suffix = file_path.suffix.lower()
+    if suffix not in {".bvh", ".c3d", ".mcp", ".fbx"}:
+        return None
+
+    start_frame = entry_data.get("local_start_frame")
+    end_frame = entry_data.get("local_end_frame")
+    raw_rate = entry_data.get("output_fps") or entry_data.get("sample_rate")
+    if start_frame is None or end_frame is None:
+        return None
+
+    sample_rate = float(raw_rate) if raw_rate is not None else 120.0
+    normalized_rate = _normalize_mocap_sample_rate(sample_rate)
+    local_start_sec = entry_data.get("local_start_sec")
+    local_end_sec = entry_data.get("local_end_sec")
+    if (
+        normalized_rate != sample_rate
+        and local_start_sec is not None
+        and local_end_sec is not None
+    ):
+        start_frame = int(round(float(local_start_sec) * normalized_rate))
+        end_frame = int(round(float(local_end_sec) * normalized_rate))
+
+    name = file_path.name
+    stem = file_path.stem
+    if len(file_path.parts) == 1 and stem.lower() in actor_stems:
+        source_path = Path(ACTORS_FOLDER_NAME) / name
+    else:
+        source_path = file_path
+
+    return AlignedMocapEntry(
+        name=name,
+        stem=stem,
+        source_path=source_path,
+        start_frame=int(start_frame),
+        end_frame=int(end_frame),
+        sample_rate=normalized_rate,
+    )
 
 
 def _read_mocap_entry(entry_data: dict[str, Any]) -> AlignedMocapEntry | None:
@@ -355,13 +452,23 @@ def _read_mocap_entry(entry_data: dict[str, Any]) -> AlignedMocapEntry | None:
     ):
         return None
 
+    raw_rate = float(sample_rate)
+    normalized_rate = _normalize_mocap_sample_rate(raw_rate)
+    timing = entry_data.get("timing")
+    if normalized_rate != raw_rate and isinstance(timing, dict):
+        local_start_sec = timing.get("local_start_sec")
+        local_end_sec = timing.get("local_end_sec")
+        if local_start_sec is not None and local_end_sec is not None:
+            start_frame = int(round(float(local_start_sec) * normalized_rate))
+            end_frame = int(round(float(local_end_sec) * normalized_rate))
+
     return AlignedMocapEntry(
         name=str(name),
         stem=str(stem),
         source_path=Path(str(source_path)),
         start_frame=int(start_frame),
         end_frame=int(end_frame),
-        sample_rate=float(sample_rate),
+        sample_rate=normalized_rate,
     )
 
 
