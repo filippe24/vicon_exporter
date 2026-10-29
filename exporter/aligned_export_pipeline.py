@@ -379,6 +379,27 @@ def _iter_export_track_entries(raw_data: dict[str, Any] | list[Any]) -> list[Any
     return list(raw_data.values())
 
 
+def _contract_range(data, start, end, rate):
+    """Convert aLigner v1 zero-based half-open samples into inclusive playRange."""
+    sampling = data.get("sampling")
+    if not isinstance(sampling, dict):
+        return int(start), int(end), float(rate)
+    if sampling.get("version") != 1 or sampling.get("index_origin") != 0 or sampling.get("end_exclusive") is not True:
+        raise ValueError("Unsupported aLigner sample interval contract")
+    if float(sampling.get("clock_scale", 1)) != 1:
+        raise ValueError("Shogun MCP export does not support aLigner clock-rate edits; materialize or remove the warp first")
+    geometry = data.get("geometry", {})
+    transform = geometry.get("permanent_transform_meters", {}) if isinstance(geometry, dict) else {}
+    if float(transform.get("scale", 1)) != 1 or any(transform.get("translation", (0, 0, 0))):
+        raise ValueError("Shogun MCP export does not support aLigner permanent geometry edits")
+    start = int(sampling["source_start_sample"])
+    end = int(sampling["source_end_sample"])
+    rate = float(sampling["source_rate_hz"])
+    if start < 0 or end <= start or rate <= 0:
+        raise ValueError("Invalid aLigner source sample interval")
+    return start, end - 1, rate
+
+
 def _read_slim_mocap_entry(
     entry_data: dict[str, Any],
     actor_stems: set[str],
@@ -408,6 +429,8 @@ def _read_slim_mocap_entry(
     ):
         start_frame = int(round(float(local_start_sec) * normalized_rate))
         end_frame = int(round(float(local_end_sec) * normalized_rate))
+
+    start_frame, end_frame, normalized_rate = _contract_range(entry_data, start_frame, end_frame, normalized_rate)
 
     name = file_path.name
     stem = file_path.stem
@@ -461,6 +484,9 @@ def _read_mocap_entry(entry_data: dict[str, Any]) -> AlignedMocapEntry | None:
         if local_start_sec is not None and local_end_sec is not None:
             start_frame = int(round(float(local_start_sec) * normalized_rate))
             end_frame = int(round(float(local_end_sec) * normalized_rate))
+
+    start_frame, end_frame, normalized_rate = _contract_range(
+        derived_track or entry_data, start_frame, end_frame, normalized_rate)
 
     return AlignedMocapEntry(
         name=str(name),
