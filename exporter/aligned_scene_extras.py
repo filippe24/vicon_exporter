@@ -7,6 +7,7 @@ import yaml
 
 from configuration.settings import ALIGNED_EXPORT_FOLDER_NAME
 from exporter.aligned_props_pipeline import generate_aligned_props_hsl, read_prop_crop
+from exporter.export_status import record_step
 from wrapper.shogun_runner import run_shogun
 
 
@@ -186,4 +187,6 @@ def export_aligned_scene_extras(
             sort_keys=False,
         )
     )
+    for key in sorted(pending):
+        record_step(take_dir, key, crop_policy=policy)
     return warning

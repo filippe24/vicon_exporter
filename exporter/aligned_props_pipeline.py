@@ -12,6 +12,7 @@ from exporter.aligned_export_pipeline import (
     _find_aligner_export_yaml,
     _read_mocap_entries,
 )
+from exporter.export_status import record_step
 from wrapper.shogun_runner import run_shogun
 
 
@@ -216,4 +217,5 @@ def export_aligned_props(
             sort_keys=False,
         )
     )
+    record_step(take_dir, "props", crop_policy=policy)
     return warning

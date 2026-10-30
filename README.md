@@ -177,6 +177,25 @@ Select any combination. Standard export produces cropped actor files without
 retargeting. MetaHuman and Geeno each retarget the take MCP over the aligned frame
 range, so either can run independently of standard aligned export.
 
+### Export status
+
+Each aligned step that writes outputs records the aLigner values it used (actor
+frame ranges for actor exports and retargets, C3D crop ranges for props) in
+`aligned_exports/reports/export_status.yaml`, with paths relative to the take.
+Steps that keep existing files do not record anything.
+
+```powershell
+uv run status.py [FOLDER]
+```
+
+or **Export status…** in the menu opens a read-only table: one row per take,
+one column per aligned step. A step is **outdated** when the take's current
+aLigner export YAML gives different values than it was exported with; the details
+list what changed (e.g. `Jam_.bvh: frames 0–67764 → 4414–72174`). Export it again
+with Overwrite. Outputs from before status tracking are compared with the frame
+ranges in their older reports when available, otherwise shown as unverified.
+Only files in the take folder are read, so aLigner does not need to be installed.
+
 ## Data Tree Normalization
 
 Use `utils/normalize_data_tree.py` when an exported data folder needs safer,

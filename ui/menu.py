@@ -1,3 +1,5 @@
+import subprocess
+import sys
 from pathlib import Path
 from tkinter import BooleanVar, StringVar, Tk, filedialog, messagebox, ttk
 
@@ -58,6 +60,15 @@ def open_menu():
             selection.folder = Path(folder)
             folder_text.set(folder)
 
+    def open_status():
+        # Separate process, so the status window stays open while exports run.
+        script = Path(__file__).resolve().parent.parent / "status.py"
+        folder = [str(selection.folder)] if selection.folder else []
+        subprocess.Popen([sys.executable, str(script), *folder])
+
+    ttk.Button(source, text="Export status…", command=open_status).pack(
+        side="right", padx=(6, 0)
+    )
     ttk.Button(source, text="Choose folder…", command=choose_folder).pack(
         side="right", padx=(10, 0)
     )

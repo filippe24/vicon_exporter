@@ -32,6 +32,7 @@ from exporter.export_pipeline import (
     generate_extra_exports_hsl,
     generate_hsl,
 )
+from exporter.export_status import record_step
 from exporter.geeno_retarget_pipeline import generate_geeno_retarget_hsl
 from exporter.general_retarget_pipeline import generate_general_retarget_hsl
 from exporter.mannequin_retarget_pipeline import generate_mannequin_retarget_hsl
@@ -615,6 +616,9 @@ def process_metahuman_vicon_retargeting(
     if not actors:
         print("   no actor MCP sources found; run classic export first.")
         return
+    # Existing outputs are kept unless overwriting; only a fresh export is recorded as current.
+    fresh = overwrite or not (output_dir.exists() and any(output_dir.iterdir()))
+    failed = False
     for actor_mcp, actor_name, frame_range in actors:
         if not actor_mcp.is_file():
             fallback = _find_retarget_source_mcp(take_dir)
@@ -636,9 +640,12 @@ def process_metahuman_vicon_retargeting(
                 overwrite=overwrite,
             )
         except (OSError, RuntimeError, ValueError) as error:
+            failed = True
             print(
                 f"   warning: Vicon MetaHuman export failed for {actor_name}: {error}"
             )
+    if aligned and fresh and not failed:
+        record_step(take_dir, "metahuman_vicon")
 
 
 def process_aligned_export_and_retargeting(
@@ -671,6 +678,7 @@ def process_aligned_export_and_retargeting(
     keep_actors = not overwrite and any(plan.actors_dir.iterdir())
     if export_standard and not keep_actors:
         _export_aligned_standard(plan, mcp_file, shogun_path)
+        record_step(take_dir, "actors")
     elif export_standard:
         print("   keeping existing standard aligned exports.")
 
@@ -712,6 +720,8 @@ def process_aligned_export_and_retargeting(
         except RuntimeError as error:
             print(f"   warning: {folder_name} aligned retarget failed: {error}")
             print(f"   inspect generated HSL: {hsl_file}")
+        else:
+            record_step(take_dir, folder_name)
 
     summary_path = plan.reports_dir / "aligned_export_summary.yaml"
     if overwrite or not summary_path.exists():
