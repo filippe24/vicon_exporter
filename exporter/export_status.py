@@ -44,17 +44,19 @@ class Step:
     label: str
     # Which aLigner values the step depends on: "actors" or "props".
     inputs: str
+    # The UserSelection option that runs the step.
+    option: str
     calibration_only: bool = False
 
 
 STEPS = (
-    Step("actors", "Actors", "actors"),
-    Step("props", "Props", "props"),
-    Step("all_props", "All props C3D", "props"),
-    Step("calibration_markers", "Unlabeled markers", "props", calibration_only=True),
-    Step("metahuman", "MetaHuman", "actors"),
-    Step("metahuman_vicon", "Vicon MetaHuman", "actors"),
-    Step("geeno", "Geeno", "actors"),
+    Step("actors", "Actors", "actors", "run_aligned_export"),
+    Step("props", "Props", "props", "run_aligned_props"),
+    Step("all_props", "All props C3D", "props", "run_aligned_combined_props"),
+    Step("calibration_markers", "Unlabeled markers", "props", "run_aligned_calibration_markers", calibration_only=True),
+    Step("metahuman", "MetaHuman", "actors", "run_aligned_metahuman"),
+    Step("metahuman_vicon", "Vicon MetaHuman", "actors", "run_aligned_metahuman_vicon"),
+    Step("geeno", "Geeno", "actors", "run_aligned_geeno"),
 )
 STEP_BY_KEY = {step.key: step for step in STEPS}
 
@@ -73,12 +75,21 @@ class TakeStatus:
     take_dir: Path
     aligner_yaml: Path | None = None
     aligner_format: str | None = None
+    # When aLigner last wrote the export YAML, and the saved alignment beside it.
+    aligner_exported_at: datetime | None = None
+    aligner_saved_at: datetime | None = None
     error: str | None = None
     steps: dict[str, StepStatus] = field(default_factory=dict)
 
     @property
     def outdated(self) -> list[str]:
         return [key for key, step in self.steps.items() if step.state in (OUTDATED, MISSING_OUTPUTS)]
+
+    @property
+    def aligner_export_stale(self) -> bool:
+        """The alignment was saved after aLigner last exported, so the YAML may hold older values."""
+        return bool(self.aligner_exported_at and self.aligner_saved_at
+                    and (self.aligner_saved_at - self.aligner_exported_at).total_seconds() > 60)
 
     @property
     def exported(self) -> list[str]:
@@ -146,6 +157,9 @@ def take_status(take_dir: Path) -> TakeStatus:
         result.error = f"aLigner YAML unreadable: {error}"
     if found is not None:
         result.aligner_yaml, inputs, result.aligner_format = found
+        result.aligner_exported_at = _modified(result.aligner_yaml)
+        stem = result.aligner_yaml.name.split(".")[0]
+        result.aligner_saved_at = _modified(result.aligner_yaml.with_name(f"{stem}.state.yaml"))
     else:
         inputs = None
     aligned_root = take_dir / ALIGNED_EXPORT_FOLDER_NAME
@@ -270,6 +284,13 @@ def _relative(path: Path, root: Path) -> str:
         return Path(path).relative_to(root).as_posix()
     except ValueError:
         return Path(path).as_posix()
+
+
+def _modified(path: Path) -> datetime | None:
+    try:
+        return datetime.fromtimestamp(path.stat().st_mtime)
+    except OSError:
+        return None
 
 
 def _load_yaml(path: Path) -> dict[str, Any]:

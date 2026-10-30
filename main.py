@@ -1,6 +1,7 @@
 # # main.py
 
 import argparse
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -32,32 +33,62 @@ from exporter.export_pipeline import (
     generate_extra_exports_hsl,
     generate_hsl,
 )
-from exporter.export_status import record_step
+from exporter.export_status import STEP_BY_KEY, record_step
 from exporter.geeno_retarget_pipeline import generate_geeno_retarget_hsl
 from exporter.general_retarget_pipeline import generate_general_retarget_hsl
 from exporter.mannequin_retarget_pipeline import generate_mannequin_retarget_hsl
 from exporter.metahuman_vicon_pipeline import export_metahuman_vicon_actor
-from ui.menu import open_menu
+from ui.menu import UserSelection, open_menu
 from utils.file_search import find_take_folders
 from utils.rename_face_videos import rename_face_videos
 from wrapper.shogun_runner import ShogunError, run_shogun
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="vicon exporter")
+    parser = argparse.ArgumentParser(
+        description="vicon exporter. Without --take the menu opens; with --take the "
+        "chosen aligned steps run on those takes without the menu."
+    )
+    parser.add_argument(
+        "--take",
+        action="append",
+        type=Path,
+        default=[],
+        help="take folder to process (repeat for several)",
+    )
+    parser.add_argument(
+        "--steps",
+        default="",
+        help="comma-separated aligned steps: " + ", ".join(STEP_BY_KEY),
+    )
     parser.add_argument(
         "-f",
-        "--force",
+        "--overwrite",
         action="store_true",
-        help="force reprocessing even if output already exists",
+        help="replace existing outputs (needed to refresh outdated exports)",
     )
     parser.add_argument(
-        "-r",
-        "--retarget",
-        action="store_true",
-        help="run retargeting pass after export",
+        "--prop-crop", choices=("first", "extremes"), default="first"
     )
     return parser.parse_args()
+
+
+def selection_from_args(args) -> UserSelection:
+    selection = UserSelection()
+    steps = [key.strip() for key in args.steps.split(",") if key.strip()]
+    unknown = [key for key in steps if key not in STEP_BY_KEY]
+    if unknown or not steps:
+        sys.exit(f"Choose --steps from {', '.join(STEP_BY_KEY)} (got {args.steps!r}).")
+    for key in steps:
+        setattr(selection, STEP_BY_KEY[key].option, True)
+    selection.overwrite = args.overwrite
+    selection.prop_crop_policy = args.prop_crop
+    takes = [take.resolve() for take in args.take]
+    missing = [str(take) for take in takes if not take.is_dir()]
+    if missing:
+        sys.exit("Take folders not found:\n" + "\n".join(missing))
+    selection.folder = Path(os.path.commonpath(takes)) if len(takes) > 1 else takes[0]
+    return selection
 
 
 def print_pyramid():
@@ -920,22 +951,27 @@ def process_face_videos(take_folders):
 
 if __name__ == "__main__":
     print_pyramid()
+    args = parse_args()
 
-    selection = open_menu()
+    if args.take:
+        selection = selection_from_args(args)
+        take_folders = [take.resolve() for take in args.take]
+    else:
+        selection = open_menu()
 
-    if not selection.folder:
-        print("❌ No folder selected.")
-        sys.exit(1)
+        if not selection.folder:
+            print("❌ No folder selected.")
+            sys.exit(1)
 
-    if not selection.folder.exists():
-        print(f"Selected folder does not exist: {selection.folder}")
-        sys.exit(1)
+        if not selection.folder.exists():
+            print(f"Selected folder does not exist: {selection.folder}")
+            sys.exit(1)
 
-    if not selection.folder.is_dir():
-        print(f"Selected path is not a folder: {selection.folder}")
-        sys.exit(1)
+        if not selection.folder.is_dir():
+            print(f"Selected path is not a folder: {selection.folder}")
+            sys.exit(1)
 
-    take_folders = find_take_folders(selection.folder)
+        take_folders = find_take_folders(selection.folder)
     from utils.batch_report import BatchReport
 
     batch = BatchReport(selection.folder)

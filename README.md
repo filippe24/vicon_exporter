@@ -196,6 +196,23 @@ with Overwrite. Outputs from before status tracking are compared with the frame
 ranges in their older reports when available, otherwise shown as unverified.
 Only files in the take folder are read, so aLigner does not need to be installed.
 
+The **aLigner exported** column shows when aLigner last wrote the take's export
+YAML. ⚠ there means the alignment state was saved later without exporting, so
+the YAML may hold older values: export again from aLigner first.
+
+Select takes (Ctrl/Shift+click, or **Select all shown** after filtering) and press
+**Export selected…** to choose steps; steps that are outdated in any selected
+take are preselected, with Overwrite on. The export runs in its own console and
+the status of those takes refreshes when the console closes. The same runs from
+the command line without the menu:
+
+```powershell
+uv run main.py --take <take> --take <take> --steps actors,geeno --overwrite
+```
+
+Steps: `actors`, `props`, `all_props`, `calibration_markers`, `metahuman`,
+`metahuman_vicon`, `geeno`; `--prop-crop first|extremes`.
+
 ## Data Tree Normalization
 
 Use `utils/normalize_data_tree.py` when an exported data folder needs safer,

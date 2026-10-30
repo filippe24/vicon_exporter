@@ -1,3 +1,4 @@
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -98,6 +99,19 @@ class ExportStatusTests(unittest.TestCase):
         status = take_status(self.take).steps["actors"]
         self.assertEqual(status.state, OUTDATED)
         self.assertIn("50–900 → 100–900", status.changes[0])
+
+    def test_alignment_saved_after_aligner_export_is_flagged(self):
+        self.write_aligner()
+        export = self.take / ".aligner" / "I01_001.export.yaml"
+        state = export.with_name("I01_001.state.yaml")
+        state.write_text("{}")
+        os.utime(export, (1000, 1000))
+        os.utime(state, (5000, 5000))
+        status = take_status(self.take)
+        self.assertIsNotNone(status.aligner_exported_at)
+        self.assertTrue(status.aligner_export_stale)
+        os.utime(export, (5000, 5000))
+        self.assertFalse(take_status(self.take).aligner_export_stale)
 
     def test_take_without_aligner_export(self):
         status = take_status(self.take)
