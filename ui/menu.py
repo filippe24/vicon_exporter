@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 from tkinter import BooleanVar, StringVar, Tk, filedialog, messagebox, ttk
 
-from configuration.settings import METAHUMAN_VICON_TARGET_FBX
+from ui import preferences
 
 
 class UserSelection:
@@ -22,7 +22,7 @@ class UserSelection:
         self.run_aligned_metahuman: bool = False
         self.run_aligned_metahuman_vicon: bool = False
         self.run_metahuman_vicon: bool = False
-        self.metahuman_vicon_target_fbx: Path = METAHUMAN_VICON_TARGET_FBX
+        self.metahuman_vicon_target_fbx: Path = preferences.target_fbx()
         self.run_aligned_geeno: bool = False
         self.overwrite: bool = False
         self.run_convert_bvh: bool = False
@@ -54,11 +54,13 @@ def open_menu():
 
     def choose_folder():
         folder = filedialog.askdirectory(
-            title="Select take folder or batch parent folder"
+            title="Select take folder or batch parent folder",
+            initialdir=preferences.dataset_dialog_start(),
         )
         if folder:
             selection.folder = Path(folder)
             folder_text.set(folder)
+            preferences.remember_dataset_folder(folder)
 
     def open_status():
         # Separate process, so the status window stays open while exports run.
@@ -204,10 +206,12 @@ def open_menu():
         filename = filedialog.askopenfilename(
             title="Select UE5 Mannequin or MetaHuman FBX",
             filetypes=[("FBX skeleton", "*.fbx")],
+            initialdir=preferences.fbx_dialog_start(),
         )
         if filename:
             selection.metahuman_vicon_target_fbx = Path(filename)
             target_text.set(filename)
+            preferences.remember_target_fbx(filename)
 
     target_button = ttk.Button(target, text="Choose FBX…", command=choose_target)
     target_button.pack(side="right", padx=(10, 0))

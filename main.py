@@ -70,6 +70,12 @@ def parse_args():
     parser.add_argument(
         "--prop-crop", choices=("first", "extremes"), default="first"
     )
+    parser.add_argument(
+        "--target-fbx",
+        type=Path,
+        help="UE5 Mannequin or MetaHuman FBX for the Vicon MetaHuman step "
+        "(default: the last one chosen, else settings)",
+    )
     return parser.parse_args()
 
 
@@ -83,6 +89,8 @@ def selection_from_args(args) -> UserSelection:
         setattr(selection, STEP_BY_KEY[key].option, True)
     selection.overwrite = args.overwrite
     selection.prop_crop_policy = args.prop_crop
+    if args.target_fbx is not None:
+        selection.metahuman_vicon_target_fbx = args.target_fbx
     takes = [take.resolve() for take in args.take]
     missing = [str(take) for take in takes if not take.is_dir()]
     if missing:
