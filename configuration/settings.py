@@ -5,6 +5,10 @@ from pathlib import Path
 # SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.19\ShogunPostCL.exe")
 SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.20\ShogunPostCL.exe")
 
+# how ShogunPostCL runs a script. "runscript": the script loads the take and nothing else is written.
+# "old" (-old mode): also writes a full copy of the take, which roughly doubles each run. Kept to compare.
+SHOGUN_MODE = "runscript"
+
 # name of the folder where exported files go
 EXPORT_FOLDER_NAME = "exported"
 

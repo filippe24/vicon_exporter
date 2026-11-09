@@ -1,6 +1,9 @@
 import subprocess
+import time
 from pathlib import Path
 from tempfile import TemporaryDirectory
+
+from configuration.settings import SHOGUN_MODE
 
 
 class ShogunError(RuntimeError):
@@ -33,60 +36,64 @@ def resolve_shogun_path(shogun_path: Path) -> Path:
     )
 
 
-def run_shogun(mcp_file: Path, hsl_file: Path, out_file: Path | None, shogun_path: Path):
-    """Run the HSL script on the MCP. Shogun's -old mode always writes an output MCP: a full copy of the
-    take. Without `out_file` it goes to a temporary folder beside the script and is deleted afterwards."""
-    if out_file is None:
+def run_shogun(mcp_file: Path, hsl_file: Path, shogun_path: Path, mode: str = SHOGUN_MODE):
+    """Run the HSL script on the take MCP and print how long Shogun took.
+
+    "runscript": a copy of the script that first loads the take runs with -runScript; nothing else is written.
+    "old": -old mode also writes a full copy of the take, which takes about as long as loading it. That copy
+    goes to a temporary folder beside the script and is deleted. Kept to compare timings."""
+    if mode == "runscript":
+        script = hsl_file.with_suffix(".runscript.hsl")
+        script.write_text(f'loadFile "{mcp_file.as_posix()}";\n' + hsl_file.read_text())
+        _run(["-runScript", str(script)], hsl_file, shogun_path)
+    elif mode == "old":
         with TemporaryDirectory(prefix="shogun_output_", dir=hsl_file.parent) as scratch:
-            _run(mcp_file, hsl_file, Path(scratch) / "discarded.mcp", shogun_path)
-        return
-    _run(mcp_file, hsl_file, out_file, shogun_path)
+            discarded = Path(scratch) / "discarded.mcp"
+            _run(["-old", str(mcp_file), str(hsl_file), str(discarded)], hsl_file, shogun_path)
+    else:
+        raise ValueError(f"Unknown Shogun mode {mode!r}: use 'runscript' or 'old'")
 
 
-def _run(mcp_file: Path, hsl_file: Path, out_file: Path, shogun_path: Path):
-    resolved_shogun_path = resolve_shogun_path(shogun_path)
+def _run(arguments: list[str], hsl_file: Path, shogun_path: Path):
+    cmd = [str(resolve_shogun_path(shogun_path)), *arguments]
+    print(f"   running Shogun: {subprocess.list2cmdline(cmd)}")
 
-    print("   running Shogun:")
-    print(f"     - exe: {resolved_shogun_path}")
-    print(f"     - mcp: {mcp_file}")
-    print(f"     - hsl: {hsl_file}")
-
-    cmd = [
-        str(resolved_shogun_path),
-        "-old",
-        str(mcp_file),
-        str(hsl_file),
-        str(out_file),
-    ]
-
+    started = time.perf_counter()
     process = subprocess.Popen(
         cmd,
+        stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
         bufsize=1,
-        universal_newlines=True,
     )
+    # -runScript waits for "exit" once the script is done; a failing script exits by itself.
+    try:
+        process.stdin.write("exit\n")
+        process.stdin.close()
+    except OSError:
+        pass
 
     output_lines: list[str] = []
     counts: dict[str, int] = {}
-    log_path = hsl_file.with_suffix(".shogun.log")
-
     print("   shogun output:")
-    if process.stdout is not None:
-        for line in process.stdout:
-            clean_line = line.rstrip()
-            output_lines.append(clean_line)
-            counts[clean_line] = counts.get(clean_line, 0) + 1
-            if counts[clean_line] == 1:
-                print("      " + clean_line)
-
+    for line in process.stdout:
+        clean_line = line.rstrip()
+        output_lines.append(clean_line)
+        counts[clean_line] = counts.get(clean_line, 0) + 1
+        if counts[clean_line] == 1:
+            print("      " + clean_line)
     process.wait()
+    timing = f"shogun time: {time.perf_counter() - started:.1f} s"
+
+    log_path = hsl_file.with_suffix(".shogun.log")
+    output_lines.append(timing)
     log_path.write_text("\n".join(output_lines), encoding="utf-8")
     repeats = sum(count - 1 for count in counts.values())
     if repeats:
         print(f"   condensed {repeats} repeated log lines")
     print(f"   full Shogun log: {log_path}")
+    print(f"   {timing}")
 
     if process.returncode != 0:
         raise ShogunError(

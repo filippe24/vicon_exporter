@@ -12,6 +12,12 @@ from exporter.aligned_scene_extras import (
 )
 
 
+def staging(root, prefix):
+    """The temporary folder the exporter stages Shogun's files in."""
+    (folder,) = Path(root).glob(f"{prefix}*")
+    return folder
+
+
 class SceneExtrasTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -42,10 +48,11 @@ class SceneExtrasTests(unittest.TestCase):
         existing = self.props / "cup.c3d"
         existing.write_text("original")
 
-        def run(_source, script, output, _exe):
+        def run(_source, script, _exe):
+            stage = staging(self.take / "aligned_exports", "scene_extras_")
             self.assertIn("collapseSubjects true", script.read_text())
-            (output.parent / "all_props.c3d").write_text("combined")
-            (output.parent / "individuals/__vicon_exporter_all_props__.c3d").touch()
+            (stage / "all_props.c3d").write_text("combined")
+            (stage / "individuals/__vicon_exporter_all_props__.c3d").touch()
 
         with patch("exporter.aligned_scene_extras.run_shogun", side_effect=run):
             self.export(combined=True)
@@ -64,12 +71,13 @@ class SceneExtrasTests(unittest.TestCase):
     def test_calibration_parent_is_case_insensitive_and_filters_samples(self):
         self.take = self.take / "Room_CALIBRATION" / "001"
 
-        def run(_source, script, output, _exe):
+        def run(_source, script, _exe):
+            stage = staging(self.take / "aligned_exports", "scene_extras_")
             hsl = script.read_text()
             self.assertIn('selectByName "_*" -type Marker;', hsl)
             self.assertIn("getTrajectories", hsl)
             self.assertIn("-writeUnlabeled true", hsl)
-            (output.parent / "calibration_markers.c3d").write_text("free")
+            (stage / "calibration_markers.c3d").write_text("free")
 
         with patch("exporter.aligned_scene_extras.run_shogun", side_effect=run):
             self.export(calibration_markers=True)

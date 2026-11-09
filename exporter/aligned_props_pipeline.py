@@ -179,7 +179,7 @@ def export_aligned_props(
     with TemporaryDirectory(prefix="props_", dir=root) as staging:
         staging_dir = Path(staging)
         script.write_text(generate_aligned_props_hsl(staging_dir, start, end))
-        run_shogun(source_mcp, script, staging_dir / "output.mcp", shogun_path)
+        run_shogun(source_mcp, script, shogun_path)
         exported_count = len(list(staging_dir.glob("*.c3d")))
         if exported_count:
             print(f"   Exported {exported_count} aligned prop C3D files.")

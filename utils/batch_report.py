@@ -4,11 +4,14 @@ import io
 import json
 import re
 import sys
+import time
 from collections import Counter
 from contextlib import redirect_stdout
 from datetime import datetime
 from functools import wraps
 from pathlib import Path
+
+_SHOGUN_TIME = re.compile(r"shogun time: ([\d.]+) s")
 
 
 class _Tee(io.StringIO):
@@ -36,6 +39,7 @@ class BatchReport:
             take = Path(candidate) if isinstance(candidate, (str, Path)) else self.root
             operation = label(kwargs) if callable(label) else label
             capture = _Tee(sys.stdout)
+            started = time.perf_counter()
             result = None
             error = None
             with redirect_stdout(capture):
@@ -44,7 +48,9 @@ class BatchReport:
                 except (OSError, RuntimeError, ValueError) as exc:
                     error = str(exc)
                     print(f"   FAILED {operation}: {exc}")
+            seconds = round(time.perf_counter() - started, 1)
             lines = capture.getvalue().splitlines()
+            shogun_seconds = round(sum(float(m[1]) for line in lines if (m := _SHOGUN_TIME.search(line))), 1)
             if isinstance(result, str) and result:
                 lines.append(f"warning: {result}")
             # Successful BVH recovery resolves errors from the preceding attempt.
@@ -97,6 +103,8 @@ class BatchReport:
                     "operation": operation,
                     "status": status,
                     "detail": detail,
+                    "seconds": seconds,
+                    "shogun_seconds": shogun_seconds,
                 }
             )
             return result
@@ -128,7 +136,8 @@ class BatchReport:
                 take = str(Path(row["take"]).relative_to(self.root)) or "."
             except ValueError:
                 take = row["take"]
-            print(f"  {row['status']:7} | {take} | {row['operation']}")
+            timing = f" | {row['seconds']:.0f} s (Shogun {row['shogun_seconds']:.0f} s)" if "seconds" in row else ""
+            print(f"  {row['status']:7} | {take} | {row['operation']}{timing}")
             if row["detail"]:
                 print(f"            {row['detail'][0]}")
         destination = self.root / ".vicon_exporter_reports"

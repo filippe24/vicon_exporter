@@ -281,10 +281,18 @@ Retargets read the original take MCP. Aligned YAML source paths are resolved
 against the selected take's `exported/actors/` directory, allowing exports to
 move between PCs, drive letters, and operating systems without editing the YAML.
 
-Shogun Post CL (`-old` mode) always writes an output MCP, a full copy of the
-take. The exporter sends it to a temporary folder and deletes it, so no
-`processed.mcp` or `temp_*.mcp` files are left in the take. Ones left by older
-runs are never mistaken for the original take MCP.
+Shogun runs each script with `-runScript`: the exporter writes a
+`<script>.runscript.hsl` copy that starts with `loadFile` on the take MCP, and
+sends `exit` when the script is done. Nothing else is written. The older `-old`
+mode also writes a full copy of the take, which takes about as long as loading
+it and roughly doubles each run. Set `SHOGUN_MODE = "old"` in
+`configuration/settings.py` to compare; that copy goes to a temporary folder
+and is deleted. `processed.mcp` or `temp_*.mcp` files left by older runs are
+never mistaken for the original take MCP.
+
+Every run writes `shogun time: N s` at the end of its `.shogun.log`, and the
+batch results in `.vicon_exporter_reports/` give each step's `seconds` and
+`shogun_seconds`.
 
 The aligned `metahuman` output intentionally uses the basic mannequin retarget path because it is less invasive and has been the more reliable Shogun CL path. The adjusted MetaHuman template is still available from the separate menu option, but it touches the solve skeleton and may fail with Shogun script errors around `setProperty -onMod`.
 

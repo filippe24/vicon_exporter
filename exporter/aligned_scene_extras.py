@@ -151,7 +151,7 @@ def export_aligned_scene_extras(
                 stage / "calibration_markers.c3d", start, end
             )
         script.write_text(hsl)
-        run_shogun(source_mcp, script, stage / "output.mcp", shogun_path)
+        run_shogun(source_mcp, script, shogun_path)
         occupied = {p.name.casefold() for p in props.iterdir()}
         occupied.update(p.name.casefold() for p in individuals.glob("*.c3d"))
         for key in sorted(pending):

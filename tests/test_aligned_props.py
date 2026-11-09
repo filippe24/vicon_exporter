@@ -12,6 +12,12 @@ from exporter.aligned_props_pipeline import (
 )
 
 
+def staging(root, prefix):
+    """The temporary folder the exporter stages Shogun's files in."""
+    (folder,) = Path(root).glob(f"{prefix}*")
+    return folder
+
+
 class AlignedPropsTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -111,8 +117,8 @@ class AlignedPropsTests(unittest.TestCase):
     def test_successful_overwrite_removes_unused_props(self):
         self.prepare_existing()
 
-        def fake_run(_source, _script, output, _executable):
-            (output.parent / "Coffee cup.c3d").write_text("cropped")
+        def fake_run(_source, _script, _executable):
+            (staging(self.output.parent, "props_") / "Coffee cup.c3d").write_text("cropped")
 
         with patch("exporter.aligned_props_pipeline.run_shogun", side_effect=fake_run):
             self.export(overwrite=True)

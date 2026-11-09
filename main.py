@@ -127,7 +127,6 @@ def _run_shogun_with_bvh_fallback(
         run_shogun(
             mcp_file=mcp_file,
             hsl_file=hsl_file,
-            out_file=None,
             shogun_path=shogun_path,
         )
         return True
@@ -144,7 +143,6 @@ def _run_shogun_with_bvh_fallback(
             run_shogun(
                 mcp_file=mcp_file,
                 hsl_file=static_bvh_hsl_file,
-                out_file=None,
                 shogun_path=shogun_path,
             )
         except ShogunError as static_bvh_error:
@@ -160,7 +158,6 @@ def _run_shogun_with_bvh_fallback(
         run_shogun(
             mcp_file=mcp_file,
             hsl_file=fallback_hsl_file,
-            out_file=None,
             shogun_path=shogun_path,
         )
         print(
@@ -237,7 +234,6 @@ def process_take(
         run_shogun(
             mcp_file=mcp,
             hsl_file=hsl_file,
-            out_file=None,
             shogun_path=shogun_path,
         )
         print(f"     complete extra exports saved under: {export_dir}\n")
@@ -379,7 +375,6 @@ def process_general_retargeting(
     run_shogun(
         mcp_file=mcp_file,
         hsl_file=hsl_file,
-        out_file=None,
         shogun_path=shogun_path,
     )
 
@@ -454,7 +449,6 @@ def process_aligned_export_and_retargeting(
             run_shogun(
                 mcp_file=mcp_file,
                 hsl_file=hsl_file,
-                out_file=None,
                 shogun_path=shogun_path,
             )
         except RuntimeError as error:
