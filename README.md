@@ -11,7 +11,7 @@ Important: this code requires Vicon Shogun Post with `ShogunPostCL.exe`. Set the
 - Runs Shogun Post CL with live streaming output.
 - Generates HSL scripts for each take.
 - Exports actor `.fbx`, `.bvh`, `.c3d`, and `.mcp` files.
-- Runs mannequin, legacy MetaHuman-adjusted, Vicon automatic MetaHuman, and Geeno retarget exports.
+- Runs mannequin, legacy MetaHuman-adjusted, and Geeno retarget exports.
 - Can read aLigner `*.export.yaml` files and export an aligned frame range without overwriting the classic output.
 - Finds take folders recursively from a selected root folder.
 
@@ -31,8 +31,7 @@ uv run main.py
 
 The menu follows three steps: choose a take or batch folder, select outputs,
 and choose Keep or Overwrite. The **Exports** tab groups **Full take** and
-**Aligned take** outputs side by side. The Vicon MetaHuman options share the
-UE5 FBX picker. Eye-tracker extras belong to Standard export; selecting them
+**Aligned take** outputs side by side. Eye-tracker extras belong to Standard export; selecting them
 also selects Standard export. Existing takes in Keep mode receive only missing
 extras. The **Legacy methods** tab contains the older tutorial and saved-VSR
 MetaHuman workflows; its tab shows a count when any are selected. BVH conversion
@@ -211,7 +210,7 @@ uv run main.py --take <take> --take <take> --steps actors,geeno --overwrite
 ```
 
 Steps: `actors`, `props`, `all_props`, `calibration_markers`, `metahuman`,
-`metahuman_vicon`, `geeno`; `--prop-crop first|extremes`.
+`geeno`; `--prop-crop first|extremes`.
 
 ## Data Tree Normalization
 
@@ -268,79 +267,24 @@ describes preparing a retarget setup using `SetupRetargetToUE5Mannequin.hsl`.
 It requires one solved standard Shogun VSS subject and a UE5 MetaHuman or
 Mannequin FBX with the `Character/Retargeting/[Locator]/root/pelvis` hierarchy
 (Mannequin from UE 5.0.3 or later). Prepare and validate that setup in Shogun
-before saving the VSR used for the existing batch exporters. The separate
-Vicon automatic exporter below imports the FBX and creates a fresh setup itself.
+before saving the VSR used by the batch exporters.
 
-## Vicon Automatic MetaHuman Export
-
-The existing tutorial-based adjusted exporter and existing aligned VSR exporter
-remain available. The new **Full-take MetaHuman retarget (Vicon automatic setup)**
-and **Aligned MetaHuman retarget (Vicon automatic setup)** options follow the
-supplied-script method in the Shogun Post 1.21 documentation:
-
-1. Run Classic Export to produce one solved actor MCP per subject.
-2. Use **Choose UE5 Target FBX** to select a MetaHuman or UE5.0.3+ Mannequin FBX.
-   The default is `models/retarget_original_mannequin.fbx`; verify that your chosen
-   FBX meets the documented hierarchy and scale requirements before batch use.
-3. Select the new full-take and/or aligned Vicon option. Aligned export also
-   requires the aLigner export YAML and its referenced actor MCPs.
-4. Choose Keep or Overwrite and run.
-
-Each actor is loaded in a separate Shogun CL process. Actor MCP selected saves
-can still contain multiple subjects, so the generated HSL first isolates the
-subject matching the actor filename prefix (for example `Jam` matches `James`).
-Ambiguous or missing matches abort instead of exporting another actor. Other
-subjects are removed only from the in-memory scene; source MCPs are not modified.
-When an actor MCP is unavailable, the exporter can use `processed.mcp` or the
-original take MCP and isolate the same actor. Actor names can be discovered from
-the existing standard BVH, C3D, or FBX files.
-
-Aligned YAML source paths are resolved against the selected take's
-`exported/actors/` directory, allowing exports to move between PCs, drive letters,
-and operating systems without editing the YAML.
-
-The generated HSL imports
-the target into the current subject's Retargeting setup, registers the installed
-`Scripts/Retargeting` directory, calls `SetupRetargetToUE5Mannequin`, retargets,
-and saves only the target hierarchy to FBX. The installed main script handles
-the DOFs, poses, MetaHuman extra bones, and finger setup. The legacy tutorial's
-forearm/hand DOF edits and additional solve pass are not added to this workflow.
-Aligned output uses each actor's own start/end frames from aLigner.
-
-New outputs are isolated from the existing exporters:
-
-```text
-take/exported/retargeted/metahuman_vicon/<actor>_metahuman_vicon.fbx
-take/aligned_exports/retargeted/metahuman_vicon/<actor>_metahuman_vicon_aligned.fbx
-```
-
-Standalone saved-VSR retargets now also have separate output folders:
+Each full-take retarget method writes to its own folder:
 
 ```text
 take/exported/retargeted/metahuman_legacy/  # adjusted, older tutorial method
 take/exported/retargeted/metahuman_vsr/     # basic mannequin VSR method
-take/exported/retargeted/metahuman_vicon/   # new official automatic setup method
 take/exported/retargeted/geeno/
 ```
 
-Existing exports in `exported/actors/` are left in place. Rerun a selected
-retarget to populate its new directory. Aligned outputs keep the existing
-`aligned_exports/retargeted/metahuman/` and `geeno/` folders alongside the new
-`metahuman_vicon/` folder.
+Retargets read the original take MCP. Aligned YAML source paths are resolved
+against the selected take's `exported/actors/` directory, allowing exports to
+move between PCs, drive letters, and operating systems without editing the YAML.
 
-Generated scripts are saved in `exported/scripts/` or `aligned_exports/scripts/`.
-For these new exports, Keep skips individual existing actor FBXs, so missing
-actors can still be exported. Overwrite replaces an actor's FBX only after a new
-FBX is produced successfully.
-
-`METAHUMAN_VICON_TARGET_FBX` sets the default target in
-`configuration/settings.py`. `METAHUMAN_VICON_SCRIPTS_DIR = None` locates Vicon's
-scripts beside the resolved Shogun executable; set it explicitly for a custom
-installation. Use the scripts supplied with your current Shogun version,
-including their helper scripts. The exporter does not automatically rescale the
-FBX: prepare an appropriately scaled target and validate motion on one take
-in Shogun before exporting a batch. Actual Shogun/animation validation is still
-required; the automated tests cover HSL generation and batch behavior.
+Shogun Post CL (`-old` mode) always writes an output MCP, a full copy of the
+take. The exporter sends it to a temporary folder and deletes it, so no
+`processed.mcp` or `temp_*.mcp` files are left in the take. Ones left by older
+runs are never mistaken for the original take MCP.
 
 The aligned `metahuman` output intentionally uses the basic mannequin retarget path because it is less invasive and has been the more reliable Shogun CL path. The adjusted MetaHuman template is still available from the separate menu option, but it touches the solve skeleton and may fail with Shogun script errors around `setProperty -onMod`.
 

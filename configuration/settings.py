@@ -17,22 +17,13 @@ ALIGNED_REPORTS_FOLDER_NAME = "reports"
 # name of the actors folder inside the export folder.
 ACTORS_FOLDER_NAME = "actors"
 
-# name of the generated HSL file.
-HSL_FILENAME = r"hsl\exporter.hsl"
-
 # name of the processed MCP output.
 PROCESSED_MCP_NAME = "processed.mcp"
-
-# local path to the model.
-LOCAL_PATH_TO_MODEL = Path(r"models\retarget_original_mannequin.fbx")
 
 # exporter template path.
 EXPORTER_TEMPLATE = Path(r"hsl\template.hsl")
 
 # standard retarget template.
-GEENO_RETARGET_TEMPLATE = Path(r"hsl\retarget_geeno_template.hsl")
-OLD_MANNEQUIN_RETARGET_TEMPLATE = Path(r"hsl\retarget_mannequin_template.hsl")
-
 RETARGET_GENERAL_TEMPLATE = Path(r"hsl\retarget_general_template.hsl")
 RETARGET_MANNEQUIN_TEMPLATE_ADJUSTED = Path(
     r"hsl\retarget_mannequin_template_adjusted_for_metahuman.hsl"
@@ -41,9 +32,3 @@ RETARGET_MANNEQUIN_TEMPLATE_ADJUSTED = Path(
 MANNEQUIN_VICON_RETARGET_BASIC = Path(r"models/basic_mannequin.vsr")
 MANNEQUIN_VICON_RETARGET_ADJUSTED = Path(r"models/adjusted_mannequin.vsr")
 GEENO_VICON_RETARGET = Path(r"models/geeno.vsr")
-
-# UE5.0.3+ Mannequin or MetaHuman FBX for Vicon's automatic setup workflow.
-# Set this to a target with root/pelvis and an appropriate scale for the subject.
-METAHUMAN_VICON_TARGET_FBX = LOCAL_PATH_TO_MODEL
-# None uses Scripts/Retargeting beside the resolved ShogunPostCL executable.
-METAHUMAN_VICON_SCRIPTS_DIR: Path | None = None

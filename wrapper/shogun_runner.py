@@ -1,5 +1,6 @@
 import subprocess
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 
 class ShogunError(RuntimeError):
@@ -32,14 +33,23 @@ def resolve_shogun_path(shogun_path: Path) -> Path:
     )
 
 
-def run_shogun(mcp_file: Path, hsl_file: Path, out_file: Path, shogun_path: Path):
+def run_shogun(mcp_file: Path, hsl_file: Path, out_file: Path | None, shogun_path: Path):
+    """Run the HSL script on the MCP. Shogun's -old mode always writes an output MCP: a full copy of the
+    take. Without `out_file` it goes to a temporary folder beside the script and is deleted afterwards."""
+    if out_file is None:
+        with TemporaryDirectory(prefix="shogun_output_", dir=hsl_file.parent) as scratch:
+            _run(mcp_file, hsl_file, Path(scratch) / "discarded.mcp", shogun_path)
+        return
+    _run(mcp_file, hsl_file, out_file, shogun_path)
+
+
+def _run(mcp_file: Path, hsl_file: Path, out_file: Path, shogun_path: Path):
     resolved_shogun_path = resolve_shogun_path(shogun_path)
 
     print("   running Shogun:")
     print(f"     - exe: {resolved_shogun_path}")
     print(f"     - mcp: {mcp_file}")
     print(f"     - hsl: {hsl_file}")
-    print(f"     - out: {out_file}")
 
     cmd = [
         str(resolved_shogun_path),

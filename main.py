@@ -2,7 +2,6 @@
 
 import argparse
 import os
-import shutil
 import sys
 from pathlib import Path
 from tkinter import Tk, filedialog
@@ -11,9 +10,6 @@ from bvh.converter import convert
 from configuration.settings import (
     ACTORS_FOLDER_NAME,
     EXPORT_FOLDER_NAME,
-    GEENO_VICON_RETARGET,
-    METAHUMAN_VICON_SCRIPTS_DIR,
-    METAHUMAN_VICON_TARGET_FBX,
     PROCESSED_MCP_NAME,
     SHOGUN_PATH,
 )
@@ -34,10 +30,7 @@ from exporter.export_pipeline import (
     generate_hsl,
 )
 from exporter.export_status import STEP_BY_KEY, record_step
-from exporter.geeno_retarget_pipeline import generate_geeno_retarget_hsl
 from exporter.general_retarget_pipeline import generate_general_retarget_hsl
-from exporter.mannequin_retarget_pipeline import generate_mannequin_retarget_hsl
-from exporter.metahuman_vicon_pipeline import export_metahuman_vicon_actor
 from ui.menu import UserSelection, open_menu
 from utils.file_search import find_take_folders
 from utils.rename_face_videos import rename_face_videos
@@ -70,12 +63,6 @@ def parse_args():
     parser.add_argument(
         "--prop-crop", choices=("first", "extremes"), default="first"
     )
-    parser.add_argument(
-        "--target-fbx",
-        type=Path,
-        help="UE5 Mannequin or MetaHuman FBX for the Vicon MetaHuman step "
-        "(default: the last one chosen, else settings)",
-    )
     return parser.parse_args()
 
 
@@ -89,8 +76,6 @@ def selection_from_args(args) -> UserSelection:
         setattr(selection, STEP_BY_KEY[key].option, True)
     selection.overwrite = args.overwrite
     selection.prop_crop_policy = args.prop_crop
-    if args.target_fbx is not None:
-        selection.metahuman_vicon_target_fbx = args.target_fbx
     takes = [take.resolve() for take in args.take]
     missing = [str(take) for take in takes if not take.is_dir()]
     if missing:
@@ -132,7 +117,6 @@ def _run_shogun_with_bvh_fallback(
     *,
     mcp_file: Path,
     hsl_file: Path,
-    out_file: Path,
     shogun_path: Path,
     static_bvh_hsl_file: Path,
     static_bvh_hsl_content: str,
@@ -143,7 +127,7 @@ def _run_shogun_with_bvh_fallback(
         run_shogun(
             mcp_file=mcp_file,
             hsl_file=hsl_file,
-            out_file=out_file,
+            out_file=None,
             shogun_path=shogun_path,
         )
         return True
@@ -160,7 +144,7 @@ def _run_shogun_with_bvh_fallback(
             run_shogun(
                 mcp_file=mcp_file,
                 hsl_file=static_bvh_hsl_file,
-                out_file=out_file,
+                out_file=None,
                 shogun_path=shogun_path,
             )
         except ShogunError as static_bvh_error:
@@ -176,7 +160,7 @@ def _run_shogun_with_bvh_fallback(
         run_shogun(
             mcp_file=mcp_file,
             hsl_file=fallback_hsl_file,
-            out_file=out_file,
+            out_file=None,
             shogun_path=shogun_path,
         )
         print(
@@ -198,95 +182,12 @@ def _is_unsupported_bvh_export_error(error: ShogunError) -> bool:
     )
 
 
-def _process_take_legacy(
-    take_dir: Path,
-    shogun_path: Path,
-    force: bool,
-    include_tracking_props: bool = False,
-):
-    processed_file = take_dir / PROCESSED_MCP_NAME
-    if processed_file.exists() and not force:
-        print(f"⏭   skipping {take_dir.name} (already processed).")
-        return
-    export_dir = take_dir / EXPORT_FOLDER_NAME
-    if export_dir.exists() and not force:
-        print(f"  skipping {take_dir.name} (export folder already exists).")
-        return
-
-    if force:
-        if processed_file.exists():
-            processed_file.unlink()
-        if export_dir.exists():
-            shutil.rmtree(export_dir)
-
-    print(f"\n📁 selected folder: {take_dir}.")
-    print("looking for for .mcp file.")
-    mcp: Path = next(take_dir.glob("*.mcp"))
-    print(f"   found: {mcp.name}.")
-
-    print("📂 creating export folders.")
-    # export_dir = take_dir / "exported"
-    export_dir = take_dir / EXPORT_FOLDER_NAME
-    export_dir.mkdir(exist_ok=True)
-    # actors_folder: str = "actors"
-    actors_folder: str = ACTORS_FOLDER_NAME
-    (export_dir / actors_folder).mkdir(exist_ok=True)
-    print("   export folders created.")
-
-    print("generating hsl file.")
-    hsl_content = generate_hsl(
-        export_dir,
-        actors_folder,
-        include_tracking_props=include_tracking_props,
-        include_calibration_markers=(
-            include_tracking_props and _is_calibration_take(take_dir)
-        ),
-    )
-    hsl_file = take_dir / "exporter.hsl"
-    hsl_file.write_text(hsl_content)
-    print(f"   hsl created {hsl_file.name}.")
-
-    out_file = take_dir / PROCESSED_MCP_NAME
-
-    print("running shogun processing.")
-    exported_bvh = _run_shogun_with_bvh_fallback(
-        mcp_file=mcp,
-        hsl_file=hsl_file,
-        out_file=out_file,
-        shogun_path=shogun_path,
-        static_bvh_hsl_file=take_dir / "exporter_static_hands_bvh.hsl",
-        static_bvh_hsl_content=generate_hsl(
-            export_dir,
-            actors_folder,
-            include_tracking_props=include_tracking_props,
-            include_calibration_markers=(
-                include_tracking_props and _is_calibration_take(take_dir)
-            ),
-            static_hand_bvh=True,
-        ),
-        fallback_hsl_file=take_dir / "exporter_without_bvh.hsl",
-        fallback_hsl_content=generate_hsl(
-            export_dir,
-            actors_folder,
-            include_tracking_props=include_tracking_props,
-            include_calibration_markers=(
-                include_tracking_props and _is_calibration_take(take_dir)
-            ),
-            include_bvh=False,
-        ),
-    )
-    if not exported_bvh:
-        print("     complete Output saved without BVH.")
-    print(f"     complete Output saved to: {out_file}\n")
-
-
 def process_take(
     take_dir: Path,
     shogun_path: Path,
     force: bool,
     include_tracking_props: bool = False,
 ):
-    processed_file = take_dir / PROCESSED_MCP_NAME
     export_dir = take_dir / EXPORT_FOLDER_NAME
 
     missing_tracking_prop_exports: list[TrackingPropExport] = []
@@ -298,8 +199,8 @@ def process_take(
             and not (export_dir / "calibration_markers.c3d").exists()
         )
 
-    has_existing_export = processed_file.exists() or (
-        export_dir.exists() and any(path.is_file() for path in export_dir.rglob("*"))
+    has_existing_export = export_dir.exists() and any(
+        path.is_file() for path in export_dir.rglob("*")
     )
     has_missing_extra_exports = bool(
         missing_tracking_prop_exports or missing_calibration_markers
@@ -332,12 +233,11 @@ def process_take(
         hsl_file.write_text(hsl_content)
         print(f"   hsl created {hsl_file.name}.")
 
-        out_file = take_dir / "extra_exports_output.mcp"
         print("running shogun extra export processing.")
         run_shogun(
             mcp_file=mcp,
             hsl_file=hsl_file,
-            out_file=out_file,
+            out_file=None,
             shogun_path=shogun_path,
         )
         print(f"     complete extra exports saved under: {export_dir}\n")
@@ -375,13 +275,10 @@ def process_take(
     hsl_file.write_text(hsl_content)
     print(f"   hsl created {hsl_file.name}.")
 
-    out_file = take_dir / PROCESSED_MCP_NAME
-
     print("running shogun processing.")
     exported_bvh = _run_shogun_with_bvh_fallback(
         mcp_file=mcp,
         hsl_file=hsl_file,
-        out_file=out_file,
         shogun_path=shogun_path,
         static_bvh_hsl_file=take_dir / "exporter_static_hands_bvh.hsl",
         static_bvh_hsl_content=generate_hsl(
@@ -408,115 +305,7 @@ def process_take(
     )
     if not exported_bvh:
         print("     complete Output saved without BVH.")
-    print(f"     complete Output saved to: {out_file}\n")
-
-
-def process_mannequin_retargeting(take_dir: Path, shogun_path: Path):
-    print(f"\n🎯 mannequin retargeting: {take_dir}")
-
-    export_dir = take_dir / EXPORT_FOLDER_NAME / ACTORS_FOLDER_NAME
-
-    # find all actor .mcp files
-    actor_mocaps = list(export_dir.glob("*.mcp"))
-    if not actor_mocaps:
-        print("   ⚠ no actor .mcp files found, skipping.")
-        return
-
-    # create retarget folder.
-    retarget_dir = take_dir / EXPORT_FOLDER_NAME / "retargeted"
-    retarget_dir.mkdir(exist_ok=True)
-
-    for actor_mcp in actor_mocaps:
-        print(f"   ▶ retargeting actor: {actor_mcp.name}")
-
-        # generate retarget HSL.
-        hsl_content = generate_mannequin_retarget_hsl(
-            actor_source_path=actor_mcp,
-            output_path=retarget_dir,
-        )
-
-        hsl_file = take_dir / f"retarget_{actor_mcp.stem}.hsl"
-        hsl_file.write_text(hsl_content)
-
-        out_file = retarget_dir / f"{actor_mcp.stem}_retargeted.mcp"
-
-        run_shogun(
-            mcp_file=actor_mcp,
-            hsl_file=hsl_file,
-            out_file=out_file,
-            shogun_path=shogun_path,
-        )
-
-
-def process_geeno_retargeting(take_dir: Path, shogun_path: Path, force: bool):
-    print(f"\n🤖 Geeno retargeting: {take_dir}")
-
-    # ---------------------------------------------------------
-    # 1. Determine which MCP to use (processed > original)
-    # ---------------------------------------------------------
-    processed_mcp = take_dir / PROCESSED_MCP_NAME
-    original_mcp = _find_original_take_mcp(take_dir)
-
-    if processed_mcp.exists():
-        mcp_file = processed_mcp
-    elif original_mcp is not None:
-        mcp_file = original_mcp
-    else:
-        print("   ⚠ No MCP file found, skipping.")
-        return
-
-    print(f"   • Using MCP: {mcp_file.name}")
-
-    # ---------------------------------------------------------
-    # 2. Output folder is ALWAYS exported/actors (no geeno folder)
-    # ---------------------------------------------------------
-    export_root = take_dir / EXPORT_FOLDER_NAME
-    actors_dir = export_root / ACTORS_FOLDER_NAME
-
-    if not actors_dir.exists():
-        print(f"   ⚠ Actors folder missing: {actors_dir}")
-        return
-
-    # ---------------------------------------------------------
-    # 3. Load the VSR retarget file from project root
-    # ---------------------------------------------------------
-    project_root = Path(__file__).resolve().parents[0]  # vicon_exporter/
-    retarget_vsr = project_root / GEENO_VICON_RETARGET
-
-    if not retarget_vsr.exists():
-        print(f"   ❌ ERROR: Geeno retarget VSR not found at: {retarget_vsr}")
-        return
-
-    print(f"   • Using retargeter: {retarget_vsr}")
-
-    # ---------------------------------------------------------
-    # 4. Generate HSL (EXPORT_DIR must be exported/)
-    # ---------------------------------------------------------
-    hsl_content = generate_geeno_retarget_hsl(
-        output_path=export_root,
-        retarget_vsr_file_path=retarget_vsr,
-        actors_output_folder=ACTORS_FOLDER_NAME,
-    )
-    print(hsl_content)
-    hsl_file = take_dir / "geeno_retarget.hsl"
-    hsl_file.write_text(hsl_content)
-
-    # ---------------------------------------------------------
-    # 5. Run Shogun retargeting
-    #    NOTE: Output MCP is NOT needed; Shogun will generate
-    #    FBX/BVH directly into exported/actors/
-    # ---------------------------------------------------------
-    dummy_output_mcp = take_dir / "geeno_dummy_output.mcp"
-
-    print("   • Running Shogun retargeting...")
-    run_shogun(
-        mcp_file=mcp_file,
-        hsl_file=hsl_file,
-        out_file=dummy_output_mcp,
-        shogun_path=shogun_path,
-    )
-
-    print(f"   ✔ Geeno retarget complete → actors written to {actors_dir}")
+    print(f"     complete Output saved to: {export_dir}\n")
 
 
 def process_general_retargeting(
@@ -530,16 +319,10 @@ def process_general_retargeting(
     print(f"\n🤖  retargeting ({configuration.name}): {take_dir}")
 
     # -----------------------------------------------------
-    # 1.determine which MCP to use (processed > original).
+    # 1. the original take MCP.
     # -----------------------------------------------------
-    processed_mcp = take_dir / PROCESSED_MCP_NAME
-    original_mcp = _find_original_take_mcp(take_dir)
-
-    if processed_mcp.exists():
-        mcp_file = processed_mcp
-    elif original_mcp is not None:
-        mcp_file = original_mcp
-    else:
+    mcp_file = _find_original_take_mcp(take_dir)
+    if mcp_file is None:
         print("   ⚠ no MCP file found, skipping.")
         return
 
@@ -589,102 +372,20 @@ def process_general_retargeting(
     hsl_file.write_text(hsl_content)
 
     # ---------------------------------------------------------
-    # 5. Run Shogun retargeting
-    #    NOTE: Output MCP is NOT needed; Shogun will generate
-    #    FBX directly into this method's output folder.
+    # 5. Run Shogun retargeting: FBX goes directly into this
+    #    method's output folder.
     # ---------------------------------------------------------
-    dummy_output_mcp = take_dir / f"temp_{configuration.output_name}_output.mcp"
-
     print("   • Running Shogun retargeting...")
     run_shogun(
         mcp_file=mcp_file,
         hsl_file=hsl_file,
-        out_file=dummy_output_mcp,
+        out_file=None,
         shogun_path=shogun_path,
     )
 
     print(
         f"   ✔ {configuration.output_name} retarget complete → actors written to {actors_dir}"
     )
-
-
-def process_metahuman_vicon_retargeting(
-    take_dir: Path,
-    shogun_path: Path,
-    *,
-    target_fbx: Path = METAHUMAN_VICON_TARGET_FBX,
-    aligned: bool = False,
-    overwrite: bool = False,
-):
-    mode = "aligned" if aligned else "full take"
-    print(f"\nVicon automatic MetaHuman retarget ({mode}): {take_dir}")
-    if aligned:
-        plan = load_aligned_export_plan(take_dir)
-        if plan is None:
-            return
-        actors = [
-            (
-                entry.source_mcp_path,
-                entry.actor_prefix,
-                (entry.start_frame, entry.end_frame),
-            )
-            for entry in plan.mocap_entries
-        ]
-        output_dir = plan.retargeted_dir / "metahuman_vicon"
-        scripts_dir = plan.scripts_dir
-    else:
-        export_root = take_dir / EXPORT_FOLDER_NAME
-        actor_sources = {
-            path.stem: path.with_suffix(".mcp")
-            for extension in ("fbx", "c3d", "bvh")
-            for path in sorted(
-                (export_root / ACTORS_FOLDER_NAME).glob(f"*_.{extension}")
-            )
-        }
-        actor_sources.update(
-            {
-                path.stem: path
-                for path in sorted((export_root / ACTORS_FOLDER_NAME).glob("*_.mcp"))
-            }
-        )
-        actors = [
-            (path, path.stem.removesuffix("_"), None) for path in actor_sources.values()
-        ]
-        output_dir = export_root / "retargeted" / "metahuman_vicon"
-        scripts_dir = export_root / "scripts"
-    if not actors:
-        print("   no actor MCP sources found; run classic export first.")
-        return
-    # Existing outputs are kept unless overwriting; only a fresh export is recorded as current.
-    fresh = overwrite or not (output_dir.exists() and any(output_dir.iterdir()))
-    failed = False
-    for actor_mcp, actor_name, frame_range in actors:
-        if not actor_mcp.is_file():
-            fallback = _find_retarget_source_mcp(take_dir)
-            if fallback is not None:
-                print(
-                    f"   actor MCP missing; isolating {actor_name} from {fallback.name}"
-                )
-                actor_mcp = fallback
-        try:
-            export_metahuman_vicon_actor(
-                actor_mcp=actor_mcp,
-                actor_name=actor_name,
-                target_fbx=target_fbx,
-                scripts_dir=METAHUMAN_VICON_SCRIPTS_DIR,
-                output_dir=output_dir,
-                generated_scripts_dir=scripts_dir,
-                shogun_path=shogun_path,
-                frame_range=frame_range,
-                overwrite=overwrite,
-            )
-        except (OSError, RuntimeError, ValueError) as error:
-            failed = True
-            print(
-                f"   warning: Vicon MetaHuman export failed for {actor_name}: {error}"
-            )
-    if aligned and fresh and not failed:
-        record_step(take_dir, "metahuman_vicon")
 
 
 def process_aligned_export_and_retargeting(
@@ -702,7 +403,7 @@ def process_aligned_export_and_retargeting(
     if plan is None:
         return
 
-    mcp_file = _find_retarget_source_mcp(take_dir)
+    mcp_file = _find_original_take_mcp(take_dir)
     if mcp_file is None:
         print("   warning: no MCP file found, skipping.")
         return
@@ -753,7 +454,7 @@ def process_aligned_export_and_retargeting(
             run_shogun(
                 mcp_file=mcp_file,
                 hsl_file=hsl_file,
-                out_file=plan.output_root / f"temp_{folder_name}_aligned_output.mcp",
+                out_file=None,
                 shogun_path=shogun_path,
             )
         except RuntimeError as error:
@@ -771,13 +472,11 @@ def process_aligned_export_and_retargeting(
 def _export_aligned_standard(plan, mcp_file: Path, shogun_path: Path):
     actor_hsl = plan.scripts_dir / "aligned_export_all_actors.hsl"
     actor_hsl.write_text(generate_aligned_actor_export_hsl(plan))
-    actor_output_mcp = plan.output_root / "aligned_actor_export_output.mcp"
 
     print("   exporting cropped aligned actor files...")
     _run_shogun_with_bvh_fallback(
         mcp_file=mcp_file,
         hsl_file=actor_hsl,
-        out_file=actor_output_mcp,
         shogun_path=shogun_path,
         static_bvh_hsl_file=(
             plan.scripts_dir / "aligned_export_all_actors_static_hands_bvh.hsl"
@@ -793,119 +492,6 @@ def _export_aligned_standard(plan, mcp_file: Path, shogun_path: Path):
             include_bvh=False,
         ),
     )
-
-
-def _export_aligned_actor_mcps(
-    *,
-    plan,
-    take_dir: Path,
-    shogun_path: Path,
-) -> list[Path]:
-    aligned_actor_mcps: list[Path] = []
-
-    print("   exporting cropped aligned actor files...")
-    for actor_entry in plan.mocap_entries:
-        actor_source_mcp = actor_entry.source_mcp_path
-        if not actor_source_mcp.exists():
-            print(
-                f"   warning: actor MCP missing for {actor_entry.actor_prefix}, "
-                f"expected: {actor_source_mcp}"
-            )
-            continue
-
-        hsl_file = plan.scripts_dir / f"aligned_export_{actor_entry.actor_prefix}.hsl"
-        hsl_file.write_text(generate_aligned_actor_export_hsl(plan, actor_entry))
-        actor_output_mcp = (
-            plan.output_root / f"temp_{actor_entry.actor_prefix}_aligned_output.mcp"
-        )
-
-        print(
-            f"   exporting {actor_entry.actor_prefix}: "
-            f"{actor_entry.start_frame} -> {actor_entry.end_frame}"
-        )
-        _run_shogun_with_bvh_fallback(
-            mcp_file=actor_source_mcp,
-            hsl_file=hsl_file,
-            out_file=actor_output_mcp,
-            shogun_path=shogun_path,
-            static_bvh_hsl_file=(
-                plan.scripts_dir
-                / f"aligned_export_{actor_entry.actor_prefix}_static_hands_bvh.hsl"
-            ),
-            static_bvh_hsl_content=generate_aligned_actor_export_hsl(
-                plan,
-                actor_entry,
-                static_hand_bvh=True,
-            ),
-            fallback_hsl_file=(
-                plan.scripts_dir
-                / f"aligned_export_{actor_entry.actor_prefix}_without_bvh.hsl"
-            ),
-            fallback_hsl_content=generate_aligned_actor_export_hsl(
-                plan,
-                actor_entry,
-                include_bvh=False,
-            ),
-        )
-
-        aligned_actor_mcp = plan.actors_dir / f"{actor_entry.actor_prefix}_aligned.mcp"
-        if aligned_actor_mcp.exists():
-            aligned_actor_mcps.append(aligned_actor_mcp)
-        else:
-            matching_outputs = sorted(
-                plan.actors_dir.glob(f"{actor_entry.actor_prefix[:3]}*_aligned.mcp")
-            )
-            if matching_outputs:
-                aligned_actor_mcps.extend(matching_outputs)
-            else:
-                print(
-                    f"   warning: aligned MCP was not found for "
-                    f"{actor_entry.actor_prefix}"
-                )
-
-    if aligned_actor_mcps:
-        return sorted(set(aligned_actor_mcps))
-
-    fallback_mcp = _find_retarget_source_mcp(take_dir)
-    if fallback_mcp is None:
-        print("   warning: no fallback MCP file found.")
-        return []
-
-    print(
-        "   warning: no per-actor MCP sources were found; "
-        "falling back to the full take MCP."
-    )
-    hsl_file = plan.scripts_dir / "aligned_export_all_actors.hsl"
-    hsl_file.write_text(generate_aligned_actor_export_hsl(plan))
-    actor_output_mcp = plan.output_root / "aligned_actor_export_output.mcp"
-    _run_shogun_with_bvh_fallback(
-        mcp_file=fallback_mcp,
-        hsl_file=hsl_file,
-        out_file=actor_output_mcp,
-        shogun_path=shogun_path,
-        static_bvh_hsl_file=(
-            plan.scripts_dir / "aligned_export_all_actors_static_hands_bvh.hsl"
-        ),
-        static_bvh_hsl_content=generate_aligned_actor_export_hsl(
-            plan,
-            static_hand_bvh=True,
-        ),
-        fallback_hsl_file=plan.scripts_dir
-        / "aligned_export_all_actors_without_bvh.hsl",
-        fallback_hsl_content=generate_aligned_actor_export_hsl(
-            plan,
-            include_bvh=False,
-        ),
-    )
-    return sorted(plan.actors_dir.glob("*_aligned.mcp"))
-
-
-def _find_retarget_source_mcp(take_dir: Path) -> Path | None:
-    processed_mcp = take_dir / PROCESSED_MCP_NAME
-    if processed_mcp.exists():
-        return processed_mcp
-
-    return _find_original_take_mcp(take_dir)
 
 
 def _find_original_take_mcp(take_dir: Path) -> Path | None:
@@ -913,6 +499,7 @@ def _find_original_take_mcp(take_dir: Path) -> Path | None:
         PROCESSED_MCP_NAME,
         "extra_exports_output.mcp",
         "geeno_dummy_output.mcp",
+        "aligned_actor_export_output.mcp",
     }
     original_mcps = [
         path
@@ -1000,12 +587,6 @@ if __name__ == "__main__":
     export_aligned_props = batch.track(export_aligned_props, "Aligned individual props")
     export_aligned_scene_extras = batch.track(
         export_aligned_scene_extras, "Aligned scene extras"
-    )
-    process_metahuman_vicon_retargeting = batch.track(
-        process_metahuman_vicon_retargeting,
-        lambda kw: (
-            "Aligned Vicon MetaHuman" if kw.get("aligned") else "Full Vicon MetaHuman"
-        ),
     )
     process_bvh = batch.track(process_bvh, "BVH conversion")
     process_face_videos = batch.track(process_face_videos, "Face video renaming")
@@ -1117,24 +698,6 @@ if __name__ == "__main__":
                 batch.record_failure(take_dir, "Aligned props setup", error)
 
     # Run BVH conversion
-    if selection.run_metahuman_vicon or selection.run_aligned_metahuman_vicon:
-        for curr_take_directry in take_folders:
-            for aligned in (False, True):
-                enabled = (
-                    selection.run_aligned_metahuman_vicon
-                    if aligned
-                    else selection.run_metahuman_vicon
-                )
-                if enabled:
-                    process_metahuman_vicon_retargeting(
-                        take_dir=curr_take_directry,
-                        shogun_path=SHOGUN_PATH,
-                        target_fbx=selection.metahuman_vicon_target_fbx,
-                        aligned=aligned,
-                        overwrite=selection.overwrite,
-                    )
-
-    # Run BVH conversion
     if selection.run_convert_bvh:
         print("\n🔄 Converting all BVH files in folder...")
         process_bvh(selection.folder)
@@ -1149,16 +712,3 @@ if __name__ == "__main__":
             print(f"   warning: {warning}")
     batch.finish()
     print("\nBatch finished.")
-
-    # for take_directory in main_folder.iterdir():
-    #     if take_directory.is_dir():
-    #         process_take(take_dir=take_directory, shogun_path=shogun_path)
-
-    # process_take(take_dir=main_folder, shogun_path=shogun_path)
-
-    # # later on for all the take.
-    # root = Path("recordingDate")
-
-    # for take in root.iterdir():
-    #     if take.is_dir():
-    #         process_take(take)

@@ -55,7 +55,6 @@ STEPS = (
     Step("all_props", "All props C3D", "props", "run_aligned_combined_props"),
     Step("calibration_markers", "Unlabeled markers", "props", "run_aligned_calibration_markers", calibration_only=True),
     Step("metahuman", "MetaHuman", "actors", "run_aligned_metahuman"),
-    Step("metahuman_vicon", "Vicon MetaHuman", "actors", "run_aligned_metahuman_vicon"),
     Step("geeno", "Geeno", "actors", "run_aligned_geeno"),
 )
 STEP_BY_KEY = {step.key: step for step in STEPS}

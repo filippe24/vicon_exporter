@@ -20,9 +20,6 @@ class UserSelection:
         self.run_aligned_calibration_markers: bool = False
         self.prop_crop_policy: str = "first"
         self.run_aligned_metahuman: bool = False
-        self.run_aligned_metahuman_vicon: bool = False
-        self.run_metahuman_vicon: bool = False
-        self.metahuman_vicon_target_fbx: Path = preferences.target_fbx()
         self.run_aligned_geeno: bool = False
         self.overwrite: bool = False
         self.run_convert_bvh: bool = False
@@ -89,8 +86,6 @@ def open_menu():
         "run_aligned_combined_props",
         "run_aligned_calibration_markers",
         "run_aligned_metahuman",
-        "run_aligned_metahuman_vicon",
-        "run_metahuman_vicon",
         "run_aligned_geeno",
         "run_convert_bvh",
         "run_rename_face_videos",
@@ -159,8 +154,6 @@ def open_menu():
         "Selects Standard export. Keep adds missing extras. Free markers: calibration folders only.",
         320,
     )
-    check(full, "MetaHuman · Vicon automatic setup", "run_metahuman_vicon")
-    hint(full, "Uses the UE5 target FBX selected below.")
     check(full, "Geeno retarget", "run_geeno_retarget")
 
     hint(
@@ -189,33 +182,11 @@ def open_menu():
         state="readonly",
         values=("First C3D", "Earliest start / latest end"),
     ).pack(anchor="w", fill="x")
-    check(aligned, "MetaHuman · Vicon automatic setup", "run_aligned_metahuman_vicon")
     check(aligned, "Geeno retarget", "run_aligned_geeno")
     hint(
         aligned,
         "Choose either retarget independently, or combine with Standard export. Outputs → aligned_exports/retargeted/",
     )
-
-    target = ttk.LabelFrame(
-        exports, text="UE5 target · shared by both Vicon MetaHuman exports", padding=10
-    )
-    target.pack(fill="x", pady=(12, 0))
-    target_text = StringVar(value=str(selection.metahuman_vicon_target_fbx))
-
-    def choose_target():
-        filename = filedialog.askopenfilename(
-            title="Select UE5 Mannequin or MetaHuman FBX",
-            filetypes=[("FBX skeleton", "*.fbx")],
-            initialdir=preferences.fbx_dialog_start(),
-        )
-        if filename:
-            selection.metahuman_vicon_target_fbx = Path(filename)
-            target_text.set(filename)
-            preferences.remember_target_fbx(filename)
-
-    target_button = ttk.Button(target, text="Choose FBX…", command=choose_target)
-    target_button.pack(side="right", padx=(10, 0))
-    ttk.Entry(target, textvariable=target_text, state="readonly").pack(fill="x")
 
     ttk.Label(
         legacy,
@@ -224,7 +195,7 @@ def open_menu():
     ).pack(anchor="w")
     hint(
         legacy,
-        "These use saved retarget setups. They do not use the UE5 target FBX above. Select them only when you want the older method; they can run alongside the new exporter.",
+        "These use saved retarget setups. Select them only when you want the older method.",
         740,
     )
     old_full = ttk.LabelFrame(legacy, text="Full take · saved setups", padding=10)
@@ -266,7 +237,7 @@ def open_menu():
     ).pack(side="left", padx=20)
     ttk.Label(
         body,
-        text="Keep skips existing output groups; Vicon MetaHuman keeps each actor FBX. This choice applies to exports.",
+        text="Keep skips existing output groups. This choice applies to exports.",
         style="Hint.TLabel",
         wraplength=780,
     ).pack(anchor="w")
@@ -293,12 +264,6 @@ def open_menu():
             text=f"Legacy methods ({legacy_count})"
             if legacy_count
             else "Legacy methods",
-        )
-        target_button.configure(
-            state="normal"
-            if variables["run_metahuman_vicon"].get()
-            or variables["run_aligned_metahuman_vicon"].get()
-            else "disabled"
         )
 
     for variable in variables.values():

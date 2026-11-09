@@ -301,11 +301,9 @@ class StatusBrowser:
         ExportDialog(self.root, takes, self.run_export)
 
     def run_export(
-        self, takes: list[TakeStatus], steps: list[str], overwrite: bool, crop: str, target_fbx: Path
+        self, takes: list[TakeStatus], steps: list[str], overwrite: bool, crop: str
     ):
         arguments = [sys.executable, str(MAIN_SCRIPT), "--steps", ",".join(steps), "--prop-crop", crop]
-        if "metahuman_vicon" in steps:
-            arguments += ["--target-fbx", str(target_fbx)]
         if overwrite:
             arguments.append("--overwrite")
         for take in takes:
@@ -403,57 +401,20 @@ class ExportDialog:
         self.crop = ttk.Combobox(crop, state="readonly", values=("first", "extremes"), width=12)
         self.crop.current(0)
         self.crop.pack(side="left", padx=6)
-        self.target_fbx = preferences.target_fbx()
-        self.target_text = StringVar(value=str(self.target_fbx))
-        target = ttk.LabelFrame(body, text="UE5 target FBX · Vicon MetaHuman", padding=8)
-        target.pack(fill="x", pady=(10, 0))
-        self.target_button = ttk.Button(target, text="Choose FBX…", command=self.choose_target)
-        self.target_button.pack(side="right", padx=(8, 0))
-        ttk.Entry(target, textvariable=self.target_text, state="readonly", width=48).pack(
-            fill="x", expand=True
-        )
-        vicon = self.choices.get("metahuman_vicon")
-        if vicon is None:
-            self.target_button.configure(state="disabled")
-        else:
-            vicon.trace_add("write", lambda *_: self._update_target())
-            self._update_target()
         buttons = ttk.Frame(body)
         buttons.pack(fill="x", pady=(14, 0))
         ttk.Button(buttons, text="Run export", command=self.confirm).pack(side="right")
         ttk.Button(buttons, text="Cancel", command=self.window.destroy).pack(side="right", padx=6)
-
-    def _update_target(self):
-        enabled = self.choices["metahuman_vicon"].get()
-        self.target_button.configure(state="normal" if enabled else "disabled")
-
-    def choose_target(self):
-        filename = filedialog.askopenfilename(
-            parent=self.window,
-            title="Select UE5 Mannequin or MetaHuman FBX",
-            filetypes=[("FBX skeleton", "*.fbx")],
-            initialdir=preferences.fbx_dialog_start(),
-        )
-        if filename:
-            self.target_fbx = Path(filename)
-            self.target_text.set(filename)
-            preferences.remember_target_fbx(filename)
 
     def confirm(self):
         steps = [key for key, variable in self.choices.items() if variable.get()]
         if not steps:
             messagebox.showinfo("Choose steps", "Select at least one step.", parent=self.window)
             return
-        target = self.target_fbx if self.target_fbx.is_absolute() else MAIN_SCRIPT.parent / self.target_fbx
-        if "metahuman_vicon" in steps and not target.is_file():
-            messagebox.showinfo(
-                "Choose a target FBX", f"Target FBX not found:\n{target}", parent=self.window
-            )
-            return
         # Read widget values before destroying the window that owns them.
         overwrite, crop = self.overwrite.get(), self.crop.get()
         self.window.destroy()
-        self.run(self.takes, steps, overwrite, crop, target)
+        self.run(self.takes, steps, overwrite, crop)
 
 
 def open_status_browser(folder: Path | None = None):

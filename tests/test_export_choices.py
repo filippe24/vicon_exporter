@@ -4,7 +4,11 @@ from pathlib import Path
 from unittest.mock import patch
 
 from exporter.aligned_export_pipeline import AlignedExportPlan
-from main import _find_original_take_mcp, process_aligned_export_and_retargeting, process_take
+from main import (
+    _find_original_take_mcp,
+    process_aligned_export_and_retargeting,
+    process_take,
+)
 
 
 class ExportChoiceTests(unittest.TestCase):
@@ -23,7 +27,7 @@ class ExportChoiceTests(unittest.TestCase):
     def run_export(self, **choices):
         with (
             patch("main.load_aligned_export_plan", return_value=self.plan),
-            patch("main._find_retarget_source_mcp", return_value=self.source),
+            patch("main._find_original_take_mcp", return_value=self.source),
             patch("main._export_aligned_standard") as standard,
             patch("main.run_shogun") as shogun,
         ):

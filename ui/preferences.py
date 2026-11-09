@@ -1,14 +1,11 @@
 """Choices remembered between runs, stored per user outside the repository.
 
-Folder and FBX pickers each keep their own last location, so choosing a target
-FBX no longer moves where the take folder dialog opens (and the other way round).
+The last dataset folder, where the folder dialogs open.
 """
 
 import json
 import os
 from pathlib import Path
-
-from configuration.settings import METAHUMAN_VICON_TARGET_FBX
 
 _BASE = Path(os.environ.get("APPDATA") or Path.home() / ".config")
 PREFERENCES_FILE = _BASE / "vicon_exporter" / "preferences.json"
@@ -47,20 +44,6 @@ def remember_dataset_folder(folder: Path | str):
     _save("dataset_folder", str(folder))
 
 
-def target_fbx() -> Path:
-    """The last chosen UE5 target FBX, or the configured default."""
-    return _existing("target_fbx", Path.is_file) or METAHUMAN_VICON_TARGET_FBX
-
-
-def remember_target_fbx(path: Path | str):
-    _save("target_fbx", str(path))
-
-
 def dataset_dialog_start() -> str | None:
     folder = last_dataset_folder()
     return str(folder) if folder else None
-
-
-def fbx_dialog_start() -> str | None:
-    path = target_fbx().resolve()
-    return str(path.parent) if path.parent.is_dir() else None
