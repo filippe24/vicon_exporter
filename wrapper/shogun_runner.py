@@ -3,7 +3,7 @@ import time
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from configuration.settings import SHOGUN_MODE
+from configuration import settings
 
 
 class ShogunError(RuntimeError):
@@ -36,12 +36,14 @@ def resolve_shogun_path(shogun_path: Path) -> Path:
     )
 
 
-def run_shogun(mcp_file: Path, hsl_file: Path, shogun_path: Path, mode: str = SHOGUN_MODE):
+def run_shogun(mcp_file: Path, hsl_file: Path, shogun_path: Path, mode: str | None = None):
     """Run the HSL script on the take MCP and print how long Shogun took.
 
     "runscript": a copy of the script that first loads the take runs with -runScript; nothing else is written.
     "old": -old mode also writes a full copy of the take, which takes about as long as loading it. That copy
-    goes to a temporary folder beside the script and is deleted. Kept to compare timings."""
+    goes to a temporary folder beside the script and is deleted. Kept to compare timings.
+    Without `mode`, SHOGUN_MODE from the settings (main.py --shogun-mode overrides it)."""
+    mode = mode or settings.SHOGUN_MODE
     if mode == "runscript":
         script = hsl_file.with_suffix(".runscript.hsl")
         script.write_text(f'loadFile "{mcp_file.as_posix()}";\n' + hsl_file.read_text())

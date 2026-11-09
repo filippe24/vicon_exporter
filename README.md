@@ -209,8 +209,27 @@ the command line without the menu:
 uv run main.py --take <take> --take <take> --steps actors,geeno --overwrite
 ```
 
-Steps: `actors`, `props`, `all_props`, `calibration_markers`, `metahuman`,
-`geeno`; `--prop-crop first|extremes`.
+Steps: `original` (the full-range export aLigner reads, with eye trackers and
+calibration markers), then the aligned `actors`, `props`, `all_props`,
+`calibration_markers`, `metahuman`, `geeno`; `--prop-crop first|extremes`.
+`--shogun-mode runscript|old` overrides `SHOGUN_MODE` for one run, and
+`--report <file>` sets where the batch results JSON goes.
+
+### Timing the export
+
+`tools/time_export.py` runs the chosen steps on one take with Overwrite, once per
+Shogun mode, prints the seconds of every step side by side, and checks that both
+modes wrote the same files with the same sizes:
+
+```powershell
+uv run python tools/time_export.py --take D:/copy/take --steps original,actors,props,metahuman
+```
+
+It replaces the take's exports, so run it on a copy of the take. The table, the
+two batch reports and the file comparison are saved in
+`take/.vicon_exporter_reports/timing_<date>/`. `--modes runscript,old` swaps the
+order; the second run can be faster only because Windows still has the take
+file in memory.
 
 ## Data Tree Normalization
 
@@ -322,6 +341,7 @@ vicon_exporter/
   models/
   ui/
   utils/
+  tools/
   wrapper/
   main.py
   pyproject.toml

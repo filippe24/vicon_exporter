@@ -28,8 +28,10 @@ class _Tee(io.StringIO):
 
 
 class BatchReport:
-    def __init__(self, root: Path):
+    def __init__(self, root: Path, path: Path | None = None):
+        """`path`: where finish() writes the JSON; by default a new file in root/.vicon_exporter_reports/."""
         self.root = root
+        self.path = path
         self.rows = []
 
     def track(self, function, label):
@@ -140,8 +142,7 @@ class BatchReport:
             print(f"  {row['status']:7} | {take} | {row['operation']}{timing}")
             if row["detail"]:
                 print(f"            {row['detail'][0]}")
-        destination = self.root / ".vicon_exporter_reports"
-        destination.mkdir(parents=True, exist_ok=True)
-        path = destination / f"batch_{datetime.now():%Y%m%d_%H%M%S_%f}.json"
+        path = self.path or self.root / ".vicon_exporter_reports" / f"batch_{datetime.now():%Y%m%d_%H%M%S_%f}.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(self.rows, indent=2), encoding="utf-8")
         print(f"  Detailed results: {path}")

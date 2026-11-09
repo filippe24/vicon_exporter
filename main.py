@@ -7,6 +7,7 @@ from pathlib import Path
 from tkinter import Tk, filedialog
 
 from bvh.converter import convert
+from configuration import settings
 from configuration.settings import (
     ACTORS_FOLDER_NAME,
     EXPORT_FOLDER_NAME,
@@ -36,6 +37,9 @@ from utils.file_search import find_take_folders
 from utils.rename_face_videos import rename_face_videos
 from wrapper.shogun_runner import ShogunError, run_shogun
 
+# The full-range export that aLigner reads (phase 1).
+ORIGINAL_STEP = "original"
+
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -52,7 +56,8 @@ def parse_args():
     parser.add_argument(
         "--steps",
         default="",
-        help="comma-separated aligned steps: " + ", ".join(STEP_BY_KEY),
+        help="comma-separated steps: original (the full-range export aLigner reads, with eye trackers "
+        "and calibration markers), then the aligned steps " + ", ".join(STEP_BY_KEY),
     )
     parser.add_argument(
         "-f",
@@ -63,17 +68,30 @@ def parse_args():
     parser.add_argument(
         "--prop-crop", choices=("first", "extremes"), default="first"
     )
+    parser.add_argument(
+        "--shogun-mode",
+        choices=("runscript", "old"),
+        help="how ShogunPostCL runs scripts (default: SHOGUN_MODE in configuration/settings.py)",
+    )
+    parser.add_argument(
+        "--report", type=Path, help="write the batch results JSON to this file"
+    )
     return parser.parse_args()
 
 
 def selection_from_args(args) -> UserSelection:
     selection = UserSelection()
     steps = [key.strip() for key in args.steps.split(",") if key.strip()]
-    unknown = [key for key in steps if key not in STEP_BY_KEY]
+    unknown = [key for key in steps if key != ORIGINAL_STEP and key not in STEP_BY_KEY]
     if unknown or not steps:
-        sys.exit(f"Choose --steps from {', '.join(STEP_BY_KEY)} (got {args.steps!r}).")
+        sys.exit(
+            f"Choose --steps from {', '.join([ORIGINAL_STEP, *STEP_BY_KEY])} (got {args.steps!r})."
+        )
     for key in steps:
-        setattr(selection, STEP_BY_KEY[key].option, True)
+        if key == ORIGINAL_STEP:
+            selection.run_export = selection.include_tracking_props = True
+        else:
+            setattr(selection, STEP_BY_KEY[key].option, True)
     selection.overwrite = args.overwrite
     selection.prop_crop_policy = args.prop_crop
     takes = [take.resolve() for take in args.take]
@@ -541,6 +559,8 @@ def process_face_videos(take_folders):
 if __name__ == "__main__":
     print_pyramid()
     args = parse_args()
+    if args.shogun_mode:
+        settings.SHOGUN_MODE = args.shogun_mode
 
     if args.take:
         selection = selection_from_args(args)
@@ -563,7 +583,7 @@ if __name__ == "__main__":
         take_folders = find_take_folders(selection.folder)
     from utils.batch_report import BatchReport
 
-    batch = BatchReport(selection.folder)
+    batch = BatchReport(selection.folder, args.report)
     process_take = batch.track(process_take, "Full actor export")
     process_general_retargeting = batch.track(
         process_general_retargeting, lambda kw: f"Retarget {kw.get('retarget_type')}"
