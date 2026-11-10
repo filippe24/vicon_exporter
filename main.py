@@ -30,7 +30,7 @@ from exporter.export_pipeline import (
     generate_extra_exports_hsl,
     generate_hsl,
 )
-from exporter.export_status import STEP_BY_KEY, record_step
+from exporter.export_status import STEP_BY_KEY, record_attempt, record_step
 from exporter.general_retarget_pipeline import generate_general_retarget_hsl
 from ui.menu import UserSelection, open_menu
 from utils.file_search import find_take_folders
@@ -76,6 +76,12 @@ def parse_args():
     parser.add_argument(
         "--report", type=Path, help="write the batch results JSON to this file"
     )
+    parser.add_argument(
+        "--progress",
+        type=Path,
+        help="append a JSON line when each step starts and ends (the status window reads it); "
+        "creating <progress>.stop skips the remaining steps",
+    )
     return parser.parse_args()
 
 
@@ -100,6 +106,13 @@ def selection_from_args(args) -> UserSelection:
         sys.exit("Take folders not found:\n" + "\n".join(missing))
     selection.folder = Path(os.path.commonpath(takes)) if len(takes) > 1 else takes[0]
     return selection
+
+
+def remember_attempt(row: dict):
+    """Keep how each aligned step ended in the take's export status, failures included."""
+    if row.get("steps") and row["status"] != "SKIPPED":
+        detail = row["detail"][0] if row.get("detail") else ""
+        record_attempt(Path(row["take"]), row["steps"], row["status"], detail, row.get("log", ""))
 
 
 def print_pyramid():
@@ -583,7 +596,9 @@ if __name__ == "__main__":
         take_folders = find_take_folders(selection.folder)
     from utils.batch_report import BatchReport
 
-    batch = BatchReport(selection.folder, args.report)
+    batch = BatchReport(
+        selection.folder, args.report, progress=args.progress, on_done=remember_attempt
+    )
     process_take = batch.track(process_take, "Full actor export")
     process_general_retargeting = batch.track(
         process_general_retargeting, lambda kw: f"Retarget {kw.get('retarget_type')}"
@@ -597,10 +612,25 @@ if __name__ == "__main__":
             if kw.get("retarget_metahuman")
             else "Aligned Geeno"
         ),
+        lambda kw: (
+            ["actors"]
+            if kw.get("export_standard")
+            else ["metahuman"]
+            if kw.get("retarget_metahuman")
+            else ["geeno"]
+        ),
     )
-    export_aligned_props = batch.track(export_aligned_props, "Aligned individual props")
+    export_aligned_props = batch.track(
+        export_aligned_props, "Aligned individual props", ["props"]
+    )
     export_aligned_scene_extras = batch.track(
-        export_aligned_scene_extras, "Aligned scene extras"
+        export_aligned_scene_extras,
+        "Aligned scene extras",
+        lambda kw: [
+            key
+            for key, option in (("all_props", "combined"), ("calibration_markers", "calibration_markers"))
+            if kw.get(option)
+        ],
     )
     process_bvh = batch.track(process_bvh, "BVH conversion")
     process_face_videos = batch.track(process_face_videos, "Face video renaming")
@@ -709,7 +739,16 @@ if __name__ == "__main__":
                             prop_warnings.append(warning)
             except (OSError, RuntimeError, ValueError) as error:
                 prop_warnings.append(f"{take_dir}: aligned prop export failed: {error}")
-                batch.record_failure(take_dir, "Aligned props setup", error)
+                batch.record_failure(
+                    take_dir,
+                    "Aligned props setup",
+                    error,
+                    [
+                        step.key
+                        for step in STEP_BY_KEY.values()
+                        if step.inputs == "props" and getattr(selection, step.option)
+                    ],
+                )
 
     # Run BVH conversion
     if selection.run_convert_bvh:

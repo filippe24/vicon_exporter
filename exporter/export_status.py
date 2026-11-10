@@ -3,11 +3,13 @@
 Every aligned step records in ``aligned_exports/reports/export_status.yaml`` the
 aLigner values it used: actor frame ranges for actor exports and retargets, C3D
 crop ranges for props. When the aLigner export YAML later gives different
-values, the step is outdated and needs a new export with Overwrite. Only files
+values, the step is outdated and needs a new export with Overwrite. The last
+attempt of each step is kept too, so a failed export stays visible. Only files
 in the take folder are read, so this works without aLigner installed.
 """
 
 import hashlib
+from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -36,6 +38,21 @@ MISSING_OUTPUTS = "missing outputs"
 NOT_EXPORTED = "not exported"
 NOT_APPLICABLE = "not applicable"
 NO_ALIGNMENT = "no alignment"
+FAILED = "failed"
+
+# One symbol and one sentence per state: the status window's table, legend and details use these.
+STATE_TEXT = {
+    CURRENT: ("✓", "matches the current aLigner export"),
+    OUTDATED: ("⚠ outdated", "the aLigner values changed: export again with Overwrite"),
+    MISSING_OUTPUTS: ("✗ missing", "some recorded files are missing"),
+    FAILED: ("✗ failed", "the last export of this step failed"),
+    UNVERIFIED: ("?", "exported before status tracking, not verified"),
+    NOT_EXPORTED: ("–", "not exported"),
+    NOT_APPLICABLE: ("", "not used for this take"),
+    NO_ALIGNMENT: ("", "no aLigner export"),
+}
+# States a new export fixes.
+NEEDS_EXPORT = (OUTDATED, MISSING_OUTPUTS, FAILED)
 
 
 @dataclass(frozen=True)
@@ -67,6 +84,8 @@ class StepStatus:
     record: dict[str, Any] | None = None
     changes: list[str] = field(default_factory=list)
     note: str = ""
+    # The Shogun log of a failed attempt.
+    log: str = ""
 
 
 @dataclass
@@ -79,10 +98,32 @@ class TakeStatus:
     aligner_saved_at: datetime | None = None
     error: str | None = None
     steps: dict[str, StepStatus] = field(default_factory=dict)
+    # Every 3D file of the aLigner export: name, start_frame, end_frame, sample_rate.
+    mocap: list[dict[str, Any]] = field(default_factory=list)
 
     @property
     def outdated(self) -> list[str]:
-        return [key for key, step in self.steps.items() if step.state in (OUTDATED, MISSING_OUTPUTS)]
+        return [key for key, step in self.steps.items() if step.state in NEEDS_EXPORT]
+
+    @property
+    def ranges(self) -> list[tuple[int, int, float]]:
+        """The distinct (start, end, rate) of the 3D files, the most common first."""
+        counts = Counter((row["start_frame"], row["end_frame"], row["sample_rate"]) for row in self.mocap)
+        return [value for value, _ in counts.most_common()]
+
+    @property
+    def range_differs(self) -> bool:
+        """The 3D files of the aLigner export do not share one range and rate, as they should."""
+        return len(self.ranges) > 1
+
+    @property
+    def range_text(self) -> str:
+        if not self.ranges:
+            return ""
+        if self.range_differs:
+            return f"⚠ {len(self.ranges)} ranges"
+        start, end, rate = self.ranges[0]
+        return f"{start}–{end} @ {rate:g}"
 
     @property
     def aligner_export_stale(self) -> bool:
@@ -105,6 +146,7 @@ def aligner_inputs(take_dir: Path) -> tuple[Path, dict[str, list[dict[str, Any]]
     rows = {
         "actors": [_row(entry) for entry in _collapse_actor_mocap_entries(entries)],
         "props": [_row(entry) for entry in entries if entry.source_path.suffix.lower() == ".c3d"],
+        "mocap": [_row(entry) | {"name": entry.source_path.name} for entry in entries],
     }
     for values in rows.values():
         values.sort(key=lambda row: row["name"].lower())
@@ -135,15 +177,34 @@ def record_step(take_dir: Path, key: str, outputs: list[Path] | None = None, **d
             "outputs": sorted(_relative(file, aligned_root) for file in files),
             **details,
         }
-        status_path = aligned_root / ALIGNED_REPORTS_FOLDER_NAME / STATUS_FILE
-        status_path.parent.mkdir(parents=True, exist_ok=True)
-        data = _load_yaml(status_path)
-        data.setdefault("steps", {})[key] = record
-        temporary = status_path.with_name(STATUS_FILE + ".tmp")
-        temporary.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True))
-        temporary.replace(status_path)
+        _update_status_file(take_dir, lambda data: data.setdefault("steps", {}).update({key: record}))
     except (OSError, ValueError, yaml.YAMLError) as error:
         print(f"   warning: could not record export status for {key}: {error}")
+
+
+def record_attempt(take_dir: Path, keys: list[str], status: str, detail: str = "", log: str = "") -> None:
+    """Remember how the last run of these steps ended (OK, FAILED…), so a failure stays visible.
+    Any other ending only matters to clear an earlier failure, so it never creates the status file."""
+    attempt = {"at": datetime.now().isoformat(timespec="seconds"), "status": status, "detail": detail, "log": log}
+    status_path = take_dir / ALIGNED_EXPORT_FOLDER_NAME / ALIGNED_REPORTS_FOLDER_NAME / STATUS_FILE
+    if status != "FAILED" and not status_path.is_file():
+        return
+    try:
+        _update_status_file(
+            take_dir, lambda data: data.setdefault("attempts", {}).update(dict.fromkeys(keys, attempt))
+        )
+    except (OSError, yaml.YAMLError) as error:
+        print(f"   warning: could not record the export attempt: {error}")
+
+
+def _update_status_file(take_dir: Path, change) -> None:
+    status_path = take_dir / ALIGNED_EXPORT_FOLDER_NAME / ALIGNED_REPORTS_FOLDER_NAME / STATUS_FILE
+    status_path.parent.mkdir(parents=True, exist_ok=True)
+    data = _load_yaml(status_path)
+    change(data)
+    temporary = status_path.with_name(STATUS_FILE + ".tmp")
+    temporary.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True))
+    temporary.replace(status_path)
 
 
 def take_status(take_dir: Path) -> TakeStatus:
@@ -156,13 +217,15 @@ def take_status(take_dir: Path) -> TakeStatus:
         result.error = f"aLigner YAML unreadable: {error}"
     if found is not None:
         result.aligner_yaml, inputs, result.aligner_format = found
+        result.mocap = inputs["mocap"]
         result.aligner_exported_at = _modified(result.aligner_yaml)
         stem = result.aligner_yaml.name.split(".")[0]
         result.aligner_saved_at = _modified(result.aligner_yaml.with_name(f"{stem}.state.yaml"))
     else:
         inputs = None
     aligned_root = take_dir / ALIGNED_EXPORT_FOLDER_NAME
-    records = _load_yaml(aligned_root / ALIGNED_REPORTS_FOLDER_NAME / STATUS_FILE).get("steps", {})
+    saved = _load_yaml(aligned_root / ALIGNED_REPORTS_FOLDER_NAME / STATUS_FILE)
+    records, attempts = saved.get("steps") or {}, saved.get("attempts") or {}
     for step in STEPS:
         outputs = [_relative(path, aligned_root) for path in _outputs(take_dir, step.key)]
         record = records.get(step.key)
@@ -177,6 +240,12 @@ def take_status(take_dir: Path) -> TakeStatus:
             status = _legacy(take_dir, step, inputs[step.inputs], outputs)
         else:
             status = StepStatus(NOT_EXPORTED)
+        attempt = attempts.get(step.key) or {}
+        # A failure after the last successful export: older successes don't hide it.
+        if attempt.get("status") == "FAILED" and str(attempt.get("at", "")) >= str((record or {}).get("exported_at", "")):
+            status.state = FAILED
+            status.note = attempt.get("detail") or "the last export failed"
+            status.log = attempt.get("log") or ""
         result.steps[step.key] = status
     return result
 

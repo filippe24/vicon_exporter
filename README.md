@@ -199,11 +199,27 @@ The **aLigner exported** column shows when aLigner last wrote the take's export
 YAML. ⚠ there means the alignment state was saved later without exporting, so
 the YAML may hold older values: export again from aLigner first.
 
+The **3D range** column shows the frames and rate the aLigner export gives the
+take's 3D files (BVH, C3D). They should all share one range; when they don't,
+the column shows ⚠, the row is highlighted, and the **3D ranges differ** filter
+lists those takes. Selecting a take draws its 3D files as bars on one time axis
+above the details, with the files off the shared range in red and their offset
+in frames.
+
+Each state has one symbol, used everywhere: ✓ current, ⚠ outdated, ✗ missing
+(recorded files gone), ✗ failed (the last export of the step failed), ? not
+verified, – not exported.
+
 Select takes (Ctrl/Shift+click, or **Select all shown** after filtering) and press
-**Export selected…** to choose steps; steps that are outdated in any selected
-take are preselected, with Overwrite on. The export runs in its own console and
-the status of those takes refreshes when the console closes. The same runs from
-the command line without the menu:
+**Export selected…** to choose steps; steps that need a new export in any
+selected take are preselected, with Overwrite on. The export runs in its own
+console, which shows Shogun's full output. While it runs, the table shows ⟳ and
+the elapsed time in the step running now, and each take refreshes as soon as one
+of its steps ends. **Stop after this step** lets the running step finish so its
+files are complete, then skips the rest. A failed step stays ✗ failed until it
+exports again; select the take to see the error, and **Open Shogun log** (or a
+double-click on the step) opens the log of that run. The same runs from the
+command line without the menu:
 
 ```powershell
 uv run main.py --take <take> --take <take> --steps actors,geeno --overwrite

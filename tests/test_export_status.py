@@ -7,12 +7,14 @@ import yaml
 
 from exporter.export_status import (
     CURRENT,
+    FAILED,
     MISSING_OUTPUTS,
     NO_ALIGNMENT,
     NOT_APPLICABLE,
     NOT_EXPORTED,
     OUTDATED,
     UNVERIFIED,
+    record_attempt,
     record_step,
     take_status,
 )
@@ -26,7 +28,8 @@ class ExportStatusTests(unittest.TestCase):
         self.take.mkdir(parents=True)
         self.aligned = self.take / "aligned_exports"
 
-    def write_aligner(self, start=100, end=900):
+    def write_aligner(self, start=100, end=900, c3d_shift=0):
+        """Jam_.c3d and Jam_.bvh on start–end; `c3d_shift` moves the C3D's range."""
         tracks = [
             {
                 "name": name,
@@ -35,8 +38,8 @@ class ExportStatusTests(unittest.TestCase):
                 "derived_tracks": [
                     {
                         "track_type": "mocap",
-                        "local_start_frame": start,
-                        "local_end_frame": end,
+                        "local_start_frame": start + (c3d_shift if name.endswith(".c3d") else 0),
+                        "local_end_frame": end + (c3d_shift if name.endswith(".c3d") else 0),
                         "sample_rate": 120,
                     }
                 ],
@@ -125,6 +128,29 @@ class ExportStatusTests(unittest.TestCase):
         self.take = take
         self.write_aligner()
         self.assertEqual(take_status(take).steps["calibration_markers"].state, NOT_EXPORTED)
+
+    def test_failed_attempt_shows_until_the_step_exports_again(self):
+        self.write_aligner()
+        self.write_output("actors/Jam_.c3d")
+        record_step(self.take, "actors")
+        record_attempt(self.take, ["actors"], "FAILED", "ERROR: Line 35", "C:/logs/a.shogun.log")
+        status = take_status(self.take)
+        self.assertEqual(status.steps["actors"].state, FAILED)
+        self.assertEqual(status.steps["actors"].log, "C:/logs/a.shogun.log")
+        self.assertEqual(status.outdated, ["actors"])
+        record_attempt(self.take, ["actors"], "OK")
+        self.assertEqual(take_status(self.take).steps["actors"].state, CURRENT)
+
+    def test_3d_ranges(self):
+        self.write_aligner()
+        status = take_status(self.take)
+        self.assertFalse(status.range_differs)
+        self.assertEqual(status.range_text, "100–900 @ 120")
+        self.write_aligner(c3d_shift=3)
+        status = take_status(self.take)
+        self.assertTrue(status.range_differs)
+        self.assertEqual(status.range_text, "⚠ 2 ranges")
+        self.assertEqual({row["name"] for row in status.mocap}, {"Jam_.c3d", "Jam_.bvh"})
 
 
 if __name__ == "__main__":

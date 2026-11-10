@@ -1,4 +1,5 @@
 import io
+import json
 import tempfile
 import unittest
 from contextlib import redirect_stdout
@@ -61,3 +62,30 @@ class BatchReportTests(unittest.TestCase):
         with redirect_stdout(io.StringIO()):
             report.track(operation, "Actors")(Path("takes/001"))
         self.assertEqual(report.rows[0]["status"], "WARNING")
+
+
+class ProgressTests(unittest.TestCase):
+    def test_progress_events_steps_log_and_stop(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            progress = root / "progress.jsonl"
+            ended = []
+            report = BatchReport(root, progress=progress, on_done=ended.append)
+
+            def actors(**_options):
+                print("   full Shogun log: C:/take/scripts/actors.shogun.log")
+                print("ERROR: Failed to save file")
+
+            with redirect_stdout(io.StringIO()):
+                report.track(actors, "Aligned actors", lambda _options: ["actors"])(
+                    take_dir=root / "take1", export_standard=True
+                )
+                progress.with_suffix(".stop").touch()
+                report.track(actors, "Aligned actors", ["actors"])(take_dir=root / "take2", export_standard=True)
+            events = [json.loads(line) for line in progress.read_text().splitlines()]
+            self.assertEqual([event["event"] for event in events], ["start", "done", "done"])
+            self.assertEqual(events[1]["steps"], ["actors"])
+            self.assertEqual(events[1]["status"], "FAILED")
+            self.assertEqual(events[1]["log"], "C:/take/scripts/actors.shogun.log")
+            self.assertEqual(events[2]["status"], "SKIPPED")
+            self.assertEqual([row["status"] for row in ended], ["FAILED", "SKIPPED"])

@@ -1,4 +1,8 @@
-"""Collect operation outcomes while preserving live console progress."""
+"""Collect operation outcomes while preserving live console progress.
+
+With a progress file, every operation also appends a JSON line when it starts and when it ends, which
+the status window reads while the export runs. Creating `<progress>.stop` skips the remaining operations.
+"""
 
 import io
 import json
@@ -12,6 +16,7 @@ from functools import wraps
 from pathlib import Path
 
 _SHOGUN_TIME = re.compile(r"shogun time: ([\d.]+) s")
+_SHOGUN_LOG = re.compile(r"full Shogun log: (.+)$")
 
 
 class _Tee(io.StringIO):
@@ -28,18 +33,32 @@ class _Tee(io.StringIO):
 
 
 class BatchReport:
-    def __init__(self, root: Path, path: Path | None = None):
-        """`path`: where finish() writes the JSON; by default a new file in root/.vicon_exporter_reports/."""
+    def __init__(self, root: Path, path: Path | None = None, progress: Path | None = None, on_done=None):
+        """`path`: where finish() writes the JSON; by default a new file in root/.vicon_exporter_reports/.
+        `on_done(row)` runs after each operation."""
         self.root = root
         self.path = path
+        self.progress = progress
+        self.on_done = on_done
         self.rows = []
 
-    def track(self, function, label):
+    def stopped(self) -> bool:
+        return self.progress is not None and self.progress.with_suffix(".stop").exists()
+
+    def track(self, function, label, steps=()):
+        """`steps`: the export status steps the operation runs, or a function of its keyword arguments."""
+
         @wraps(function)
         def run(*args, **kwargs):
             candidate = kwargs.get("take_dir", args[0] if args else self.root)
             take = Path(candidate) if isinstance(candidate, (str, Path)) else self.root
             operation = label(kwargs) if callable(label) else label
+            keys = list(steps(kwargs) if callable(steps) else steps)
+            if self.stopped():
+                self._add({"take": str(take), "operation": operation, "status": "SKIPPED",
+                           "detail": ["stopped before it started"], "steps": keys})
+                return None
+            self._event({"event": "start", "take": str(take), "operation": operation, "steps": keys})
             capture = _Tee(sys.stdout)
             started = time.perf_counter()
             result = None
@@ -99,7 +118,8 @@ class BatchReport:
             ):
                 status = "SKIPPED"
             detail = failures or warnings or ([error] if error else [])
-            self.rows.append(
+            logs = [m[1] for line in lines if (m := _SHOGUN_LOG.search(line))]
+            self._add(
                 {
                     "take": str(take),
                     "operation": operation,
@@ -107,21 +127,39 @@ class BatchReport:
                     "detail": detail,
                     "seconds": seconds,
                     "shogun_seconds": shogun_seconds,
+                    "steps": keys,
+                    "log": logs[-1] if logs else "",
                 }
             )
             return result
 
         return run
 
-    def record_failure(self, take, operation, error):
-        self.rows.append(
+    def record_failure(self, take, operation, error, steps=()):
+        self._add(
             {
                 "take": str(take),
                 "operation": operation,
                 "status": "FAILED",
                 "detail": [str(error)],
+                "steps": list(steps),
             }
         )
+
+    def _add(self, row):
+        self.rows.append(row)
+        self._event({"event": "done", **row})
+        if self.on_done is not None:
+            self.on_done(row)
+
+    def _event(self, event):
+        if self.progress is None:
+            return
+        try:
+            with open(self.progress, "a", encoding="utf-8") as handle:
+                handle.write(json.dumps({"time": datetime.now().isoformat(timespec="seconds"), **event}) + "\n")
+        except OSError as error:
+            print(f"   warning: could not write progress: {error}")
 
     def finish(self):
         print("\nBATCH RESULTS")
