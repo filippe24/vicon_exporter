@@ -151,17 +151,14 @@ for ($i = 0; $i < $numsel; $i+= 1)
     string $filename_c3d;
     string $filename_fbx;
     string $filename_bvh;
-    string $filename_mcp;
 
     $filename_c3d = ($actors_export_directory + $actor_file_stem + "_aligned.c3d");
     $filename_fbx = ($actors_export_directory + $actor_file_stem + "_aligned.fbx");
     $filename_bvh = ($actors_export_directory + $actor_file_stem + "_aligned.bvh");
-    $filename_mcp = ($actors_export_directory + $actor_file_stem + "_aligned.mcp");
 
     saveFile -s $filename_c3d;
     saveFile -s $filename_fbx;
 {bvh_export_line}
-    saveFile -s $filename_mcp;
 }}
 """
 

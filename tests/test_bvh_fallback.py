@@ -19,7 +19,7 @@ class BvhFallbackTests(unittest.TestCase):
         self.assertNotIn("saveFile -s $filename_bvh;", hsl)
         self.assertIn("saveFile -s $filename_c3d;", hsl)
         self.assertIn("saveFile -s $filename_fbx;", hsl)
-        self.assertIn("saveFile -s $filename_mcp;", hsl)
+        self.assertNotIn(".mcp", hsl)
 
     def test_classic_hsl_can_try_static_hand_bvh(self):
         hsl = generate_hsl(Path("take/exported"), "actors", static_hand_bvh=True)
@@ -55,7 +55,7 @@ class BvhFallbackTests(unittest.TestCase):
 
 
 class AlignedBvhFallbackTests(unittest.TestCase):
-    def test_aligned_hsl_can_skip_bvh_without_dropping_actor_mcp(self):
+    def test_aligned_hsl_can_skip_bvh_without_dropping_other_actor_exports(self):
         from exporter.aligned_export_pipeline import generate_aligned_actor_export_hsl
 
         plan = AlignedExportPlan(
@@ -76,7 +76,7 @@ class AlignedBvhFallbackTests(unittest.TestCase):
         self.assertNotIn("saveFile -s $filename_bvh;", hsl)
         self.assertIn("saveFile -s $filename_c3d;", hsl)
         self.assertIn("saveFile -s $filename_fbx;", hsl)
-        self.assertIn("saveFile -s $filename_mcp;", hsl)
+        self.assertNotIn(".mcp", hsl)
 
     def test_aligned_hsl_can_try_static_hand_bvh(self):
         from exporter.aligned_export_pipeline import generate_aligned_actor_export_hsl

@@ -182,7 +182,7 @@ def _run_shogun_with_bvh_fallback(
             print("   warning: BVH exported with static hand/finger fallback.")
             return True
 
-        print("   retrying this take without BVH so C3D, FBX, and MCP still export.")
+        print("   retrying this take without BVH so C3D and FBX still export.")
         fallback_hsl_file.write_text(fallback_hsl_content)
         print(f"   hsl created {fallback_hsl_file.name}.")
 

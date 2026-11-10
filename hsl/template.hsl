@@ -1,7 +1,3 @@
-//-- export full scene ----------
-select -all;
-saveFile -s "{EXPORT_DIR}/markers_world.c3d";
-
 //------- export clapperboard ---
 select ; // deselect.
 selectByName "{CLAPPERBOARD_NAME}*";
@@ -53,16 +49,13 @@ for ($i = 0; $i < $numsel; $i+= 1)
 	string $filename_c3d;
 	string $filename_fbx;
 	string $filename_bvh;
-	string $filename_mcp;
     $filename_c3d = ($actors_export_directory + $actor_file_stem + "_.c3d");
     $filename_fbx = ($actors_export_directory + $actor_file_stem + "_.fbx");
     $filename_bvh = ($actors_export_directory + $actor_file_stem + "_.bvh");
-    $filename_mcp = ($actors_export_directory + $actor_file_stem + "_.mcp");
 
 
     // Export
     saveFile -s $filename_c3d;
     saveFile -s $filename_fbx;
     saveFile -s $filename_bvh;
-    saveFile -s $filename_mcp;
 }

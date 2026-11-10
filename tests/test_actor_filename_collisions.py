@@ -22,7 +22,7 @@ class ActorFilenameCollisionTests(unittest.TestCase):
     def test_classic_export_uses_full_name_only_for_colliding_prefixes(self):
         hsl = generate_hsl(Path("take/exported"))
         self.assert_collision_aware(hsl)
-        for extension in ("c3d", "fbx", "bvh", "mcp"):
+        for extension in ("c3d", "fbx", "bvh"):
             self.assertIn(f'$actor_file_stem + "_.{extension}"', hsl)
 
     def test_saved_vsr_retarget_uses_same_collision_rule(self):
@@ -50,7 +50,7 @@ class ActorFilenameCollisionTests(unittest.TestCase):
         )
         hsl = generate_aligned_actor_export_hsl(plan)
         self.assert_collision_aware(hsl)
-        self.assertIn('$actor_file_stem + "_aligned.mcp"', hsl)
+        self.assertNotIn(".mcp", hsl)
 
 
 if __name__ == "__main__":

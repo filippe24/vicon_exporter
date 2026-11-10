@@ -140,7 +140,7 @@ def open_menu():
             variables["run_export"].set(True)
 
     check(full, "Standard actor export", "run_export", change_standard)
-    hint(full, "C3D, FBX, BVH and MCP → exported/actors/")
+    hint(full, "C3D, FBX and BVH → exported/actors/")
     extras = ttk.Frame(full, padding=(16, 0, 0, 0))
     extras.pack(fill="x")
     check(
@@ -161,7 +161,7 @@ def open_menu():
         "Use the frame ranges saved by aLigner. Requires an export YAML in .aligner (older locations also supported).",
     )
     check(aligned, "Standard actor export", "run_aligned_export")
-    hint(aligned, "C3D, FBX, BVH and MCP → aligned_exports/actors/")
+    hint(aligned, "C3D, FBX and BVH → aligned_exports/actors/")
     check(aligned, "Visible props · C3D", "run_aligned_props")
     hint(aligned, "Props with marker data in the crop → aligned_exports/props/")
     check(aligned, "All visible props in one C3D", "run_aligned_combined_props")

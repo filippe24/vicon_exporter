@@ -5,6 +5,9 @@ from tempfile import TemporaryDirectory
 
 from configuration import settings
 
+# ShogunPostCL executables found to lack -runScript during this export.
+_WITHOUT_RUNSCRIPT: set[Path] = set()
+
 
 class ShogunError(RuntimeError):
     def __init__(self, message: str, returncode: int, output: str):
@@ -44,10 +47,20 @@ def run_shogun(mcp_file: Path, hsl_file: Path, shogun_path: Path, mode: str | No
     goes to a temporary folder beside the script and is deleted. Kept to compare timings.
     Without `mode`, SHOGUN_MODE from the settings (main.py --shogun-mode overrides it)."""
     mode = mode or settings.SHOGUN_MODE
+    if mode == "runscript" and resolve_shogun_path(shogun_path) in _WITHOUT_RUNSCRIPT:
+        mode = "old"
     if mode == "runscript":
         script = hsl_file.with_suffix(".runscript.hsl")
         script.write_text(f'loadFile "{mcp_file.as_posix()}";\n' + hsl_file.read_text())
-        _run(["-runScript", str(script)], hsl_file, shogun_path)
+        try:
+            _run(["-runScript", str(script)], hsl_file, shogun_path)
+        except ShogunError as error:
+            if "unknown argument: -runscript" not in error.output.lower():
+                raise
+            # Shogun Post 1.20 and older: -old for the rest of this export.
+            _WITHOUT_RUNSCRIPT.add(resolve_shogun_path(shogun_path))
+            print("   warning: this Shogun has no -runScript (it needs Shogun Post 1.21); using -old mode instead.")
+            run_shogun(mcp_file, hsl_file, shogun_path, "old")
     elif mode == "old":
         with TemporaryDirectory(prefix="shogun_output_", dir=hsl_file.parent) as scratch:
             discarded = Path(scratch) / "discarded.mcp"
@@ -77,20 +90,23 @@ def _run(arguments: list[str], hsl_file: Path, shogun_path: Path):
         pass
 
     output_lines: list[str] = []
+    # The log gives each line the seconds since Shogun started, to see what every save costs.
+    timed_lines: list[str] = []
     counts: dict[str, int] = {}
     print("   shogun output:")
     for line in process.stdout:
         clean_line = line.rstrip()
         output_lines.append(clean_line)
+        timed_lines.append(f"[{time.perf_counter() - started:7.1f}] {clean_line}")
         counts[clean_line] = counts.get(clean_line, 0) + 1
         if counts[clean_line] == 1:
-            print("      " + clean_line)
+            print("      " + timed_lines[-1])
     process.wait()
     timing = f"shogun time: {time.perf_counter() - started:.1f} s"
 
     log_path = hsl_file.with_suffix(".shogun.log")
+    log_path.write_text("\n".join([*timed_lines, timing]), encoding="utf-8")
     output_lines.append(timing)
-    log_path.write_text("\n".join(output_lines), encoding="utf-8")
     repeats = sum(count - 1 for count in counts.values())
     if repeats:
         print(f"   condensed {repeats} repeated log lines")

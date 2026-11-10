@@ -10,7 +10,7 @@ Important: this code requires Vicon Shogun Post with `ShogunPostCL.exe`. Set the
 
 - Runs Shogun Post CL with live streaming output.
 - Generates HSL scripts for each take.
-- Exports actor `.fbx`, `.bvh`, `.c3d`, and `.mcp` files.
+- Exports actor `.fbx`, `.bvh` and `.c3d` files.
 - Runs mannequin, legacy MetaHuman-adjusted, and Geeno retarget exports.
 - Can read aLigner `*.export.yaml` files and export an aligned frame range without overwriting the classic output.
 - Finds take folders recursively from a selected root folder.
@@ -82,7 +82,6 @@ The classic exporter writes to:
 ```text
 take/
   exported/
-    markers_world.c3d
     clapperboard.c3d
     eye_tracker_1.c3d
     eye_tracker_2.c3d
@@ -91,8 +90,10 @@ take/
       <actor>_.c3d
       <actor>_.fbx
       <actor>_.bvh
-      <actor>_.mcp
 ```
+
+No MCP is exported per actor, and no `markers_world.c3d` with every marker of
+the scene: they were about 2.5 GB per take that nothing in the pipeline read.
 
 The eye tracker and calibration free-marker exports are enabled with the
 `Include eye tracker + calibration free markers` menu option. If an exported
@@ -103,14 +104,14 @@ Actor filenames normally retain the historical three-letter stem, such as
 `Jam_.c3d`. If two character names in the same scene share that stem, the
 exporter uses their full character names for the whole colliding group instead,
 for example `James_.c3d` and `Jamie_.c3d`. The same rule is used for C3D, FBX,
-BVH, MCP, aligned exports, and saved-VSR retarget exports, preventing one actor
+BVH, aligned exports, and saved-VSR retarget exports, preventing one actor
 from overwriting the other.
 
 BVH export is still attempted by default. If Shogun rejects a classical
 no-fingers character with the known `multiple zero dof end bones` BVH error, the
 exporter first retries with a static-hand BVH fallback that enables hand/finger
 rotation DOFs before saving BVH. If Shogun still rejects the skeleton, it retries
-without only the BVH save step, leaving C3D, FBX, and MCP exports intact.
+without only the BVH save step, leaving C3D and FBX exports intact.
 Production 10-finger characters should keep producing BVH as before.
 
 The aLigner-compatible exporter writes to a separate folder:
@@ -122,7 +123,6 @@ take/
       <actor>_aligned.c3d
       <actor>_aligned.fbx
       <actor>_aligned.bvh
-      <actor>_aligned.mcp
     retargeted/
       metahuman/
         <actor>_metahuman_aligned.fbx
@@ -161,7 +161,7 @@ take/
 Use the menu option:
 
 ```text
-Standard aligned export (C3D, FBX, BVH, MCP)
+Standard aligned export (C3D, FBX, BVH)
 Aligned MetaHuman retarget
 Aligned Geeno retarget
 ```
@@ -325,7 +325,12 @@ it and roughly doubles each run. Set `SHOGUN_MODE = "old"` in
 and is deleted. `processed.mcp` or `temp_*.mcp` files left by older runs are
 never mistaken for the original take MCP.
 
-Every run writes `shogun time: N s` at the end of its `.shogun.log`, and the
+`-runScript` needs Shogun Post 1.21. With an older Shogun (set by
+`SHOGUN_PATH`), the exporter prints a warning and uses `-old` mode instead.
+
+Every line of a `.shogun.log` starts with the seconds since Shogun started, e.g.
+`[  81.2] Saved file …`, so the log shows what each load and save costs. Every
+run writes `shogun time: N s` at the end of its `.shogun.log`, and the
 batch results in `.vicon_exporter_reports/` give each step's `seconds` and
 `shogun_seconds`.
 
