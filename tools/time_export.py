@@ -100,8 +100,14 @@ def main():
     modes = [mode.strip() for mode in args.modes.split(",") if mode.strip()]
     if not take.is_dir():
         sys.exit(f"Take folder not found: {take}")
-    if not args.yes and input(f"This replaces the exports in {take}. Is it a copy? [y/N] ").lower() != "y":
-        sys.exit("Stopped.")
+    question = (
+        f"Take folder: {take}\n"
+        "Its exported/ and aligned_exports/ folders will be overwritten, twice (once per mode).\n"
+        "Use a copy of a take, never a take of the dataset.\n"
+        "Is this folder a copy you can overwrite? [y/N] "
+    )
+    if not args.yes and input(question).strip().lower() != "y":
+        sys.exit("Stopped: nothing was run.")
 
     folder = take / ".vicon_exporter_reports" / f"timing_{datetime.now():%Y%m%d_%H%M%S}"
     folder.mkdir(parents=True)
