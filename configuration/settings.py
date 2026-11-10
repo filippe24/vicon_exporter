@@ -2,8 +2,7 @@
 from pathlib import Path
 
 # path to ShogunPostCL executable.
-# SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.19\ShogunPostCL.exe")
-SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.20\ShogunPostCL.exe")
+SHOGUN_PATH = Path(r"C:\Program Files\Vicon\ShogunPost1.21\ShogunPostCL.exe")
 
 # how ShogunPostCL runs a script. "runscript": the script loads the take and nothing else is written.
 # "old" (-old mode): also writes a full copy of the take, which roughly doubles each run. Kept to compare.
