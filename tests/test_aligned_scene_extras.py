@@ -6,16 +6,10 @@ from unittest.mock import patch
 import yaml
 
 from exporter.aligned_scene_extras import (
-    export_aligned_scene_extras,
+    aligned_scene_extras_part,
     protect_extra_names,
     read_extra_outputs,
 )
-
-
-def staging(root, prefix):
-    """The temporary folder the exporter stages Shogun's files in."""
-    (folder,) = Path(root).glob(f"{prefix}*")
-    return folder
 
 
 class SceneExtrasTests(unittest.TestCase):
@@ -39,65 +33,44 @@ class SceneExtrasTests(unittest.TestCase):
         self.crop.start()
         self.addCleanup(self.crop.stop)
 
-    def export(self, **options):
-        return export_aligned_scene_extras(
-            self.take, self.take / "take.mcp", Path("shogun"), **options
-        )
+    def part(self, **options):
+        self.stage = self.take / "stage" / "scene_extras"
+        return aligned_scene_extras_part(self.take, self.take / "stage", **options)
 
     def test_keep_adds_combined_without_changing_individual_props(self):
         existing = self.props / "cup.c3d"
         existing.write_text("original")
-
-        def run(_source, script, _exe):
-            stage = staging(self.take / "aligned_exports", "scene_extras_")
-            self.assertIn("collapseSubjects true", script.read_text())
-            (stage / "all_props.c3d").write_text("combined")
-            (stage / "individuals/__vicon_exporter_all_props__.c3d").touch()
-
-        with patch("exporter.aligned_scene_extras.run_shogun", side_effect=run):
-            self.export(combined=True)
+        part = self.part(combined=True)
+        self.assertEqual(part.steps, ["all_props"])
+        self.assertIn("collapseSubjects true", part.hsl)
+        (self.stage / "all_props.c3d").write_text("combined")
+        (self.stage / "individuals/__vicon_exporter_all_props__.c3d").touch()
+        part.finish()
         name = read_extra_outputs(self.root)["all_props"]
         self.assertEqual(name, "__vicon_exporter_all_props___1.c3d")
         self.assertEqual(existing.read_text(), "original")
-        with patch("exporter.aligned_scene_extras.run_shogun") as run:
-            self.export(combined=True)
-        run.assert_not_called()
+        self.assertIsNone(self.part(combined=True))
 
     def test_calibration_option_skips_other_folders(self):
-        with patch("exporter.aligned_scene_extras.run_shogun") as run:
-            self.export(calibration_markers=True)
-        run.assert_not_called()
+        self.assertIsNone(self.part(calibration_markers=True))
 
     def test_calibration_parent_is_case_insensitive_and_filters_samples(self):
         self.take = self.take / "Room_CALIBRATION" / "001"
+        part = self.part(calibration_markers=True)
+        self.assertIn('selectByName "_*" -type Marker;', part.hsl)
+        self.assertIn("getTrajectories", part.hsl)
+        self.assertIn("-writeUnlabeled true", part.hsl)
+        (self.stage / "calibration_markers.c3d").write_text("free")
+        part.finish()
+        self.assertIn("calibration_markers", read_extra_outputs(self.take / "aligned_exports"))
 
-        def run(_source, script, _exe):
-            stage = staging(self.take / "aligned_exports", "scene_extras_")
-            hsl = script.read_text()
-            self.assertIn('selectByName "_*" -type Marker;', hsl)
-            self.assertIn("getTrajectories", hsl)
-            self.assertIn("-writeUnlabeled true", hsl)
-            (stage / "calibration_markers.c3d").write_text("free")
-
-        with patch("exporter.aligned_scene_extras.run_shogun", side_effect=run):
-            self.export(calibration_markers=True)
-        root = self.take / "aligned_exports"
-        self.assertIn("calibration_markers", read_extra_outputs(root))
-
-    def test_overwrite_failure_preserves_previous_aggregate(self):
+    def test_overwrite_keeps_previous_aggregate_until_finish(self):
         report = self.root / "reports/aligned_scene_extras.yaml"
         report.parent.mkdir()
         report.write_text(yaml.safe_dump({"outputs": {"all_props": "aggregate.c3d"}}))
         old = self.props / "aggregate.c3d"
         old.write_text("previous")
-        with (
-            patch(
-                "exporter.aligned_scene_extras.run_shogun",
-                side_effect=RuntimeError("failed"),
-            ),
-            self.assertRaises(RuntimeError),
-        ):
-            self.export(combined=True, overwrite=True)
+        self.part(combined=True, overwrite=True)
         self.assertEqual(old.read_text(), "previous")
 
     def test_later_prop_collision_relocates_aggregate(self):

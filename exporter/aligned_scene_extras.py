@@ -1,14 +1,13 @@
 """Optional scene exports, independent of the individual prop output group."""
 
 from pathlib import Path
-from tempfile import TemporaryDirectory
 
 import yaml
 
 from configuration.settings import ALIGNED_EXPORT_FOLDER_NAME
+from exporter.aligned_group import Part
 from exporter.aligned_props_pipeline import generate_aligned_props_hsl, read_prop_crop
 from exporter.export_status import record_step
-from wrapper.shogun_runner import run_shogun
 
 
 def read_extra_outputs(root: Path) -> dict[str, str]:
@@ -97,16 +96,15 @@ def protect_extra_names(root: Path, incoming: set[str]) -> set[str]:
     return {name.casefold() for name in outputs.values()}
 
 
-def export_aligned_scene_extras(
+def aligned_scene_extras_part(
     take_dir: Path,
-    source_mcp: Path,
-    shogun_path: Path,
+    stage: Path,
     *,
     combined: bool = False,
     calibration_markers: bool = False,
     policy: str = "first",
     overwrite: bool = False,
-) -> str | None:
+) -> Part | None:
     if calibration_markers and not any(
         "calibration" in p.lower() for p in take_dir.parts
     ):
@@ -133,29 +131,28 @@ def export_aligned_scene_extras(
     }
     if not pending:
         print("   keeping existing aligned scene extras")
-        return warning
-    for folder in (props, root / "scripts", root / "reports"):
-        folder.mkdir(parents=True, exist_ok=True)
-    with TemporaryDirectory(prefix="scene_extras_", dir=root) as temp:
-        stage = Path(temp)
-        individuals = stage / "individuals"
-        individuals.mkdir()
-        script = root / "scripts" / "aligned_scene_extras.hsl"
-        hsl = ""
-        if "all_props" in pending:
-            hsl += generate_aligned_props_hsl(
-                individuals, start, end, combined_path=stage / "all_props.c3d"
-            )
-        if "calibration_markers" in pending:
-            hsl += generate_unassigned_hsl(
-                stage / "calibration_markers.c3d", start, end
-            )
-        script.write_text(hsl)
-        run_shogun(source_mcp, script, shogun_path)
+        return None
+    work = stage / "scene_extras"
+    individuals = work / "individuals"
+    individuals.mkdir(parents=True)
+    hsl = ""
+    if "all_props" in pending:
+        hsl += generate_aligned_props_hsl(
+            individuals, start, end, combined_path=work / "all_props.c3d"
+        )
+    if "calibration_markers" in pending:
+        hsl += generate_unassigned_hsl(work / "calibration_markers.c3d", start, end)
+    print(f"   aligned scene extras ({', '.join(sorted(pending))}): {start} -> {end}")
+
+    def finish():
+        for folder in (props, root / "reports"):
+            folder.mkdir(parents=True, exist_ok=True)
+        # The props part may have renamed an extra since, so read the names again.
+        outputs = read_extra_outputs(root)
         occupied = {p.name.casefold() for p in props.iterdir()}
         occupied.update(p.name.casefold() for p in individuals.glob("*.c3d"))
         for key in sorted(pending):
-            staged = stage / f"{key}.c3d"
+            staged = work / f"{key}.c3d"
             if not staged.exists():
                 old_name = outputs.pop(key, None)
                 if old_name:
@@ -174,19 +171,19 @@ def export_aligned_scene_extras(
             outputs[key] = name
             occupied.add(name.casefold())
             print(f"   scene export: {props / name}")
-    (root / "reports" / "aligned_scene_extras.yaml").write_text(
-        yaml.safe_dump(
-            {
-                "outputs": outputs,
-                "source_mcp": str(source_mcp),
-                "aligner_export_yaml": str(source),
-                "start_frame": start,
-                "end_frame": end,
-                "warning": warning,
-            },
-            sort_keys=False,
+        (root / "reports" / "aligned_scene_extras.yaml").write_text(
+            yaml.safe_dump(
+                {
+                    "outputs": outputs,
+                    "aligner_export_yaml": str(source),
+                    "start_frame": start,
+                    "end_frame": end,
+                    "warning": warning,
+                },
+                sort_keys=False,
+            )
         )
-    )
-    for key in sorted(pending):
-        record_step(take_dir, key, crop_policy=policy)
-    return warning
+        for key in sorted(pending):
+            record_step(take_dir, key, crop_policy=policy)
+
+    return Part("scene extras", sorted(pending), hsl, finish, warning)

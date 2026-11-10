@@ -2,7 +2,6 @@
 
 import os
 from pathlib import Path
-from tempfile import TemporaryDirectory
 from uuid import uuid4
 
 import yaml
@@ -12,8 +11,8 @@ from exporter.aligned_export_pipeline import (
     _find_aligner_export_yaml,
     _read_mocap_entries,
 )
+from exporter.aligned_group import Part
 from exporter.export_status import record_step
-from wrapper.shogun_runner import run_shogun
 
 
 def read_prop_crop(take_dir: Path, policy: str = "first"):
@@ -154,68 +153,58 @@ selectionSet "{selection_name}" -delete;
     return hsl
 
 
-def export_aligned_props(
+def aligned_props_part(
     take_dir: Path,
-    source_mcp: Path,
-    shogun_path: Path,
+    stage: Path,
     *,
     policy: str = "first",
     overwrite: bool = False,
-) -> str | None:
+) -> Part | None:
+    """Shogun saves the props into `stage`; finish() then replaces the whole group, so a failed run
+    keeps the previous exports and a successful one removes props no longer visible in the crop."""
     source, entries, start, end, warning = read_prop_crop(take_dir, policy)
     root = take_dir / ALIGNED_EXPORT_FOLDER_NAME
     output_dir = root / "props"
     if not overwrite and output_dir.exists() and any(output_dir.iterdir()):
         print(f"   keeping existing aligned prop exports: {output_dir}")
-        return warning
-    scripts = root / "scripts"
-    reports = root / "reports"
-    for directory in (output_dir, scripts, reports):
-        directory.mkdir(parents=True, exist_ok=True)
-    script = scripts / "aligned_export_props.hsl"
-    print(f"   exporting aligned props: {start} -> {end}")
-    # Stage the entire selected group so failed runs preserve previous exports,
-    # and a successful overwrite removes props no longer visible in the crop.
-    with TemporaryDirectory(prefix="props_", dir=root) as staging:
-        staging_dir = Path(staging)
-        script.write_text(generate_aligned_props_hsl(staging_dir, start, end))
-        run_shogun(source_mcp, script, shogun_path)
-        exported_count = len(list(staging_dir.glob("*.c3d")))
-        if exported_count:
-            print(f"   Exported {exported_count} aligned prop C3D files.")
-        else:
-            print("   no visible data: no props had marker samples in the crop.")
+        return None
+    staging_dir = stage / "props"
+    staging_dir.mkdir(parents=True)
+    print(f"   aligned props: {start} -> {end}")
+
+    def finish():
         from exporter.aligned_scene_extras import protect_extra_names
 
-        extra_names = protect_extra_names(
-            root, {p.name.casefold() for p in staging_dir.glob("*.c3d")}
-        )
+        exported = sorted(staging_dir.glob("*.c3d"))
+        if exported:
+            print(f"   Exported {len(exported)} aligned prop C3D files.")
+        else:
+            print("   no visible data: no props had marker samples in the crop.")
+        reports = root / "reports"
+        for directory in (output_dir, reports):
+            directory.mkdir(parents=True, exist_ok=True)
+        extra_names = protect_extra_names(root, {path.name.casefold() for path in exported})
         for old_file in output_dir.glob("*.c3d"):
             if old_file.name.casefold() not in extra_names:
                 old_file.unlink()
-        for new_file in staging_dir.glob("*.c3d"):
+        for new_file in exported:
             new_file.replace(output_dir / new_file.name)
-    script.write_text(generate_aligned_props_hsl(output_dir, start, end))
-    (reports / "aligned_props_summary.yaml").write_text(
-        yaml.safe_dump(
-            {
-                "aligner_export_yaml": str(source),
-                "source_mcp": str(source_mcp),
-                "crop_policy": policy,
-                "start_frame": start,
-                "end_frame": end,
-                "c3d_ranges": [
-                    {
-                        "name": e.name,
-                        "start_frame": e.start_frame,
-                        "end_frame": e.end_frame,
-                    }
-                    for e in entries
-                ],
-                "warning": warning,
-            },
-            sort_keys=False,
+        (reports / "aligned_props_summary.yaml").write_text(
+            yaml.safe_dump(
+                {
+                    "aligner_export_yaml": str(source),
+                    "crop_policy": policy,
+                    "start_frame": start,
+                    "end_frame": end,
+                    "c3d_ranges": [
+                        {"name": e.name, "start_frame": e.start_frame, "end_frame": e.end_frame}
+                        for e in entries
+                    ],
+                    "warning": warning,
+                },
+                sort_keys=False,
+            )
         )
-    )
-    record_step(take_dir, "props", crop_policy=policy)
-    return warning
+        record_step(take_dir, "props", crop_policy=policy)
+
+    return Part("props", ["props"], generate_aligned_props_hsl(staging_dir, start, end), finish, warning)

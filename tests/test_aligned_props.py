@@ -1,21 +1,14 @@
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
 
 import yaml
 
 from exporter.aligned_props_pipeline import (
-    export_aligned_props,
+    aligned_props_part,
     generate_aligned_props_hsl,
     read_prop_crop,
 )
-
-
-def staging(root, prefix):
-    """The temporary folder the exporter stages Shogun's files in."""
-    (folder,) = Path(root).glob(f"{prefix}*")
-    return folder
 
 
 class AlignedPropsTests(unittest.TestCase):
@@ -90,38 +83,27 @@ class AlignedPropsTests(unittest.TestCase):
         self.output.mkdir(parents=True)
         (self.output / "unused.c3d").write_text("old")
 
-    def export(self, **kwargs):
-        return export_aligned_props(
-            self.take, self.take / "take.mcp", Path("shogun"), **kwargs
-        )
+    def part(self, **kwargs):
+        return aligned_props_part(self.take, self.take / "stage", **kwargs)
 
     def test_keep_preserves_existing_group(self):
         self.prepare_existing()
-        with patch("exporter.aligned_props_pipeline.run_shogun") as run:
-            self.export()
-        run.assert_not_called()
+        self.assertIsNone(self.part())
         self.assertEqual((self.output / "unused.c3d").read_text(), "old")
 
-    def test_failed_overwrite_preserves_previous_exports(self):
+    def test_part_stages_until_finish(self):
         self.prepare_existing()
-        with (
-            patch(
-                "exporter.aligned_props_pipeline.run_shogun",
-                side_effect=RuntimeError("failed"),
-            ),
-            self.assertRaises(RuntimeError),
-        ):
-            self.export(overwrite=True)
+        part = self.part(overwrite=True)
+        self.assertEqual(part.steps, ["props"])
+        self.assertIn((self.take / "stage" / "props").as_posix(), part.hsl)
+        # Until finish(), as after a failed Shogun run, the previous exports stay.
         self.assertEqual((self.output / "unused.c3d").read_text(), "old")
 
-    def test_successful_overwrite_removes_unused_props(self):
+    def test_finish_replaces_the_group(self):
         self.prepare_existing()
-
-        def fake_run(_source, _script, _executable):
-            (staging(self.output.parent, "props_") / "Coffee cup.c3d").write_text("cropped")
-
-        with patch("exporter.aligned_props_pipeline.run_shogun", side_effect=fake_run):
-            self.export(overwrite=True)
+        part = self.part(overwrite=True)
+        (self.take / "stage" / "props" / "Coffee cup.c3d").write_text("cropped")
+        part.finish()
         self.assertFalse((self.output / "unused.c3d").exists())
         self.assertEqual((self.output / "Coffee cup.c3d").read_text(), "cropped")
         report = yaml.safe_load(

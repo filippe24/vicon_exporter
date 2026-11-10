@@ -2,14 +2,17 @@
 
 import argparse
 import os
+import shutil
 import sys
 from pathlib import Path
 from tkinter import Tk, filedialog
+from uuid import uuid4
 
 from bvh.converter import convert
 from configuration import settings
 from configuration.settings import (
     ACTORS_FOLDER_NAME,
+    ALIGNED_EXPORT_FOLDER_NAME,
     EXPORT_FOLDER_NAME,
     PROCESSED_MCP_NAME,
     SHOGUN_PATH,
@@ -17,13 +20,13 @@ from configuration.settings import (
 from configuration.types import RETARGET_CONFIGS, RetargetType
 from exporter.aligned_export_pipeline import (
     create_aligned_export_dirs,
-    generate_aligned_actor_export_hsl,
     generate_aligned_retarget_hsl,
     load_aligned_export_plan,
     write_aligned_export_summary,
 )
-from exporter.aligned_props_pipeline import export_aligned_props
-from exporter.aligned_scene_extras import export_aligned_scene_extras
+from exporter.aligned_group import Part, aligned_actors_part, joined_hsl
+from exporter.aligned_props_pipeline import aligned_props_part
+from exporter.aligned_scene_extras import aligned_scene_extras_part
 from exporter.export_pipeline import (
     DEFAULT_TRACKING_PROP_EXPORTS,
     TrackingPropExport,
@@ -414,16 +417,16 @@ def process_general_retargeting(
     )
 
 
-def process_aligned_export_and_retargeting(
+def process_aligned_retargeting(
     take_dir: Path,
     shogun_path: Path,
     *,
-    export_standard: bool = True,
     retarget_metahuman: bool = True,
     retarget_geeno: bool = True,
     overwrite: bool = False,
 ):
-    print(f"\nAligned export + MetaHuman + Geeno retargeting: {take_dir}")
+    """Aligned MetaHuman and Geeno retargets: one Shogun run each, as their scripts change the take."""
+    print(f"\nAligned retargeting: {take_dir}")
 
     plan = load_aligned_export_plan(take_dir)
     if plan is None:
@@ -440,13 +443,6 @@ def process_aligned_export_and_retargeting(
     print(f"   using aLigner YAML: {plan.export_yaml_path.name}")
     print(f"   aligned frame range: {plan.start_frame} -> {plan.end_frame}")
     print(f"   output: {plan.output_root}")
-
-    keep_actors = not overwrite and any(plan.actors_dir.iterdir())
-    if export_standard and not keep_actors:
-        _export_aligned_standard(plan, mcp_file, shogun_path)
-        record_step(take_dir, "actors")
-    elif export_standard:
-        print("   keeping existing standard aligned exports.")
 
     for retarget_type, folder_name, prefix in [
         (RetargetType.MANNEQUIN, "metahuman", "metahuman_aligned"),
@@ -494,29 +490,100 @@ def process_aligned_export_and_retargeting(
     print(f"   aligned export summary: {summary_path}")
 
 
-def _export_aligned_standard(plan, mcp_file: Path, shogun_path: Path):
-    actor_hsl = plan.scripts_dir / "aligned_export_all_actors.hsl"
-    actor_hsl.write_text(generate_aligned_actor_export_hsl(plan))
-
-    print("   exporting cropped aligned actor files...")
+def export_aligned_parts(take_dir: Path, shogun_path: Path, *, mcp_file: Path, parts: list[Part]):
+    """Run the parts in one Shogun load, then finish each one (nothing is finished if Shogun fails)."""
+    for part in parts:
+        if part.warning:
+            print(f"   warning: {part.warning}")
+    scripts = take_dir / ALIGNED_EXPORT_FOLDER_NAME / "scripts"
+    scripts.mkdir(parents=True, exist_ok=True)
+    script = scripts / "aligned_exports.hsl"
+    script.write_text(joined_hsl(parts))
+    print(f"   exporting {', '.join(part.name for part in parts)} in one Shogun run")
     _run_shogun_with_bvh_fallback(
         mcp_file=mcp_file,
-        hsl_file=actor_hsl,
+        hsl_file=script,
         shogun_path=shogun_path,
-        static_bvh_hsl_file=(
-            plan.scripts_dir / "aligned_export_all_actors_static_hands_bvh.hsl"
-        ),
-        static_bvh_hsl_content=generate_aligned_actor_export_hsl(
-            plan,
-            static_hand_bvh=True,
-        ),
-        fallback_hsl_file=plan.scripts_dir
-        / "aligned_export_all_actors_without_bvh.hsl",
-        fallback_hsl_content=generate_aligned_actor_export_hsl(
-            plan,
-            include_bvh=False,
-        ),
+        static_bvh_hsl_file=scripts / "aligned_exports_static_hands_bvh.hsl",
+        static_bvh_hsl_content=joined_hsl(parts, "static_hand_hsl"),
+        fallback_hsl_file=scripts / "aligned_exports_without_bvh.hsl",
+        fallback_hsl_content=joined_hsl(parts, "without_bvh_hsl"),
     )
+    for part in parts:
+        part.finish()
+
+
+def export_aligned_take(take_dir: Path, selection: UserSelection, batch, run_parts) -> list[str]:
+    """Phase 2 actors, props and scene extras of one take, in one Shogun run.
+
+    A step that cannot start (no aLigner crop, for example) is reported on its own and the others
+    still run. `run_parts`: export_aligned_parts as tracked by the batch report. Returns the warnings."""
+    extras = [
+        key
+        for key, enabled in (
+            ("all_props", selection.run_aligned_combined_props),
+            ("calibration_markers", selection.run_aligned_calibration_markers),
+        )
+        if enabled
+    ]
+    stage = take_dir / ALIGNED_EXPORT_FOLDER_NAME / f"staging_{uuid4().hex[:8]}"
+    choices = [
+        (
+            "Aligned actors",
+            ["actors"],
+            selection.run_aligned_export,
+            lambda: aligned_actors_part(take_dir, overwrite=selection.overwrite),
+        ),
+        (
+            "Aligned individual props",
+            ["props"],
+            selection.run_aligned_props,
+            lambda: aligned_props_part(
+                take_dir, stage, policy=selection.prop_crop_policy, overwrite=selection.overwrite
+            ),
+        ),
+        (
+            "Aligned scene extras",
+            extras,
+            bool(extras),
+            lambda: aligned_scene_extras_part(
+                take_dir,
+                stage,
+                combined=selection.run_aligned_combined_props,
+                calibration_markers=selection.run_aligned_calibration_markers,
+                policy=selection.prop_crop_policy,
+                overwrite=selection.overwrite,
+            ),
+        ),
+    ]
+    choices = [choice for choice in choices if choice[2]]
+    if not choices:
+        return []
+    print(f"\nAligned exports: {take_dir}")
+    mcp_file = _find_original_take_mcp(take_dir)
+    if mcp_file is None:
+        error = f"no source MCP found in {take_dir}"
+        batch.record_failure(take_dir, "Aligned exports", error, [key for choice in choices for key in choice[1]])
+        return [error]
+    warnings, parts = [], []
+    try:
+        for label, keys, _enabled, prepare in choices:
+            try:
+                part = prepare()
+            except (OSError, ValueError) as error:
+                print(f"   {label} cannot start: {error}")
+                warnings.append(f"{take_dir}: {label.lower()} failed: {error}")
+                batch.record_failure(take_dir, label, error, keys)
+                continue
+            if part is not None:
+                parts.append(part)
+                if part.warning:
+                    warnings.append(part.warning)
+        if parts:
+            run_parts(take_dir=take_dir, shogun_path=SHOGUN_PATH, mcp_file=mcp_file, parts=parts)
+    finally:
+        shutil.rmtree(stage, ignore_errors=True)
+    return warnings
 
 
 def _find_original_take_mcp(take_dir: Path) -> Path | None:
@@ -603,34 +670,15 @@ if __name__ == "__main__":
     process_general_retargeting = batch.track(
         process_general_retargeting, lambda kw: f"Retarget {kw.get('retarget_type')}"
     )
-    process_aligned_export_and_retargeting = batch.track(
-        process_aligned_export_and_retargeting,
-        lambda kw: (
-            "Aligned actors"
-            if kw.get("export_standard")
-            else "Aligned MetaHuman"
-            if kw.get("retarget_metahuman")
-            else "Aligned Geeno"
-        ),
-        lambda kw: (
-            ["actors"]
-            if kw.get("export_standard")
-            else ["metahuman"]
-            if kw.get("retarget_metahuman")
-            else ["geeno"]
-        ),
+    process_aligned_retargeting = batch.track(
+        process_aligned_retargeting,
+        lambda kw: "Aligned MetaHuman" if kw.get("retarget_metahuman") else "Aligned Geeno",
+        lambda kw: ["metahuman"] if kw.get("retarget_metahuman") else ["geeno"],
     )
-    export_aligned_props = batch.track(
-        export_aligned_props, "Aligned individual props", ["props"]
-    )
-    export_aligned_scene_extras = batch.track(
-        export_aligned_scene_extras,
-        "Aligned scene extras",
-        lambda kw: [
-            key
-            for key, option in (("all_props", "combined"), ("calibration_markers", "calibration_markers"))
-            if kw.get(option)
-        ],
+    run_aligned_parts = batch.track(
+        export_aligned_parts,
+        lambda kw: "Aligned " + ", ".join(part.name for part in kw["parts"]),
+        lambda kw: [key for part in kw["parts"] for key in part.steps],
     )
     process_bvh = batch.track(process_bvh, "BVH conversion")
     process_face_videos = batch.track(process_face_videos, "Face video renaming")
@@ -681,73 +729,21 @@ if __name__ == "__main__":
             )
             # process_geeno_retargeting(take_dir=t, shogun_path=SHOGUN_PATH, force=True)
 
-    if (
-        selection.run_aligned_export
-        or selection.run_aligned_metahuman
-        or selection.run_aligned_geeno
-    ):
-        print("\nRunning aligned export + MetaHuman + Geeno pass...")
-        for curr_take_directry in take_folders:
-            for standard, metahuman, geeno in (
-                (selection.run_aligned_export, False, False),
-                (False, selection.run_aligned_metahuman, False),
-                (False, False, selection.run_aligned_geeno),
-            ):
-                if standard or metahuman or geeno:
-                    process_aligned_export_and_retargeting(
-                        take_dir=curr_take_directry,
-                        shogun_path=SHOGUN_PATH,
-                        export_standard=standard,
-                        retarget_metahuman=metahuman,
-                        retarget_geeno=geeno,
-                        overwrite=selection.overwrite,
-                    )
-
     prop_warnings = []
-    if (
-        selection.run_aligned_props
-        or selection.run_aligned_combined_props
-        or selection.run_aligned_calibration_markers
-    ):
-        for take_dir in take_folders:
-            try:
-                source = _find_original_take_mcp(take_dir)
-                if source is None:
-                    raise ValueError(f"No source MCP found in {take_dir}")
-                for exporter, options, enabled in (
-                    (export_aligned_props, {}, selection.run_aligned_props),
-                    (
-                        export_aligned_scene_extras,
-                        {
-                            "combined": selection.run_aligned_combined_props,
-                            "calibration_markers": selection.run_aligned_calibration_markers,
-                        },
-                        selection.run_aligned_combined_props
-                        or selection.run_aligned_calibration_markers,
-                    ),
-                ):
-                    if enabled:
-                        warning = exporter(
-                            take_dir,
-                            source,
-                            SHOGUN_PATH,
-                            policy=selection.prop_crop_policy,
-                            overwrite=selection.overwrite,
-                            **options,
-                        )
-                        if warning and warning not in prop_warnings:
-                            prop_warnings.append(warning)
-            except (OSError, RuntimeError, ValueError) as error:
-                prop_warnings.append(f"{take_dir}: aligned prop export failed: {error}")
-                batch.record_failure(
-                    take_dir,
-                    "Aligned props setup",
-                    error,
-                    [
-                        step.key
-                        for step in STEP_BY_KEY.values()
-                        if step.inputs == "props" and getattr(selection, step.option)
-                    ],
+    for curr_take_directry in take_folders:
+        # Exports that only read the take first, in one Shogun run; then each retarget.
+        prop_warnings += export_aligned_take(curr_take_directry, selection, batch, run_aligned_parts)
+        for metahuman, geeno in (
+            (selection.run_aligned_metahuman, False),
+            (False, selection.run_aligned_geeno),
+        ):
+            if metahuman or geeno:
+                process_aligned_retargeting(
+                    take_dir=curr_take_directry,
+                    shogun_path=SHOGUN_PATH,
+                    retarget_metahuman=metahuman,
+                    retarget_geeno=geeno,
+                    overwrite=selection.overwrite,
                 )
 
     # Run BVH conversion

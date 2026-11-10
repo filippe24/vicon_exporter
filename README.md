@@ -131,7 +131,7 @@ take/
     reports/
       aligned_export_summary.yaml
     scripts/
-      aligned_export_all_actors.hsl
+      aligned_exports.hsl
       aligned_retarget_metahuman.hsl
       aligned_retarget_geeno.hsl
 ```
@@ -328,6 +328,15 @@ never mistaken for the original take MCP.
 `-runScript` needs Shogun Post 1.21. With an older Shogun (set by
 `SHOGUN_PATH`), the exporter prints a warning and uses `-old` mode instead.
 
+Loading the take is most of each run, so the aligned steps that only read the
+take (actors, props, scene extras) share one load: their HSL parts are joined,
+in that order, into `aligned_exports/scripts/aligned_exports.hsl`, and each
+part's variables get a `p<n>_` prefix so no two parts declare the same one. Each
+part's files are moved into place only after the run succeeds; a failed run
+leaves the previous exports. The batch results show this run as one row, such
+as "Aligned actors, props". MetaHuman and Geeno retargets change the take, so
+each keeps its own run.
+
 Every line of a `.shogun.log` starts with the seconds since Shogun started, e.g.
 `[  81.2] Saved file …`, so the log shows what each load and save costs. Every
 run writes `shogun time: N s` at the end of its `.shogun.log`, and the
@@ -344,7 +353,7 @@ The app writes aligned workflow HSL files into the aligned export folder so they
 take/
   aligned_exports/
     scripts/
-      aligned_export_all_actors.hsl
+      aligned_exports.hsl
       aligned_retarget_metahuman.hsl
       aligned_retarget_geeno.hsl
 ```
